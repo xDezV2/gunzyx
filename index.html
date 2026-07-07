@@ -54,6 +54,7 @@
   .name .uidtip{ position:absolute; top:-30px; left:50%; transform:translateX(-50%) translateY(4px); background:var(--accent); color:#0a0d0a; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; white-space:nowrap; opacity:0; pointer-events:none; transition:all .18s ease; }
   .name:hover .uidtip, .name.show .uidtip{ opacity:1; transform:translateX(-50%) translateY(0); }
   .badge-admin{ font-size:11px; color:#e0b05e; font-family:'JetBrains Mono',monospace; border:1px solid rgba(224,176,94,.4); padding:2px 7px; border-radius:6px; margin-left:6px; vertical-align:middle; }
+  .badge-demo{ font-size:11px; color:#b57edc; font-family:'JetBrains Mono',monospace; border:1px dashed rgba(181,126,220,.5); padding:2px 7px; border-radius:6px; margin-left:6px; vertical-align:middle; text-transform:uppercase; letter-spacing:.5px; }
   .status{ display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); }
   .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); animation:pulse 2.4s ease-in-out infinite; }
   @keyframes pulse{ 0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 45%,transparent);} 70%{box-shadow:0 0 0 7px transparent;} 100%{box-shadow:0 0 0 0 transparent;} }
@@ -291,13 +292,90 @@ function can(profile, perm){ if(!profile) return false; return (PERMISSIONS[prof
 function isStaffPlus(profile){ return profile && profile.role!=='user'; }
 const DEFAULT_OP={card:100,links:100,avatar:100,text:100,wallpaper:100};
 
+// ===== comptes demo/test (seed) =====
+const DEMO_ADJ=['Silencieux','Nocturne','Rapide','Discret','Lunaire','Sauvage','Paisible','Curieux','Vif','Solaire','Errant','Givré','Ardent','Timide','Zen','Placide','Malin','Vagabond'];
+const DEMO_NOUN=['Renard','Loup','Faucon','Orage','Cactus','Nuage','Comète','Pixel','Corbeau','Lynx','Frêne','Écume','Braise','Onyx','Nova','Ronce','Iris','Sable'];
+const DEMO_BIOS=[
+  'Passionné(e) de jeux vidéo et de café trop fort.',
+  'Ici pour partager mes trouvailles du moment.',
+  'Amateur de musique électro et de randonnée.',
+  'Toujours partant pour découvrir de nouvelles choses.',
+  'Créateur de contenu occasionnel, curieux de tout.',
+  'Fan de rétrogaming et de pizza froide.',
+  'En pause entre deux projets créatifs.',
+  'Collectionneur de vinyles et de bonnes histoires.',
+  'Adepte du café du matin et des longues discussions.',
+  'Toujours une série en cours et un jeu à finir.',
+  'Explorateur du web, amateur de belles interfaces.',
+  'Ici pour le fun, pas pour la compétition.'
+];
+const DEMO_PLATFORM_POOL=['twitch','youtube','tiktok','instagram','twitter','github','discord','link'];
+function randPick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function randDigits(){ return Math.random()<0.5?'':String(Math.floor(Math.random()*90+10)); }
+function generateDemoUsername(taken){
+  let u; let tries=0;
+  do{ u=randPick(DEMO_ADJ)+randPick(DEMO_NOUN)+randDigits(); tries++; }while(taken.has(u.toLowerCase())&&tries<50);
+  taken.add(u.toLowerCase());
+  return u;
+}
+async function sha256Random(){ return sha256(crypto.randomUUID?crypto.randomUUID():String(Math.random())+Date.now()); }
+function generateDemoLinks(username){
+  const n=1+Math.floor(Math.random()*2);
+  const pool=[...DEMO_PLATFORM_POOL]; const picked=[];
+  for(let i=0;i<n && pool.length;i++){ const idx=Math.floor(Math.random()*pool.length); picked.push(pool.splice(idx,1)[0]); }
+  return picked.map(platform=>{
+    const raw=platform==='link'?('https://example.com/'+username.toLowerCase()):(platform==='discord'?username.toLowerCase():username.toLowerCase());
+    return {platform,label:(PLATFORMS[platform]||PLATFORMS.link).name,raw,url:normalizeUrl(platform,raw)};
+  });
+}
+async function generateDemoProfile(type,taken,actorUid,batchId){
+  const username=generateDemoUsername(taken);
+  const hash=await sha256Random();
+  return {
+    username,
+    password_hash:hash,
+    tag:'@'+username.toLowerCase(),
+    bio:randPick(DEMO_BIOS),
+    accent:randPick(ACCENTS),
+    links:generateDemoLinks(username),
+    theme:randPick(THEMES).id,
+    avatar:'https://api.dicebear.com/7.x/avataaars/svg?seed='+encodeURIComponent(username),
+    custom_text:'',
+    opacity:DEFAULT_OP,
+    music:'',
+    effects:{splash:true,typewriter:true,particles:true},
+    badges:[],
+    cursor_url:'',
+    discord_id:'',
+    account_type:type,
+    exclude_from_stats:true,
+    seed_batch:batchId,
+    created_by_uid:actorUid
+  };
+}
+async function seedDemoAccounts(count,type,actorUid){
+  const existing=await pgFetch('/profiles?select=username');
+  const taken=new Set((existing||[]).map(r=>r.username.toLowerCase()));
+  const batchId=new Date().toISOString();
+  const rows=[];
+  for(let i=0;i<count;i++) rows.push(await generateDemoProfile(type,taken,actorUid,batchId));
+  const created=await pgFetch('/profiles',{method:'POST',headers:{'Prefer':'return=representation'},body:JSON.stringify(rows)});
+  return {count:(created||[]).length,batchId};
+}
+async function listDemoAccounts(){ const r=await pgFetch('/profiles?account_type=in.(demo,test)&select=*&order=created_at.desc'); return (r||[]).map(mapRow); }
+async function deleteDemoBatch(batchId){ await pgFetch('/profiles?seed_batch=eq.'+encodeURIComponent(batchId),{method:'DELETE'}); }
+async function deleteAllDemoAccounts(){ await pgFetch('/profiles?account_type=in.(demo,test)',{method:'DELETE'}); }
+async function getSetting(key){ const r=await pgFetch('/app_settings?key=eq.'+encodeURIComponent(key)+'&select=value'); return r&&r.length?r[0].value:null; }
+async function setSetting(key,value){ await pgFetch('/app_settings',{method:'POST',headers:{'Prefer':'resolution=merge-duplicates'},body:JSON.stringify({key,value,updated_at:new Date().toISOString()})}); }
+
 async function pgFetch(path,options={}){
   const res=await fetch(REST+path,{...options,headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',...(options.headers||{})}});
   if(!res.ok){ const t=await res.text().catch(()=>''); throw new Error(res.status+': '+t); }
   const t=await res.text(); return t?JSON.parse(t):null;
 }
 async function sha256(s){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join(''); }
-function mapRow(r){ return {uid:r.uid,username:r.username,hash:r.password_hash,tag:r.tag,bio:r.bio,accent:r.accent,links:r.links||[],wallpaper:r.wallpaper||'',theme:r.theme||'glass',avatar:r.avatar||'',customText:r.custom_text||'',opacity:{...DEFAULT_OP,...(r.opacity||{})},isAdmin:!!r.is_admin,banned:!!r.banned,music:r.music||'',views:r.views||0,viewsBonus:r.views_bonus||0,effects:{splash:true,typewriter:true,particles:true,...(r.effects||{})},badges:r.badges||[],cursorUrl:r.cursor_url||'',discordId:r.discord_id||'',role:r.role||'user',staffNote:r.staff_note||'',deletedAt:r.deleted_at||null}; }
+function mapRow(r){ return {uid:r.uid,username:r.username,hash:r.password_hash,tag:r.tag,bio:r.bio,accent:r.accent,links:r.links||[],wallpaper:r.wallpaper||'',theme:r.theme||'glass',avatar:r.avatar||'',customText:r.custom_text||'',opacity:{...DEFAULT_OP,...(r.opacity||{})},isAdmin:!!r.is_admin,banned:!!r.banned,music:r.music||'',views:r.views||0,viewsBonus:r.views_bonus||0,effects:{splash:true,typewriter:true,particles:true,...(r.effects||{})},badges:r.badges||[],cursorUrl:r.cursor_url||'',discordId:r.discord_id||'',role:r.role||'user',staffNote:r.staff_note||'',deletedAt:r.deleted_at||null,accountType:r.account_type||'real',excludeFromStats:!!r.exclude_from_stats,seedBatch:r.seed_batch||null,createdByUid:r.created_by_uid||null}; }
+function isDemo(p){ return p && p.accountType && p.accountType!=='real'; }
 
 async function usernameTaken(u){ const r=await pgFetch('/profiles?username=ilike.'+encodeURIComponent(u)+'&select=uid'); return r&&r.length?r[0]:null; }
 async function createAccount(u,p){
@@ -342,13 +420,16 @@ function openUserModal(p, list){
   const canDel=can(session,'delete_profiles');
   const canBadge=can(session,'manage_badges');
   const canEdit=can(session,'edit_profiles');
+  const canDemo=can(session,'create_demo');
   const badgeChecks=defs.map(d=>`<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;"><input type="checkbox" data-badge="${d.id}" ${(p.badges||[]).includes(d.id)?'checked':''}><span class="badge" style="color:${d.color};width:16px;height:16px">${badgeIconSvg(d.icon)}</span>${esc(d.name)}</label>`).join('');
   const roleOpts=ROLES.map(r=>`<option value="${r}" ${p.role===r?'selected':''}>${ROLE_LABELS[r]}</option>`).join('');
   openModal('Gérer '+esc(p.username), `
+    ${isDemo(p)?`<p class="hint" style="margin-bottom:8px;"><span class="badge-demo">${p.accountType}</span> compte de test généré${p.seedBatch?' · lot '+esc(p.seedBatch):''}</p>`:''}
     <div class="field"><label>uid</label><input id="mUid" value="${p.uid}" ${canUid?'':'disabled'}></div>
     ${canEdit?`<div class="field"><label>pseudo</label><input id="mUser" value="${esc(p.username)}"></div>
     <div class="field"><label>tag</label><input id="mTag" value="${esc(p.tag)}"></div>
     <div class="field"><label>bio</label><textarea id="mBio">${esc(p.bio)}</textarea></div>`:''}
+    ${canDemo&&isDemo(p)?`<label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin:4px 0;"><input type="checkbox" id="mExcludeStats" ${p.excludeFromStats?'checked':''}> exclure des vues/statistiques réelles</label>`:''}
     ${canRole?`<div class="field"><label>rôle</label><select id="mRole" style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:var(--text);padding:12px;">${roleOpts}</select></div>`:''}
     ${canViews?`<div class="field"><label>vues bonus (ajustement manuel)</label><input id="mViews" type="number" value="${p.viewsBonus||0}"><p class="hint">Réel: ${p.views||0} · Total affiché: ${(p.views||0)+(p.viewsBonus||0)}</p></div>`:''}
     ${canBadge?`<div class="field"><label>badges</label><div style="display:flex;flex-direction:column;gap:6px;">${badgeChecks||'<span class="hint">Aucun badge défini.</span>'}</div></div>`:''}
@@ -363,6 +444,7 @@ function openUserModal(p, list){
       if(canRole){ const nr=body.querySelector('#mRole').value; if(nr!==p.role){ fields.role=nr; fields.is_admin=(nr==='admin'||nr==='superadmin'); await logAdmin('set_role',p,p.role,nr); } }
       if(canViews){ const vb=parseInt(body.querySelector('#mViews').value,10)||0; if(vb!==p.viewsBonus){ fields.views_bonus=vb; await logAdmin('set_views_bonus',p,p.viewsBonus,vb); } }
       if(canBadge){ const checked=[...body.querySelectorAll('[data-badge]:checked')].map(c=>c.dataset.badge); fields.badges=checked; if(JSON.stringify(checked)!==JSON.stringify(p.badges)) await logAdmin('set_badges',p,(p.badges||[]).join(','),checked.join(',')); }
+      if(canDemo&&isDemo(p)){ const ex=body.querySelector('#mExcludeStats').checked; if(ex!==p.excludeFromStats){ fields.exclude_from_stats=ex; await logAdmin('set_exclude_from_stats',p,p.excludeFromStats,ex); } }
       fields.staff_note=body.querySelector('#mNote').value;
       try{ await adminUpdate(p.uid,fields); badgeDefsCache=null; toast('Enregistré','ok'); closeModal(); render(); }
       catch(e){ toast('Erreur: uid ou pseudo déjà pris ?','err'); }
@@ -485,7 +567,7 @@ function profileHTML(p,isOwner){
   return `<div class="tiltwrap"><div class="profilebox" id="tiltBox">
     <div class="avatar">${av}</div>
     <div class="identity">
-      <div class="name" id="nameEl">${esc(p.username)}${badgesHtml?`<span class="badges">${badgesHtml}</span>`:''}<span class="uidtip">uid ${p.uid}</span></div>
+      <div class="name" id="nameEl">${esc(p.username)}${badgesHtml?`<span class="badges">${badgesHtml}</span>`:''}${isStaffPlus(session)&&isDemo(p)?`<span class="badge-demo">${p.accountType}</span>`:''}<span class="uidtip">uid ${p.uid}</span></div>
       <div class="status"><span class="dot"></span>en ligne</div>
       <div class="tag">${esc(p.tag)}</div>
       ${p.bio?`<p class="bio" id="bioEl" data-full="${esc(p.bio)}"></p>`:''}
@@ -632,18 +714,22 @@ async function render(){
     if(can(session,'view_admin_logs')) tabs.push(['logs','Logs']);
     if(can(session,'manage_badge_defs')) tabs.push(['badges','Badges']);
     if(can(session,'delete_profiles')) tabs.push(['trash','Corbeille']);
+    if(can(session,'create_demo')) tabs.push(['demo','Demo']);
     tabs.forEach(([id,label])=>{ const b=document.createElement('button'); b.textContent=label; if(id===adminSubtab) b.className='active'; b.onclick=()=>{ adminSubtab=id; render(); }; st.appendChild(b); });
     const content=document.getElementById('adminContent');
 
     if(adminSubtab==='users'){
-      content.innerHTML=`<div class="field" style="margin-bottom:10px;"><input id="adminSearch" placeholder="🔍 rechercher un membre..."></div><div id="adminList" style="display:flex;flex-direction:column;gap:8px;"></div>`;
+      content.innerHTML=`<div class="field" style="margin-bottom:10px;"><input id="adminSearch" placeholder="🔍 rechercher un membre..."></div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;margin-bottom:10px;"><input type="checkbox" id="showDemoToggle"> afficher les comptes demo/test</label>
+        <div id="adminList" style="display:flex;flex-direction:column;gap:8px;"></div>`;
       const list=await listDirectory();
       const al=document.getElementById('adminList');
+      let showDemo=false;
       const draw=(filter)=>{
         al.innerHTML='';
-        list.filter(p=>!filter||p.username.toLowerCase().includes(filter)||String(p.uid)===filter).forEach(p=>{
+        list.filter(p=>(showDemo||!isDemo(p))&&(!filter||p.username.toLowerCase().includes(filter)||String(p.uid)===filter)).forEach(p=>{
           const row=document.createElement('div'); row.className='adminrow'+(p.banned?' banned':'');
-          row.innerHTML=`<div class="info"><div class="u">${esc(p.username)} <span class="rolechip role-${p.role}">${ROLE_LABELS[p.role]}</span></div><div class="m">uid ${p.uid} · ${(p.views||0)+(p.viewsBonus||0)} vues ${p.banned?'· BANNI':''}</div></div><div class="aact"></div>`;
+          row.innerHTML=`<div class="info"><div class="u">${esc(p.username)} <span class="rolechip role-${p.role}">${ROLE_LABELS[p.role]}</span>${isDemo(p)?`<span class="badge-demo">${p.accountType}</span>`:''}</div><div class="m">uid ${p.uid} · ${(p.views||0)+(p.viewsBonus||0)} vues ${p.banned?'· BANNI':''}</div></div><div class="aact"></div>`;
           const act=row.querySelector('.aact');
           const mk=(label,fn,cls)=>{ const b=document.createElement('button'); b.textContent=label; b.onclick=fn; if(cls)b.className=cls; act.appendChild(b); return b; };
           mk('gérer',()=>openUserModal(p,list));
@@ -653,6 +739,7 @@ async function render(){
       };
       draw('');
       document.getElementById('adminSearch').oninput=(e)=>draw(e.target.value.trim().toLowerCase());
+      document.getElementById('showDemoToggle').onchange=(e)=>{ showDemo=e.target.checked; draw(document.getElementById('adminSearch').value.trim().toLowerCase()); };
       return;
     }
 
@@ -694,6 +781,75 @@ async function render(){
         content.appendChild(row); });
       return;
     }
+
+    if(adminSubtab==='demo'){
+      if(!can(session,'create_demo')){ content.innerHTML='<p class="hint">Accès refusé (super-admin uniquement).</p>'; return; }
+      const showInDir=!!(await getSetting('show_demo_in_directory'));
+      content.innerHTML=`
+        <p class="hint">Génère des profils de test réalistes (pseudo, avatar, bio, liens) marqués <code>demo_account</code>/<code>test_account</code> en base. Exclus des vraies statistiques par défaut, invisibles de l'annuaire public sauf option ci-dessous.</p>
+        <div class="row" style="margin:12px 0;">
+          <select id="demoType" style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:var(--text);padding:12px;">
+            <option value="demo">demo_account</option>
+            <option value="test">test_account</option>
+          </select>
+        </div>
+        <div class="row">
+          <button class="btn small" id="seed10">Seed 10</button>
+          <button class="btn small" id="seed50">Seed 50</button>
+          <button class="btn small" id="seed100">Seed 100</button>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;margin:14px 0;"><input type="checkbox" id="showDirToggle" ${showInDir?'checked':''}> afficher ces comptes dans l'annuaire public</label>
+        <h3>Lots générés</h3>
+        <div id="demoBatches" style="display:flex;flex-direction:column;gap:8px;margin:8px 0;"></div>
+        <button class="btn danger" id="cleanupAll" style="width:100%;margin-top:8px;">🧹 Supprimer tous les comptes demo/test</button>
+      `;
+      const doSeed=async(n)=>{
+        const type=document.getElementById('demoType').value;
+        toast('Génération de '+n+' comptes...','ok');
+        try{
+          const res=await seedDemoAccounts(n,type,session.uid);
+          await logAdmin('seed_demo_accounts',null,null,res.count+' comptes ('+type+'), lot '+res.batchId);
+          toast(res.count+' comptes générés','ok'); render();
+        }catch(e){ toast('Erreur pendant la génération','err'); }
+      };
+      document.getElementById('seed10').onclick=()=>doSeed(10);
+      document.getElementById('seed50').onclick=()=>doSeed(50);
+      document.getElementById('seed100').onclick=()=>doSeed(100);
+      document.getElementById('showDirToggle').onchange=async(e)=>{
+        await setSetting('show_demo_in_directory',e.target.checked);
+        await logAdmin('set_show_demo_in_directory',null,!e.target.checked,e.target.checked);
+        toast('Préférence enregistrée','ok');
+      };
+      document.getElementById('cleanupAll').onclick=()=>confirmModal('Supprimer DÉFINITIVEMENT tous les comptes demo/test ? Irréversible.',async()=>{
+        const all=await listDemoAccounts();
+        await deleteAllDemoAccounts();
+        await logAdmin('cleanup_demo_accounts',null,null,all.length+' comptes supprimés');
+        toast(all.length+' comptes supprimés','err'); render();
+      });
+      const demoList=await listDemoAccounts();
+      const batches={};
+      demoList.forEach(p=>{ const key=p.seedBatch||'(sans lot)'; (batches[key]=batches[key]||[]).push(p); });
+      const bl=document.getElementById('demoBatches');
+      const keys=Object.keys(batches).sort().reverse();
+      if(!keys.length){ bl.innerHTML='<p class="hint">Aucun compte demo/test pour le moment.</p>'; }
+      keys.forEach(key=>{
+        const rows=batches[key];
+        const row=document.createElement('div'); row.className='adminrow';
+        const d=key==='(sans lot)'?key:new Date(key).toLocaleString('fr-CH');
+        row.innerHTML=`<div class="info"><div class="u">${rows.length} comptes</div><div class="m">lot ${esc(d)} · ${esc(rows[0].accountType)}</div></div><div class="aact"></div>`;
+        const act=row.querySelector('.aact');
+        const del=document.createElement('button'); del.textContent='supprimer le lot'; del.className='d';
+        del.onclick=()=>confirmModal('Supprimer ce lot de '+rows.length+' comptes demo/test ?',async()=>{
+          if(key==='(sans lot)'){ for(const p of rows) await adminHardDelete(p.uid); }
+          else await deleteDemoBatch(key);
+          await logAdmin('cleanup_demo_batch',null,null,rows.length+' comptes ('+key+')');
+          toast('Lot supprimé','ok'); render();
+        });
+        act.appendChild(del);
+        bl.appendChild(row);
+      });
+      return;
+    }
     return;
   }
 
@@ -718,12 +874,15 @@ async function render(){
 
   if(view==='directory'){
     resetVisual(); const list=await listDirectory(); app.className='directory';
-    app.innerHTML=`<h2 style="font-family:'Space Grotesk';font-size:18px;margin-bottom:4px;">Membres (${list.filter(p=>!p.banned).length})</h2>`;
-    const visible=list.filter(p=>!p.banned);
+    const showDemo=isStaffPlus(session) ? true : !!(await getSetting('show_demo_in_directory'));
+    const visible=list.filter(p=>!p.banned && (showDemo || !isDemo(p)));
+    const realCount=list.filter(p=>!p.banned && !p.excludeFromStats).length;
+    app.innerHTML=`<h2 style="font-family:'Space Grotesk';font-size:18px;margin-bottom:4px;">Membres (${realCount})</h2>`;
     if(!visible.length){ app.innerHTML+='<p class="hint">Aucun membre. Sois le premier → uid 1.</p>'; }
     visible.forEach(p=>{ const e=document.createElement('div'); e.className='direntry';
       const av=p.avatar?`<img src="${esc(p.avatar)}" alt="">`:(p.username||'?')[0].toUpperCase();
-      e.innerHTML=`<div class="av">${av}</div><div><div>${esc(p.username)}${p.isAdmin?' ⚡':''}</div><div class="hint">${esc(p.tag)}</div></div><span class="uidbadge">uid ${p.uid}</span>`;
+      const demoTag=isStaffPlus(session)&&isDemo(p)?`<span class="badge-demo">${p.accountType}</span>`:'';
+      e.innerHTML=`<div class="av">${av}</div><div><div>${esc(p.username)}${p.isAdmin?' ⚡':''}${demoTag}</div><div class="hint">${esc(p.tag)}</div></div><span class="uidbadge">uid ${p.uid}</span>`;
       e.onclick=()=>{ view='profile'; viewingUid=p.uid; render(); }; app.appendChild(e); });
     return;
   }
@@ -760,7 +919,7 @@ async function render(){
   // music
   setupMusic(p.music);
   // views: incrémenter si ce n'est pas mon propre profil
-  if(!isOwner){ incrementViews(p.uid); const vc=document.getElementById('viewCount'); if(vc) vc.textContent=(p.views||0)+(p.viewsBonus||0)+1; }
+  if(!isOwner && !p.excludeFromStats){ incrementViews(p.uid); const vc=document.getElementById('viewCount'); if(vc) vc.textContent=(p.views||0)+(p.viewsBonus||0)+1; }
   // curseur personnalisé
   applyCursor(p.cursorUrl);
   // tilt 3D
