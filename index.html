@@ -62,63 +62,8 @@
   @keyframes auroraA{ 0%,100%{ transform:translate(-8%,-6%) scale(1); } 50%{ transform:translate(6%,8%) scale(1.15); } }
   @keyframes auroraB{ 0%,100%{ transform:translate(6%,4%) scale(1.1); } 50%{ transform:translate(-6%,-8%) scale(1); } }
   @media (prefers-reduced-motion:reduce){ .theme-aurora .avatar-ring{ animation:none; } #aurora-bg *{ animation:none !important; } }
-  body.layout-v2.no-wall #aurora-bg{ display:block; }
-
-  /* ================= HUD V2 (style guns.lol) ================= */
-  .v2wrap{ perspective:1000px; width:100%; max-width:404px; margin:0 auto; }
-  .v2box{ width:100%; display:flex; flex-direction:column; align-items:center; gap:16px; padding:30px 24px 22px; border-radius:26px;
-    background:linear-gradient(165deg, color-mix(in srgb,var(--accent) 14%, rgba(20,18,28,.62)), rgba(11,10,16,.72));
-    border:1px solid color-mix(in srgb, var(--accent) 30%, rgba(255,255,255,.08)); backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 24px 60px -20px rgba(0,0,0,.85), 0 0 70px -26px color-mix(in srgb,var(--accent) 70%, transparent);
-    transition:transform .14s ease; transform-style:preserve-3d; animation:rise .5s ease; opacity:var(--op-card); }
-  .v2avatar-wrap{ display:flex; flex-direction:column; align-items:center; gap:13px; opacity:var(--op-avatar); }
-  .v2ring{ position:relative; width:106px; height:106px; border-radius:50%; padding:3px;
-    background:conic-gradient(from 210deg, var(--accent), transparent 52%, color-mix(in srgb,#f0abfc 70%,transparent) 78%, var(--accent));
-    box-shadow:0 0 26px color-mix(in srgb,var(--accent) 30%,transparent); animation:auroraFloat 6s ease-in-out infinite; }
-  .v2ring-inner{ width:100%; height:100%; border-radius:50%; background:var(--bg); padding:3px; }
-  .v2ava{ width:100%; height:100%; border-radius:50%; overflow:hidden; background:linear-gradient(160deg, color-mix(in srgb,var(--accent) 30%,#1a1d22), #0f1113);
-    display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:600; color:var(--text); }
-  .v2ava img{ width:100%; height:100%; object-fit:cover; }
-  .v2status{ position:absolute; right:6px; bottom:6px; width:16px; height:16px; border-radius:50%; background:#34d399; border:3px solid var(--bg); box-shadow:0 0 10px #34d399; }
-  .v2crown{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-  .v2crown .bpill{ display:flex; align-items:center; justify-content:center; width:28px; height:28px; padding:5px; border-radius:50%;
-    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); transition:transform .15s ease, box-shadow .15s ease; }
-  .v2crown .bpill:hover{ transform:translateY(-2px); box-shadow:0 5px 16px color-mix(in srgb,currentColor 30%,transparent); }
-  .v2crown .bpill svg{ width:100%; height:100%; }
-  .v2crown .bpill.rarity-legendary{ animation:shimmer 2.5s linear infinite; }
-  .v2id{ display:flex; flex-direction:column; align-items:center; gap:9px; text-align:center; opacity:var(--op-text); }
-  .v2name-row{ display:flex; align-items:center; gap:8px; justify-content:center; }
-  .v2name{ font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:600; letter-spacing:-.4px; text-shadow:0 0 20px color-mix(in srgb,var(--accent) 45%,transparent); }
-  .v2idrow{ display:flex; align-items:center; gap:8px; justify-content:center; flex-wrap:wrap; }
-  .v2uid{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); padding:3px 10px; border-radius:999px; cursor:pointer; transition:all .15s ease; }
-  .v2uid:hover{ color:var(--text); border-color:var(--accent); }
-  .v2online{ display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--text-dim); }
-  .v2online span{ width:7px; height:7px; border-radius:50%; background:var(--accent); animation:v2pulse 2.4s ease-in-out infinite; }
-  @keyframes v2pulse{ 0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent);} 70%{box-shadow:0 0 0 8px transparent;} 100%{box-shadow:0 0 0 0 transparent;} }
-  .v2bio{ font-size:13.5px; line-height:1.6; color:#c9c4d8; max-width:320px; text-align:center; }
-  .v2stats{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-  .v2stats .pill{ display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.08); padding:6px 12px; border-radius:999px; }
-  .v2stats .pill b{ color:var(--text); font-weight:600; }
-  .v2social{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; opacity:var(--op-links); }
-  .v2social a{ width:25px; height:25px; color:var(--text-dim); transition:transform .15s ease, color .15s ease; }
-  .v2social a:hover{ transform:translateY(-3px) scale(1.12); }
-  .v2social a svg{ width:100%; height:100%; }
-  .v2links{ width:100%; display:flex; flex-direction:column; gap:10px; opacity:var(--op-links); }
-  .v2links .link{ display:flex; align-items:center; gap:12px; padding:13px 15px; border-radius:13px; color:var(--text); text-decoration:none; font-size:14px; font-weight:500;
-    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.09); transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease; }
-  .v2links .link:hover{ transform:translateY(-2px); border-color:var(--accent); box-shadow:0 8px 22px -10px var(--accent); }
-  .v2share{ margin-top:4px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); background:none; border:1px dashed rgba(255,255,255,.15); padding:8px 15px; border-radius:9px; cursor:pointer; transition:all .15s ease; }
-  .v2share:hover{ color:var(--accent); border-color:var(--accent); }
-  .v2foot{ text-align:center; margin-top:16px; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#5a5570; }
   .copy-link{ cursor:copy; }
-  /* icônes sociales monochromes façon guns.lol (couleur au survol) */
-  .v2social a{ color:var(--text-dim) !important; }
-  .v2social a:hover{ color:var(--text) !important; filter:drop-shadow(0 0 6px var(--accent)); }
-  /* pied de page vues + likes (façon guns.lol) */
-  .v2bottom{ display:flex; align-items:center; justify-content:center; gap:14px; margin-top:4px; }
-  .v2eye{ display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); }
-  .v2eye svg{ width:14px; height:14px; }
-  /* bouton like (cœur) — commun V1/V2 */
+  /* bouton like (cœur) */
   .likebtn{ display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border-radius:999px; cursor:pointer;
     background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); color:var(--text-dim);
     font-family:'JetBrains Mono',monospace; font-size:12px; transition:all .15s ease; }
@@ -438,7 +383,7 @@ const PERMISSIONS={
 function can(profile, perm){ if(!profile) return false; return (PERMISSIONS[profile.role]||[]).includes(perm); }
 function isStaffPlus(profile){ return profile && profile.role!=='user'; }
 const DEFAULT_OP={card:100,links:100,avatar:100,text:100,wallpaper:100,overlay:70};
-const DEFAULT_EFFECTS={splash:true,typewriter:true,particles:true,autoplay:true,discRotate:true,bgType:'image',bgVideo:'',musicCover:'',musicTitle:'',layout:'v1'};
+const DEFAULT_EFFECTS={splash:true,typewriter:true,particles:true,autoplay:true,discRotate:true,bgType:'image',bgVideo:'',musicCover:'',musicTitle:''};
 
 // ===== comptes demo/test (seed) =====
 const DEMO_ADJ=['Silencieux','Nocturne','Rapide','Discret','Lunaire','Sauvage','Paisible','Curieux','Vif','Solaire','Errant','Givré','Ardent','Timide','Zen','Placide','Malin','Vagabond'];
@@ -685,19 +630,6 @@ async function rpcLike(uid,dir){
 
 let session=null,view='profile',viewingUid=null,formError='';
 let badgeDefsCache=null, adminSubtab='users';
-// préférence d'affichage V1/V2 pour la session (null = utilise le réglage du profil affiché)
-let layoutPref=null, curLayout='v1', curProfile=null;
-function toggleLayout(){
-  curLayout = curLayout==='v2' ? 'v1' : 'v2';
-  layoutPref = curLayout;
-  // si je regarde MON profil, je sauvegarde ce choix pour tous les visiteurs
-  if(curProfile && session && session.uid===curProfile.uid){
-    session.effects=session.effects||{}; session.effects.layout=curLayout;
-    curProfile.effects=curProfile.effects||{}; curProfile.effects.layout=curLayout;
-    saveProfile(session).catch(()=>{});
-  }
-  render();
-}
 async function getBadgeDefs(){ if(!badgeDefsCache){ badgeDefsCache=await listBadgeDefs(); } return badgeDefsCache; }
 function badgeIconSvg(icon){ return ICONS[icon]||iconFor('verified'); }
 // ===== toast & modal =====
@@ -790,7 +722,6 @@ function renderTopbar(){
   info.style.color=session?'var(--accent)':'var(--text-dim)';
   acts.innerHTML='';
   const mk=(label,fn,cls)=>{ const b=document.createElement('button'); b.textContent=label; b.onclick=fn; if(cls)b.className=cls; return b; };
-  if(view==='profile'){ acts.append(mk(curLayout==='v2'?'◐ V1':'◑ V2',toggleLayout,'admin')); }
   if(session){
     acts.append(mk('profil',()=>{view='profile';viewingUid=session.uid;render();}),mk('éditer',()=>{view='edit';render();}),mk('membres',()=>{view='directory';render();}));
     if(isStaffPlus(session)) acts.append(mk('⚡ panel',()=>{view='admin';render();},'admin'));
@@ -851,58 +782,7 @@ function profileHTML(p,isOwner){
   </div></div>`;
 }
 
-// ===== HUD V2 (style guns.lol) — mêmes IDs que V1 pour réutiliser tout le câblage JS =====
-function profileHTMLv2(p,isOwner){
-  const socialLinks=(p.links||[]).filter(l=>l.platform && l.platform!=='link');
-  const buttonLinks=(p.links||[]).filter(l=>!l.platform || l.platform==='link');
-  const socialHtml=socialLinks.map(l=>{const plat=PLATFORMS[l.platform]||PLATFORMS.link;
-    if(l.copy) return `<a href="#" class="copy-link" data-copy="${esc(l.raw||'')}" title="${plat.name} — cliquer pour copier" style="color:${plat.color}">${iconFor(l.platform)}</a>`;
-    return `<a href="${esc(l.url)}" target="_blank" rel="noopener" title="${plat.name}" style="color:${plat.color}">${iconFor(l.platform)}</a>`;
-  }).join('');
-  const buttonHtml=buttonLinks.map(l=>{const plat=PLATFORMS[l.platform]||PLATFORMS.link;
-    if(l.copy) return `<a class="link copy-link" href="#" data-copy="${esc(l.raw||'')}"><span class="ico" style="color:${plat.color}">${iconFor(l.platform)}</span><span class="lbl"><span class="plat">${plat.name}</span><span class="txt">${esc(l.label||plat.name)} · copier</span></span><span class="arrow">⧉</span></a>`;
-    return `<a class="link" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="ico" style="color:${plat.color}">${iconFor(l.platform)}</span><span class="lbl"><span class="plat">${plat.name}</span><span class="txt">${esc(l.label||plat.name)}</span></span><span class="arrow">→</span></a>`;
-  }).join('');
-  const defs=badgeDefsCache||[];
-  const RARITY_LABEL={common:'Commun',rare:'Rare',epic:'Épique',legendary:'Légendaire'};
-  const crownHtml=(p.badges||[]).map(bid=>{ const def=defs.find(d=>d.id===bid); if(!def||!def.enabled) return '';
-    return `<span class="bpill rarity-${def.rarity}" style="color:${def.color}" title="${esc(def.name)} · ${RARITY_LABEL[def.rarity]||def.rarity}">${badgeIconSvg(def.icon)}</span>`;
-  }).filter(Boolean).join('');
-  const av=p.avatar?`<img src="${esc(p.avatar)}" alt="">`:(p.username||'?')[0].toUpperCase();
-  const totalViews=(p.views||0)+(p.viewsBonus||0);
-  const linkedAvatar=p.discordAvatar||'';
-  const linkedName=p.discordGlobalName||p.discordUsername||'';
-  const discordCard=(p.discordId||linkedName)?`<div class="discord-card" id="discordCard" style="margin-top:2px;">
-      <div class="dav">${linkedAvatar?`<img src="${esc(linkedAvatar)}" alt="">`:''}${p.discordId?'<div class="dstatus offline"></div>':''}</div>
-      <div class="dinfo"><div class="dname">${esc(linkedName||'Discord')}</div><div class="dact">${p.discordId?'chargement...':'compte Discord lié'}</div></div>
-    </div>`:'';
-  return `<div class="v2wrap tiltwrap"><div class="v2box" id="tiltBox">
-    <div class="v2avatar-wrap">
-      <div class="v2ring"><div class="v2ring-inner"><div class="v2ava">${av}</div></div><div class="v2status"></div></div>
-      ${crownHtml?`<div class="v2crown">${crownHtml}</div>`:''}
-    </div>
-    <div class="v2id">
-      <div class="v2name-row"><span class="v2name" id="nameEl">${esc(p.username)}</span>${isStaffPlus(session)&&isDemo(p)?`<span class="badge-demo">${p.accountType}</span>`:''}</div>
-      <div class="v2idrow"><span class="v2uid" id="uidChip" title="copier l'UID">UID ${p.uid}</span><span class="v2online"><span></span>en ligne</span></div>
-      ${p.bio?`<p class="v2bio" id="bioEl" data-full="${esc(p.bio)}"></p>`:''}
-    </div>
-    <div class="v2stats"><span class="pill">👁 <b id="viewCount">${totalViews}</b> vues</span><span class="pill">#<b>${p.uid}</b> membre</span><span class="pill"><span class="tag" style="border:none;background:none;padding:0;color:var(--accent)">${esc(p.tag)}</span></span></div>
-    ${p.music?'<div id="vinylMount" style="width:100%"></div>':''}
-    ${socialHtml?`<div class="v2social">${socialHtml}</div>`:''}
-    ${discordCard}
-    ${p.customText?`<div class="customtext" style="color:#c9c4d8">${esc(p.customText)}</div>`:''}
-    ${buttonHtml?`<div class="v2links">${buttonHtml}</div>`:''}
-    <div class="v2bottom">
-      <span class="v2eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><b id="viewCount2" style="color:var(--text)">${totalViews}</b></span>
-      ${likeBtnHTML(p)}
-    </div>
-    ${isOwner?'<button class="btn ghost small" id="editBtn" style="margin-top:2px">✎ éditer mon profil</button>':''}
-    <button class="v2share" id="shareBtn">↗ copier le lien de ce profil</button>
-    <div class="v2foot">uid ${p.uid} · gunzyx</div>
-  </div></div>`;
-}
-
-// bouton like (cœur) partagé V1 + V2
+// bouton like (cœur)
 function likeBtnHTML(p){
   const liked=hasLiked(p.uid);
   return `<button class="likebtn${liked?' liked':''}" id="likeBtn" title="${liked?'Retirer le like':'Aimer ce profil'}">
@@ -1258,9 +1138,7 @@ async function render(){
   if(view==='previewProfile'){
     const p=window.__previewProfile; if(!p){ view='edit'; return render(); }
     applyVisual(p); app.className='card';
-    const pvLayout=layoutPref||(p.effects&&p.effects.layout)||'v1';
-    document.body.classList.toggle('layout-v2', pvLayout==='v2');
-    const inner=pvLayout==='v2'?profileHTMLv2(p,false):profileHTML(p,false);
+    const inner=profileHTML(p,false);
     app.innerHTML=inner;
     // barre retour éditeur
     const bar=document.createElement('div'); bar.className='previewtag'; bar.textContent='◂ aperçu — clique pour revenir à l\'éditeur'; bar.style.cursor='pointer';
@@ -1303,12 +1181,7 @@ async function render(){
   if(p.banned && !isStaffPlus(session)){ resetVisual(); app.className='card'; app.innerHTML=`<div class="panel"><p class="hint">Ce profil n'est pas disponible.</p><button class="btn ghost" id="gD3">Membres</button></div>`; document.getElementById('gD3').onclick=()=>{view='directory';render();}; return; }
   applyVisual(p);
   const isOwner=session&&session.uid===p.uid;
-  // choix V1 / V2 : préférence de session sinon réglage du profil
-  curProfile=p;
-  curLayout=layoutPref||(p.effects&&p.effects.layout)||'v1';
-  document.body.classList.toggle('layout-v2', curLayout==='v2');
-  app.className='card'; app.innerHTML=(curLayout==='v2')?profileHTMLv2(p,isOwner):profileHTML(p,isOwner);
-  renderTopbar(); // rafraîchit le libellé du bouton V1/V2
+  app.className='card'; app.innerHTML=profileHTML(p,isOwner);
   // liens "copier au clic" (ex. pseudo Discord) : copient au lieu d'ouvrir
   document.querySelectorAll('#app [data-copy]').forEach(el=>{
     el.addEventListener('click',ev=>{ ev.preventDefault(); const v=el.getAttribute('data-copy')||'';
