@@ -56,10 +56,6 @@
   .name{ font-family:'Space Grotesk',sans-serif; font-size:27px; font-weight:600; letter-spacing:-.3px; position:relative; cursor:default; }
   .badge-admin{ font-size:11px; color:#e0b05e; font-family:'JetBrains Mono',monospace; border:1px solid rgba(224,176,94,.4); padding:2px 7px; border-radius:6px; margin-left:6px; vertical-align:middle; }
   .badge-demo{ font-size:11px; color:#b57edc; font-family:'JetBrains Mono',monospace; border:1px dashed rgba(181,126,220,.5); padding:2px 7px; border-radius:6px; margin-left:6px; vertical-align:middle; text-transform:uppercase; letter-spacing:.5px; }
-  .status{ display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); }
-  .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); animation:pulse 2.4s ease-in-out infinite; }
-  @keyframes pulse{ 0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 45%,transparent);} 70%{box-shadow:0 0 0 7px transparent;} 100%{box-shadow:0 0 0 0 transparent;} }
-  @media (prefers-reduced-motion:reduce){ .dot{animation:none;} }
   .tag{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent); background:color-mix(in srgb,var(--accent) 10%,transparent); border:1px solid color-mix(in srgb,var(--accent) 25%,transparent); padding:4px 12px; border-radius:999px; }
   .bio{ font-size:13.5px; color:var(--text-dim); max-width:320px; line-height:1.55; }
   .customtext{ font-size:14px; color:var(--text); max-width:320px; line-height:1.6; white-space:pre-wrap; opacity:var(--op-text); text-align:center; }
@@ -707,8 +703,10 @@ function profileHTML(p,isOwner){
   const linkedAvatar=p.discordAvatar||'';
   const linkedName=p.discordGlobalName||p.discordUsername||'';
   // carte Discord : identité OAuth (statique, fiable) + présence Lanyard live si dispo
+  // le point de statut ne s'affiche QUE si une présence Lanyard réelle va être récupérée
+  // (jamais de faux "hors ligne" par défaut sur une simple identité OAuth liée).
   const discordCard=(p.discordId||linkedName)?`<div class="discord-card" id="discordCard">
-      <div class="dav">${linkedAvatar?`<img src="${esc(linkedAvatar)}" alt="">`:''}<div class="dstatus offline"></div></div>
+      <div class="dav">${linkedAvatar?`<img src="${esc(linkedAvatar)}" alt="">`:''}${p.discordId?'<div class="dstatus offline"></div>':''}</div>
       <div class="dinfo"><div class="dname">${esc(linkedName||'Discord')}</div><div class="dact">${p.discordId?'chargement...':'compte Discord lié'}</div></div>
     </div>`:'';
   return `<div class="tiltwrap"><div class="profilebox" id="tiltBox">
@@ -719,7 +717,6 @@ function profileHTML(p,isOwner){
       <div class="name-row"><span class="name" id="nameEl">${esc(p.username)}</span>${isStaffPlus(session)&&isDemo(p)?`<span class="badge-demo">${p.accountType}</span>`:''}</div>
       <div class="id-row"><span class="uid-chip" id="uidChip" title="copier l'UID">UID ${p.uid}</span><span class="tag">${esc(p.tag)}</span></div>
       ${badgesHtml?`<div class="badge-strip">${badgesHtml}</div>`:''}
-      <div class="status"><span class="dot"></span>en ligne</div>
       ${p.bio?`<p class="bio" id="bioEl" data-full="${esc(p.bio)}"></p>`:''}
       <div class="stat-row"><span class="stat-pill">👁 <b id="viewCount">${totalViews}</b> vues</span></div>
     </div>
@@ -918,10 +915,10 @@ async function render(){
       <div id="adminContent"></div></div>`;
     const st=document.getElementById('subtabs');
     const tabs=[['users','Membres']];
-    if(can(session,'view_admin_logs')) tabs.push(['logs','Logs']);
+    if(can(session,'view_admin_logs')) tabs.push(['logs','Journal']);
     if(can(session,'manage_badge_defs')) tabs.push(['badges','Badges']);
     if(can(session,'delete_profiles')) tabs.push(['trash','Corbeille']);
-    if(can(session,'create_demo')) tabs.push(['demo','Demo']);
+    if(can(session,'create_demo')) tabs.push(['demo','Démo']);
     tabs.forEach(([id,label])=>{ const b=document.createElement('button'); b.textContent=label; if(id===adminSubtab) b.className='active'; b.onclick=()=>{ adminSubtab=id; render(); }; st.appendChild(b); });
     const content=document.getElementById('adminContent');
 
