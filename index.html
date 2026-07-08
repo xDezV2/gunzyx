@@ -20,6 +20,10 @@
   #wallpaperVideo{ position:fixed; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .5s ease; }
   #wallpaperVideo.active{ opacity:var(--op-wall); }
   #wallpaper-overlay{ position:fixed; inset:0; z-index:1; pointer-events:none; background:linear-gradient(to bottom, rgba(13,15,19,.5), rgba(13,15,19,.78)); opacity:var(--op-overlay); transition:opacity .3s ease; }
+  #aurora-bg{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+  #aurora-bg .blob{ position:absolute; border-radius:50%; filter:blur(30px); }
+  #aurora-bg .blob-a{ width:60vw; height:60vw; left:-10vw; top:-14vw; background:radial-gradient(circle, color-mix(in srgb,var(--accent) 40%,transparent), transparent 62%); animation:auroraA 16s ease-in-out infinite; }
+  #aurora-bg .blob-b{ width:52vw; height:52vw; right:-12vw; bottom:-16vw; background:radial-gradient(circle, color-mix(in srgb,#f0abfc 34%,transparent), transparent 62%); filter:blur(34px); animation:auroraB 20s ease-in-out infinite; }
   body.no-wall #wallpaper-overlay{ background:radial-gradient(600px circle at 30% 20%, color-mix(in srgb,var(--accent) 10%,transparent), transparent 60%), radial-gradient(500px circle at 70% 80%, color-mix(in srgb,var(--accent) 7%,transparent), transparent 60%); }
 
   .topbar{ position:fixed; top:0; left:0; right:0; z-index:10; display:flex; justify-content:space-between; align-items:center; gap:8px; padding:12px 16px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); }
@@ -47,6 +51,17 @@
   .theme-mono .link{ background:rgba(12,16,12,.7); border:1px solid #2a3a2a; border-radius:6px; }
   .theme-sunset .profilebox{ background:linear-gradient(160deg, rgba(60,20,40,.55), rgba(20,15,40,.55)); border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(16px); border-radius:26px; padding:32px 24px; }
   .theme-sunset .link{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); }
+  .theme-aurora .profilebox{ background:linear-gradient(165deg, rgba(32,24,52,.58), rgba(13,10,22,.66)); border:1px solid color-mix(in srgb, var(--accent) 30%, rgba(255,255,255,.08)); backdrop-filter:blur(22px); border-radius:26px; padding:32px 24px; box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 24px 60px -20px rgba(0,0,0,.85), 0 0 70px -26px color-mix(in srgb,var(--accent) 70%, transparent); }
+  .theme-aurora .name{ text-shadow:0 0 20px color-mix(in srgb,var(--accent) 45%,transparent); }
+  .theme-aurora .link{ background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.09); }
+  .theme-aurora .link:hover{ box-shadow:0 8px 22px -10px var(--accent); }
+  .theme-aurora .avatar-ring{ background:conic-gradient(from 210deg, var(--accent), transparent 52%, color-mix(in srgb,#f0abfc 70%,transparent) 78%, var(--accent)); box-shadow:0 0 26px color-mix(in srgb,var(--accent) 30%,transparent); animation:auroraFloat 6s ease-in-out infinite; }
+  #aurora-bg{ display:none; }
+  body.theme-aurora #aurora-bg{ display:block; }
+  @keyframes auroraFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-4px); } }
+  @keyframes auroraA{ 0%,100%{ transform:translate(-8%,-6%) scale(1); } 50%{ transform:translate(6%,8%) scale(1.15); } }
+  @keyframes auroraB{ 0%,100%{ transform:translate(6%,4%) scale(1.1); } 50%{ transform:translate(-6%,-8%) scale(1); } }
+  @media (prefers-reduced-motion:reduce){ .theme-aurora .avatar-ring{ animation:none; } #aurora-bg *{ animation:none !important; } }
 
   .profilebox{ width:100%; display:flex; flex-direction:column; align-items:center; gap:16px; opacity:var(--op-card); }
   .avatar{ width:96px; height:96px; border-radius:50%; background:linear-gradient(160deg, color-mix(in srgb,var(--accent) 30%,#1a1d22), #0f1113); border:2px solid color-mix(in srgb,var(--accent) 40%,transparent); display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-size:36px; font-weight:600; color:var(--text); overflow:hidden; opacity:var(--op-avatar); }
@@ -291,6 +306,7 @@
 <canvas id="particles"></canvas>
 <div id="wallpaper"></div>
 <video id="wallpaperVideo" autoplay muted loop playsinline></video>
+<div id="aurora-bg"><div class="blob blob-a"></div><div class="blob blob-b"></div></div>
 <div id="wallpaper-overlay"></div>
 <div class="topbar"><div class="who" id="sessionInfo">…</div><div class="acts" id="topbarActions"></div></div>
 <div class="wrap"><div id="app" class="card"><div class="loading"><span class="loader-dots"><i></i><i></i><i></i></span></div></div></div>
@@ -300,13 +316,14 @@ const SUPABASE_URL='https://qasngtowguktqgjjajjy.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhc25ndG93Z3VrdHFnamphamp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyODUxNDIsImV4cCI6MjA5ODg2MTE0Mn0.DC-77YL8_FqeJHkAkypQbV7CKS_Adnzj3i7y-MeZTF4';
 const REST=SUPABASE_URL+'/rest/v1';
 
-const ACCENTS=['#8fb39d','#c98f5e','#7a8fc9','#c96a8a','#b57edc','#5ec9b8','#c9b25e','#e0685e'];
+const ACCENTS=['#8fb39d','#c98f5e','#7a8fc9','#c96a8a','#b57edc','#5ec9b8','#c9b25e','#e0685e','#a78bfa'];
 const THEMES=[
   {id:'glass',name:'Verre',bg:'linear-gradient(135deg,#3a4a5a,#1a2a3a)'},
   {id:'neon',name:'Néon',bg:'linear-gradient(135deg,#2a0a3a,#0a0a2a)'},
   {id:'minimal',name:'Épuré',bg:'#16181d'},
   {id:'mono',name:'Terminal',bg:'#0a120a'},
-  {id:'sunset',name:'Sunset',bg:'linear-gradient(135deg,#5a1a3a,#1a1540)'}
+  {id:'sunset',name:'Sunset',bg:'linear-gradient(135deg,#5a1a3a,#1a1540)'},
+  {id:'aurora',name:'Aurora',bg:'linear-gradient(135deg,#3a2a5a,#0a0810)'}
 ];
 const PLATFORMS={
   discord:{name:'Discord',color:'#5865F2',ph:"lien d'invitation ou pseudo"},
@@ -437,6 +454,19 @@ async function pgFetch(path,options={}){
   const res=await fetch(REST+path,{...options,headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',...(options.headers||{})}});
   if(!res.ok){ const t=await res.text().catch(()=>''); throw new Error(res.status+': '+t); }
   const t=await res.text(); return t?JSON.parse(t):null;
+}
+const BG_VIDEO_MAX_BYTES=52428800;
+async function uploadBgVideo(file,uid){
+  if(file.type!=='video/mp4') throw new Error('Seuls les fichiers .mp4 sont acceptés.');
+  if(file.size>BG_VIDEO_MAX_BYTES) throw new Error('Fichier trop lourd (max 50 Mo, actuel : '+(file.size/1048576).toFixed(1)+' Mo).');
+  const path='bg-'+uid+'.mp4';
+  const res=await fetch(SUPABASE_URL+'/storage/v1/object/backgrounds/'+path,{
+    method:'POST',
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'video/mp4','x-upsert':'true'},
+    body:file
+  });
+  if(!res.ok){ const t=await res.text().catch(()=>''); throw new Error(res.status+': '+t); }
+  return SUPABASE_URL+'/storage/v1/object/public/backgrounds/'+path+'?v='+Date.now();
 }
 async function sha256(s){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join(''); }
 function mapRow(r){ return {uid:r.uid,username:r.username,hash:r.password_hash,tag:r.tag,bio:r.bio,accent:r.accent,links:r.links||[],wallpaper:r.wallpaper||'',theme:r.theme||'glass',avatar:r.avatar||'',customText:r.custom_text||'',opacity:{...DEFAULT_OP,...(r.opacity||{})},isAdmin:!!r.is_admin,banned:!!r.banned,music:r.music||'',views:r.views||0,viewsBonus:r.views_bonus||0,effects:{...DEFAULT_EFFECTS,...(r.effects||{})},badges:r.badges||[],cursorUrl:r.cursor_url||'',discordId:r.discord_id||'',discordUsername:r.discord_username||'',discordGlobalName:r.discord_global_name||'',discordAvatar:r.discord_avatar||'',role:r.role||'user',staffNote:r.staff_note||'',deletedAt:r.deleted_at||null,accountType:r.account_type||'real',excludeFromStats:!!r.exclude_from_stats,seedBatch:r.seed_batch||null,createdByUid:r.created_by_uid||null}; }
@@ -773,8 +803,13 @@ async function render(){
       <h3>Fond d'écran</h3>
       <div class="field"><label>type de fond</label><div class="tabs" id="bgTypeTabs"><button id="bgImgTab">Image</button><button id="bgVidTab">Vidéo</button></div></div>
       <div class="field"><label>image de fond (aussi utilisée comme affiche de secours en mode vidéo)</label><input id="eWall" placeholder="https://... (vide = aucun)" value="${esc(p.wallpaper)}"></div>
-      <div class="field"><label>vidéo de fond (url .mp4/.webm, optionnel)</label><input id="eBgVideo" placeholder="https://...mp4" value="${esc((p.effects&&p.effects.bgVideo)||'')}"></div>
-      <p class="hint">En mode vidéo : lecture automatique, muette, en boucle, plein écran, derrière le contenu. L'image ci-dessus s'affiche tant que la vidéo n'a pas démarré (chargement lent, ou autoplay bloqué sur certains mobiles).</p>
+      <div class="field">
+        <label>vidéo de fond (fichier .mp4, 50 Mo max)</label>
+        <input type="file" id="eBgVideoFile" accept="video/mp4">
+        <div id="eBgVideoStatus" class="hint">${(p.effects&&p.effects.bgVideo)?'✓ vidéo actuelle en ligne':'Aucune vidéo envoyée.'}</div>
+        <input id="eBgVideo" placeholder="ou colle un lien .mp4 direct" value="${esc((p.effects&&p.effects.bgVideo)||'')}">
+      </div>
+      <p class="hint">En mode vidéo : lecture automatique, muette, en boucle, plein écran, derrière le contenu. L'image ci-dessus s'affiche tant que la vidéo n'a pas démarré (chargement lent, ou autoplay bloqué sur certains mobiles). Limite : 50 Mo par vidéo (~1-2 min en qualité web) — compresse ta vidéo si besoin avant de l'envoyer.</p>
       <h3>Musique</h3>
       <div class="field"><label>musique de fond (lien YouTube ou mp3)</label><input id="eMusic" placeholder="lien YouTube ou .mp3 direct" value="${esc(p.music)}"></div>
       <div class="field"><label>cover du disque (url image, vide = ta photo de profil)</label><input id="eMusicCover" placeholder="https://... (vide = avatar)" value="${esc((p.effects&&p.effects.musicCover)||'')}"></div>
@@ -835,6 +870,19 @@ async function render(){
     bgImgTab.onclick=()=>{ selBgType='image'; drawBgTabs(); previewBg(); };
     bgVidTab.onclick=()=>{ selBgType='video'; drawBgTabs(); previewBg(); };
     document.getElementById('eBgVideo').oninput=previewBg;
+    document.getElementById('eBgVideoFile').onchange=async(e)=>{
+      const file=e.target.files[0]; if(!file) return;
+      const status=document.getElementById('eBgVideoStatus');
+      status.textContent='envoi en cours...'; status.style.color='';
+      try{
+        const url=await uploadBgVideo(file,p.uid);
+        document.getElementById('eBgVideo').value=url;
+        status.textContent='✓ vidéo envoyée avec succès'; status.style.color='#5ec98f';
+        previewBg();
+      }catch(err){
+        status.textContent='✗ échec de l’envoi : '+(err.message||'erreur réseau'); status.style.color='#e08a7e';
+      }
+    };
     function collectFx(){
       fx.bgType=selBgType;
       fx.bgVideo=document.getElementById('eBgVideo').value.trim();
