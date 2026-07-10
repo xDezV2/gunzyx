@@ -653,6 +653,16 @@
   .premium-chip{ display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600;
     background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 30%,transparent), color-mix(in srgb,#f0abfc 26%,transparent)); border:1px solid color-mix(in srgb,var(--accent) 45%,transparent); color:var(--text); }
   .lockbadge{ display:inline-flex; align-items:center; gap:4px; font-size:10px; color:#e0b05e; font-family:'JetBrains Mono',monospace; padding:2px 7px; border:1px solid rgba(224,176,94,.35); border-radius:6px; margin-left:6px; }
+
+  /* profil : blocs empilés (mobile) -> 2 colonnes équilibrées (desktop large) pour tout voir sans scroller */
+  .pblocks{ width:100%; display:flex; flex-direction:column; gap:14px; }
+  @media(min-width:900px){
+    .card.profile-wide{ max-width:800px; }
+    .profile-wide .pblocks{ display:block; column-count:2; column-gap:18px; margin-top:4px; }
+    .profile-wide .pblocks > *{ break-inside:avoid; -webkit-column-break-inside:avoid; margin:0 0 14px; }
+    .profile-wide .pblocks .social-inline{ width:100%; }
+    .profile-wide .avatar-wrap, .profile-wide .identity{ width:100%; }
+  }
 </style>
 </head>
 <body class="no-wall theme-glass">
@@ -2297,7 +2307,7 @@ function profileHTML(p,isOwner){
       <div class="stat-row">${p.effects.hideViews?'':`<span class="stat-pill">👁 <b id="viewCount">${totalViews}</b> vues</span>`}<span class="stat-pill social-stat" id="followersPill" title="abonnés">👥 <b>${fmtN(p.followerCount)}</b> abonnés</span><span class="stat-pill social-stat" id="followingPill" title="abonnements"><b>${fmtN(p.followingCount)}</b> abonnements</span><span class="stat-pill presence-live" id="presencePill" style="display:none;"></span></div>
       ${achievementsStripHTML(p)}
     </div>
-    ${renderBlocks(p,{music:p.music?'<div id="vinylMount"></div>':'',socials:socialHtml?`<div class="social-inline">${socialHtml}</div>`:'',discord:discordCard,gamehub:'<div id="gameHubBlock"></div>',customtext:p.customText?`<div class="customtext">${esc(p.customText)}</div>`:'',links:buttonHtml?`<div class="links">${buttonHtml}</div>`:'',likes:`<div style="display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:2px;">${session&&session.uid!==p.uid?followBtnHTML(p):''}${likeBtnHTML(p)}${session&&session.uid!==p.uid?`<button class="likebtn" id="reportBtn" title="signaler">⚑</button>`:''}</div>`,poll:'<div id="pollBlock"></div>',secret:'<div id="secretBlock"></div>',games:'<div id="gameBlock"></div>',guestbook:'<div id="guestbookBlock"></div>'})}
+    <div class="pblocks">${renderBlocks(p,{music:p.music?'<div id="vinylMount"></div>':'',socials:socialHtml?`<div class="social-inline">${socialHtml}</div>`:'',discord:discordCard,gamehub:'<div id="gameHubBlock"></div>',customtext:p.customText?`<div class="customtext">${esc(p.customText)}</div>`:'',links:buttonHtml?`<div class="links">${buttonHtml}</div>`:'',likes:`<div style="display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:2px;">${session&&session.uid!==p.uid?followBtnHTML(p):''}${likeBtnHTML(p)}${session&&session.uid!==p.uid?`<button class="likebtn" id="reportBtn" title="signaler">⚑</button>`:''}</div>`,poll:'<div id="pollBlock"></div>',secret:'<div id="secretBlock"></div>',games:'<div id="gameBlock"></div>',guestbook:'<div id="guestbookBlock"></div>'})}</div>
     ${isOwner?'<button class="btn ghost small" id="editBtn">✎ éditer mon profil</button>':''}
     <button class="sharebtn" id="shareBtn">🔗 copier le lien de ce profil</button>
     <footer>uid ${p.uid} · xvy</footer>
@@ -2710,7 +2720,7 @@ async function render(){
   if(p.banned && !isStaffPlus(session)){ resetVisual(); app.className='card'; app.innerHTML=`<div class="panel"><p class="hint">Ce profil n'est pas disponible.</p><button class="btn ghost" id="gD3">Membres</button></div>`; document.getElementById('gD3').onclick=()=>{view='directory';render();}; return; }
   applyVisual(p);
   const isOwner=session&&session.uid===p.uid;
-  app.className='card'; app.innerHTML=profileHTML(p,isOwner);
+  app.className='card profile-wide'; app.innerHTML=profileHTML(p,isOwner);
   // liens "copier au clic" (ex. pseudo Discord) : copient au lieu d'ouvrir
   document.querySelectorAll('#app [data-copy]').forEach(el=>{
     el.addEventListener('click',ev=>{ ev.preventDefault(); const v=el.getAttribute('data-copy')||'';
