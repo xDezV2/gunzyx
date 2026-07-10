@@ -587,6 +587,72 @@
   .gh-ed-list input{ flex:1; }
   .gh-ed-list .gh-ed-rm{ cursor:pointer; opacity:.6; padding:0 6px; align-self:center; } .gh-ed-list .gh-ed-rm:hover{ opacity:1; color:#e08a7e; }
   .seg.wrap{ flex-wrap:wrap; } .seg.wrap button{ flex:0 0 auto; padding:7px 12px; }
+
+  /* ================= Stage 2 — Discover / Social / Notifications / Premium ================= */
+  .viewfull{ width:100%; }
+  .page{ width:100%; max-width:1080px; margin:0 auto; animation:rise .4s ease; padding-bottom:40px; }
+  .page-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .page-head h1{ font-family:'Space Grotesk',sans-serif; font-size:clamp(24px,4vw,34px); font-weight:700; letter-spacing:-.5px; }
+  .page-head .sub{ color:var(--text-dim); font-size:13px; margin-top:3px; }
+  .seg2{ display:inline-flex; gap:3px; padding:4px; border-radius:12px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); }
+  .seg2 button{ background:none; border:none; color:var(--text-dim); font-family:'Inter',sans-serif; font-size:13px; font-weight:500; padding:8px 15px; border-radius:9px; cursor:pointer; transition:all .15s ease; white-space:nowrap; }
+  .seg2 button.on{ background:color-mix(in srgb,var(--accent) 22%,transparent); color:var(--text); box-shadow:0 2px 10px -4px var(--accent); }
+  .searchbar{ position:relative; margin-bottom:18px; }
+  .searchbar input{ width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:13px 16px 13px 42px; color:var(--text); font-size:14px; font-family:'Inter',sans-serif; outline:none; transition:border-color .15s ease; }
+  .searchbar input:focus{ border-color:var(--accent); }
+  .searchbar .si{ position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--text-dim); font-size:15px; }
+  .pgrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; }
+  .pcard{ position:relative; border-radius:18px; overflow:hidden; cursor:pointer; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+  .pcard:hover{ transform:translateY(-4px); border-color:color-mix(in srgb,var(--accent) 55%,transparent); box-shadow:0 18px 40px -20px color-mix(in srgb,var(--accent) 80%,#000); }
+  .pcard .pc-banner{ height:74px; background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 45%,#1a1d22), #0f1113); background-size:cover; background-position:center; }
+  .pcard .pc-av{ width:60px; height:60px; border-radius:50%; border:3px solid var(--bg); position:absolute; top:44px; left:16px; overflow:hidden; background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 30%,#1a1d22),#0f1113); display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk'; font-weight:600; font-size:22px; }
+  .pcard .pc-av img{ width:100%; height:100%; object-fit:cover; }
+  .pcard .pc-body{ padding:26px 16px 15px; }
+  .pcard .pc-name{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15.5px; display:flex; align-items:center; gap:6px; }
+  .pcard .pc-tag{ color:var(--text-dim); font-size:12px; font-family:'JetBrains Mono',monospace; margin-top:1px; }
+  .pcard .pc-bio{ color:var(--text-dim); font-size:12.5px; line-height:1.5; margin-top:8px; height:37px; overflow:hidden; }
+  .pcard .pc-stats{ display:flex; gap:14px; margin-top:12px; padding-top:11px; border-top:1px solid rgba(255,255,255,.06); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); }
+  .pcard .pc-stats b{ color:var(--text); }
+  .pcard .pc-crown{ position:absolute; top:10px; right:10px; font-size:14px; filter:drop-shadow(0 1px 4px rgba(0,0,0,.6)); }
+  .pc-verified{ color:#4a9eff; width:15px; height:15px; display:inline-flex; } .pc-verified svg{ width:100%; height:100%; }
+  .empty-state{ text-align:center; padding:60px 20px; color:var(--text-dim); }
+  .empty-state .es-emo{ font-size:40px; margin-bottom:10px; }
+
+  /* bouton suivre */
+  .followbtn{ display:inline-flex; align-items:center; gap:7px; padding:9px 18px; border-radius:999px; cursor:pointer; font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600;
+    background:var(--accent); color:#0a0d0a; border:1px solid transparent; transition:all .15s ease; box-shadow:0 4px 14px -4px var(--accent); }
+  .followbtn:hover{ transform:translateY(-1px); }
+  .followbtn.following{ background:transparent; color:var(--text); border-color:rgba(255,255,255,.18); box-shadow:none; }
+  .followbtn.following:hover{ border-color:#e05e5e; color:#e05e5e; }
+  .followbtn.following .fb-txt-hover{ display:none; } .followbtn.following:hover .fb-txt{ display:none; } .followbtn.following:hover .fb-txt-hover{ display:inline; }
+  .social-stats{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+  .social-stat{ cursor:pointer; }
+
+  /* cloche notifications */
+  .notif-wrap{ position:relative; }
+  .notif-badge{ position:absolute; top:-4px; right:-4px; min-width:16px; height:16px; padding:0 4px; border-radius:999px; background:#e05e5e; color:#fff; font-size:9px; font-weight:700; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; }
+  .notif-panel{ position:absolute; top:38px; right:0; z-index:70; width:min(340px,calc(100vw - 30px)); max-height:420px; overflow-y:auto; background:linear-gradient(160deg,rgba(24,27,34,.98),rgba(16,18,24,.98)); border:1px solid rgba(255,255,255,.14); border-radius:16px; box-shadow:0 24px 60px -18px rgba(0,0,0,.75); backdrop-filter:blur(16px); animation:aiPop .22s ease; }
+  .notif-panel .nh{ display:flex; justify-content:space-between; align-items:center; padding:13px 15px; border-bottom:1px solid rgba(255,255,255,.07); font-size:13px; font-weight:600; }
+  .notif-panel .nh button{ background:none; border:none; color:var(--accent); font-size:11px; cursor:pointer; font-family:'JetBrains Mono',monospace; }
+  .notif-item{ display:flex; gap:10px; align-items:center; padding:11px 15px; border-bottom:1px solid rgba(255,255,255,.05); font-size:13px; cursor:pointer; transition:background .12s; }
+  .notif-item:hover{ background:rgba(255,255,255,.04); } .notif-item.unread{ background:color-mix(in srgb,var(--accent) 7%,transparent); }
+  .notif-item .ni-ic{ width:32px; height:32px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.06); font-size:15px; }
+  .notif-item .ni-t{ font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono',monospace; margin-top:2px; }
+
+  /* premium / pricing */
+  .price-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; margin:6px 0 24px; }
+  .price-card{ position:relative; border-radius:20px; padding:26px 22px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1); display:flex; flex-direction:column; gap:14px; }
+  .price-card.feat{ border-color:color-mix(in srgb,var(--accent) 60%,transparent); box-shadow:0 20px 50px -24px var(--accent); background:linear-gradient(170deg, color-mix(in srgb,var(--accent) 12%,rgba(255,255,255,.03)), rgba(255,255,255,.02)); }
+  .price-card .pt-tag{ position:absolute; top:-11px; left:50%; transform:translateX(-50%); background:var(--accent); color:#0a0d0a; font-size:10.5px; font-weight:700; padding:4px 12px; border-radius:999px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.5px; }
+  .price-card .pt-name{ font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:700; }
+  .price-card .pt-price{ font-size:34px; font-weight:700; font-family:'Space Grotesk',sans-serif; } .price-card .pt-price small{ font-size:13px; color:var(--text-dim); font-weight:400; }
+  .price-card ul{ list-style:none; display:flex; flex-direction:column; gap:9px; margin:4px 0; }
+  .price-card li{ font-size:13px; display:flex; gap:9px; align-items:flex-start; color:var(--text); }
+  .price-card li .ck{ color:var(--accent); flex-shrink:0; } .price-card li.off{ color:var(--text-dim); } .price-card li.off .ck{ color:var(--text-dim); }
+  .redeem-box{ display:flex; gap:8px; margin-top:6px; } .redeem-box input{ flex:1; text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+  .premium-chip{ display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600;
+    background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 30%,transparent), color-mix(in srgb,#f0abfc 26%,transparent)); border:1px solid color-mix(in srgb,var(--accent) 45%,transparent); color:var(--text); }
+  .lockbadge{ display:inline-flex; align-items:center; gap:4px; font-size:10px; color:#e0b05e; font-family:'JetBrains Mono',monospace; padding:2px 7px; border:1px solid rgba(224,176,94,.35); border-radius:6px; margin-left:6px; }
 </style>
 </head>
 <body class="no-wall theme-glass">
@@ -606,6 +672,18 @@
 const SUPABASE_URL='https://qasngtowguktqgjjajjy.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhc25ndG93Z3VrdHFnamphamp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyODUxNDIsImV4cCI6MjA5ODg2MTE0Mn0.DC-77YL8_FqeJHkAkypQbV7CKS_Adnzj3i7y-MeZTF4';
 const REST=SUPABASE_URL+'/rest/v1';
+
+// ===== client Supabase unifié (Auth réelle : email/mot de passe + Discord OAuth) =====
+const sb = (window.supabase && window.supabase.createClient)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true, flowType:'pkce', storageKey:'xvy_auth_v2' }
+    })
+  : null;
+let accessToken = null; // JWT courant (rempli par onAuthStateChange)
+if(sb){ sb.auth.onAuthStateChange((_e, s)=>{ accessToken = s ? s.access_token : null; }); }
+// e-mail synthétique pour l'inscription par pseudo (login résout ensuite via RPC)
+const SYNTH_DOMAIN='id.xvy.lol';
+function synthEmail(username){ return 'u'+String(username||'').toLowerCase().replace(/[^a-z0-9]/g,'')+Math.random().toString(36).slice(2,6)+'@'+SYNTH_DOMAIN; }
 
 const ACCENTS=['#8fb39d','#c98f5e','#7a8fc9','#c96a8a','#b57edc','#5ec9b8','#c9b25e','#e0685e','#a78bfa'];
 const THEMES=[
@@ -859,25 +937,30 @@ async function seedDemoAccounts(count,type,actorUid){
   const batchId=new Date().toISOString();
   const rows=[];
   for(let i=0;i<count;i++) rows.push(await generateDemoProfile(type,taken,actorUid,batchId));
-  const created=await pgFetch('/profiles',{method:'POST',headers:{'Prefer':'return=representation'},body:JSON.stringify(rows)});
-  return {count:(created||[]).length,batchId};
+  const created=await callRpc('admin_seed_profiles',{rows});
+  return {count:(Array.isArray(created)?created[0]:created)||rows.length,batchId};
 }
 async function listDemoAccounts(){ const r=await pgFetch('/profiles?account_type=in.(demo,test)&select=*&order=created_at.desc'); return (r||[]).map(mapRow); }
-async function deleteDemoBatch(batchId){ await pgFetch('/profiles?seed_batch=eq.'+encodeURIComponent(batchId),{method:'DELETE'}); }
-async function deleteAllDemoAccounts(){ await pgFetch('/profiles?account_type=in.(demo,test)',{method:'DELETE'}); }
+async function deleteDemoBatch(batchId){ await callRpc('admin_delete_demo',{p_batch:batchId}); }
+async function deleteAllDemoAccounts(){ await callRpc('admin_delete_demo',{p_batch:null}); }
 async function getSetting(key){ const r=await pgFetch('/app_settings?key=eq.'+encodeURIComponent(key)+'&select=value'); return r&&r.length?r[0].value:null; }
-async function setSetting(key,value){ await pgFetch('/app_settings',{method:'POST',headers:{'Prefer':'resolution=merge-duplicates'},body:JSON.stringify({key,value,updated_at:new Date().toISOString()})}); }
+async function setSetting(key,value){ await callRpc('admin_set_setting',{p_key:key,p_value:value}); }
 
 async function pgFetch(path,options={}){
-  const res=await fetch(REST+path,{...options,headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',...(options.headers||{})}});
+  const bearer = accessToken || SUPABASE_KEY; // JWT utilisateur si connecté, sinon clé anon
+  const res=await fetch(REST+path,{...options,headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+bearer,'Content-Type':'application/json',...(options.headers||{})}});
   if(!res.ok){ const t=await res.text().catch(()=>''); throw new Error(res.status+': '+t); }
   const t=await res.text(); return t?JSON.parse(t):null;
 }
+// Appel d'une fonction RPC PostgREST (toutes les écritures passent par là côté nouveau front).
+async function callRpc(fn, args={}){
+  return pgFetch('/rpc/'+fn, { method:'POST', headers:{'Prefer':'return=representation'}, body:JSON.stringify(args) });
+}
 // ===== IA (Edge Function 'ai' — la clé reste côté serveur) =====
 const AI_FN=SUPABASE_URL+'/functions/v1/ai';
-function aiAuth(){ return session?{uid:session.uid,hash:session.hash}:null; }
+function aiAuth(){ return null; } // l'auth IA se fait désormais via le JWT (header Authorization)
 async function aiCall(action,payload={}){
-  const res=await fetch(AI_FN,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({action,...payload})});
+  const res=await fetch(AI_FN,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(accessToken||SUPABASE_KEY),'Content-Type':'application/json'},body:JSON.stringify({action,...payload})});
   let data=null; try{ data=await res.json(); }catch(e){}
   if(!res.ok) throw new Error((data&&data.error)||('Erreur '+res.status));
   return data;
@@ -894,14 +977,19 @@ async function uploadBgVideo(file,uid){
   const path='bg-'+uid+'.mp4';
   const res=await fetch(SUPABASE_URL+'/storage/v1/object/backgrounds/'+path,{
     method:'POST',
-    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'video/mp4','x-upsert':'true'},
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(accessToken||SUPABASE_KEY),'Content-Type':'video/mp4','x-upsert':'true'},
     body:file
   });
   if(!res.ok){ const t=await res.text().catch(()=>''); throw new Error(res.status+': '+t); }
   return SUPABASE_URL+'/storage/v1/object/public/backgrounds/'+path+'?v='+Date.now();
 }
 async function sha256(s){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join(''); }
-function mapRow(r){ return {uid:r.uid,username:r.username,hash:r.password_hash,tag:r.tag,bio:r.bio,accent:r.accent,links:r.links||[],wallpaper:r.wallpaper||'',theme:r.theme||'glass',avatar:r.avatar||'',customText:r.custom_text||'',opacity:{...DEFAULT_OP,...(r.opacity||{})},isAdmin:!!r.is_admin,banned:!!r.banned,music:r.music||'',views:r.views||0,viewsBonus:r.views_bonus||0,effects:{...DEFAULT_EFFECTS,...(r.effects||{})},badges:r.badges||[],cursorUrl:r.cursor_url||'',discordId:r.discord_id||'',discordUsername:r.discord_username||'',discordGlobalName:r.discord_global_name||'',discordAvatar:r.discord_avatar||'',role:r.role||'user',staffNote:r.staff_note||'',deletedAt:r.deleted_at||null,accountType:r.account_type||'real',excludeFromStats:!!r.exclude_from_stats,seedBatch:r.seed_batch||null,createdByUid:r.created_by_uid||null,likes:r.likes||0,achievements:r.achievements||[],poll:r.poll||null,secret:r.secret||null,style:{...DEFAULT_STYLE,...(r.style||{})},games:{...DEFAULT_GAMES,...(r.games||{}),enabled:{...DEFAULT_GAMES.enabled,...((r.games||{}).enabled||{})}},gaming:mergeGaming(r.gaming)}; }
+function mapRow(r){ return {uid:r.uid,username:r.username,hash:r.password_hash,tag:r.tag,bio:r.bio,accent:r.accent,links:r.links||[],wallpaper:r.wallpaper||'',theme:r.theme||'glass',avatar:r.avatar||'',customText:r.custom_text||'',opacity:{...DEFAULT_OP,...(r.opacity||{})},isAdmin:!!r.is_admin,banned:!!r.banned,music:r.music||'',views:r.views||0,viewsBonus:r.views_bonus||0,effects:{...DEFAULT_EFFECTS,...(r.effects||{})},badges:r.badges||[],cursorUrl:r.cursor_url||'',discordId:r.discord_id||'',discordUsername:r.discord_username||'',discordGlobalName:r.discord_global_name||'',discordAvatar:r.discord_avatar||'',role:r.role||'user',staffNote:r.staff_note||'',deletedAt:r.deleted_at||null,accountType:r.account_type||'real',excludeFromStats:!!r.exclude_from_stats,seedBatch:r.seed_batch||null,createdByUid:r.created_by_uid||null,likes:r.likes||0,achievements:r.achievements||[],poll:r.poll||null,secret:r.secret||null,style:{...DEFAULT_STYLE,...(r.style||{})},games:{...DEFAULT_GAMES,...(r.games||{}),enabled:{...DEFAULT_GAMES.enabled,...((r.games||{}).enabled||{})}},gaming:mergeGaming(r.gaming),
+  authUserId:r.auth_user_id||null, displayName:r.display_name||'', pronouns:r.pronouns||'', location:r.location||'', banner:r.banner||'',
+  premiumTier:r.premium_tier||'free', premiumUntil:r.premium_until||null, featured:!!r.featured,
+  followerCount:r.follower_count||0, followingCount:r.following_count||0, email:r.email||null, createdAt:r.created_at||null}; }
+function isPremium(p){ return p && p.premiumTier && p.premiumTier!=='free' && (!p.premiumUntil || new Date(p.premiumUntil) > new Date()); }
+function premiumTierOf(p){ return isPremium(p)? p.premiumTier : 'free'; }
 // fusion défensive de la config gaming (objets imbriqués + tableaux)
 function mergeGaming(g){ g=g||{}; return {...DEFAULT_GAMING,...g,
   ids:{...(g.ids||{})}, nowPlaying:{...DEFAULT_GAMING.nowPlaying,...(g.nowPlaying||{})}, setup:{...DEFAULT_GAMING.setup,...(g.setup||{})},
@@ -923,59 +1011,148 @@ async function isUidAvailable(uid, excludeUid){
   const r=await pgFetch('/profiles?uid=eq.'+n+'&select=uid');
   return !(r||[]).some(row=>row.uid!==excludeUid);
 }
-async function createAccount(u,p){
+async function createAccount(u,p,email){
   const uname=(u||'').trim();
   if(uname.length<2) return {ok:false,error:'Pseudo trop court (2 caractères min).'};
+  if(uname.length>20) return {ok:false,error:'Pseudo trop long (20 max).'};
+  if(!/^[A-Za-z0-9_.]+$/.test(uname)) return {ok:false,error:'Lettres, chiffres, _ et . uniquement.'};
+  if((p||'').length<6) return {ok:false,error:'Mot de passe : 6 caractères minimum.'};
+  if(!sb) return {ok:false,error:'Librairie Supabase non chargée (réseau ?).'};
   if(!(await isUsernameAvailable(uname,null))) return {ok:false,error:'Ce pseudo est déjà pris.'};
-  const hash=await sha256(p);
+  const useEmail=(email&&email.includes('@'))?email.trim():synthEmail(uname);
   try{
-    const r=await pgFetch('/profiles',{method:'POST',headers:{'Prefer':'return=representation'},body:JSON.stringify({username:uname,password_hash:hash,tag:'@'+uname.toLowerCase(),bio:'Nouveau membre.',accent:ACCENTS[0],links:[],wallpaper:'',theme:'glass',avatar:'',custom_text:'',opacity:DEFAULT_OP,music:'',effects:DEFAULT_EFFECTS,badges:[],cursor_url:'',discord_id:''})});
-    return {ok:true,profile:mapRow(r[0])};
-  }catch(e){ return {ok:false,error:'Ce pseudo est déjà pris.'}; }
+    const { data, error }=await sb.auth.signUp({ email:useEmail, password:p, options:{ data:{ username:uname } } });
+    if(error) throw error;
+    if(!data.session){ // confirmation e-mail activée : on tente une connexion directe
+      const r2=await sb.auth.signInWithPassword({ email:useEmail, password:p });
+      if(r2.error) return {ok:false,error:"Vérifie ta boîte mail pour confirmer le compte."};
+    }
+    accessToken=(await sb.auth.getSession()).data.session?.access_token||null;
+    const prof=await callRpc('signup_profile',{ p_username:uname, p_display:'' });
+    return {ok:true, profile:mapRow(Array.isArray(prof)?prof[0]:prof)};
+  }catch(e){
+    const m=String(e.message||e);
+    if(/already registered|already exists|duplicate/i.test(m)) return {ok:false,error:'Ce pseudo/e-mail est déjà pris.'};
+    return {ok:false,error:m};
+  }
 }
 async function login(u,p){
-  const uname=(u||'').trim().toLowerCase();
-  if(!uname) return {ok:false,error:'Compte introuvable.'};
-  const all=await pgFetch('/profiles?select=*');
-  const row=(all||[]).find(x=>x.username.toLowerCase()===uname);
-  if(!row) return {ok:false,error:'Compte introuvable.'};
-  if(row.banned) return {ok:false,error:'Ce compte est banni.'};
-  if(row.deleted_at) return {ok:false,error:'Ce compte n\'existe plus.'};
-  if(await sha256(p)!==row.password_hash) return {ok:false,error:'Mot de passe incorrect.'};
-  return {ok:true,profile:mapRow(row)};
+  const id=(u||'').trim();
+  if(!id||!p) return {ok:false,error:'Remplis les deux champs.'};
+  if(!sb) return {ok:false,error:'Librairie Supabase non chargée (réseau ?).'};
+  try{
+    let email=id;
+    if(!id.includes('@')){
+      const r=await callRpc('auth_email_for_login',{ p_login:id });
+      const resolved=Array.isArray(r)?r[0]:r;
+      if(!resolved) return {ok:false,error:'Compte introuvable.'};
+      email=resolved;
+    }
+    const { error }=await sb.auth.signInWithPassword({ email, password:p });
+    if(error){ return {ok:false,error:/invalid login/i.test(error.message)?'Identifiants incorrects.':error.message}; }
+    accessToken=(await sb.auth.getSession()).data.session?.access_token||null;
+    const prof=await loadMyProfile();
+    if(!prof) return {ok:false,error:'Profil introuvable.'};
+    if(prof.banned){ await sb.auth.signOut(); return {ok:false,error:'Ce compte est banni.'}; }
+    if(prof.deletedAt){ await sb.auth.signOut(); return {ok:false,error:'Ce compte n\'existe plus.'}; }
+    return {ok:true, profile:prof};
+  }catch(e){ return {ok:false,error:String(e.message||e)}; }
+}
+// charge le profil lié à la session Auth courante
+async function loadMyProfile(){
+  const { data }=await sb.auth.getUser();
+  if(!data||!data.user) return null;
+  const r=await pgFetch('/profiles?auth_user_id=eq.'+data.user.id+'&select=*');
+  return r&&r.length?mapRow(r[0]):null;
 }
 // ===== persistance de session (localStorage + re-validation au boot) =====
-const SESSION_KEY='xdez_session_v1';
-function saveSession(p){ try{ localStorage.setItem(SESSION_KEY,JSON.stringify({uid:p.uid,hash:p.hash})); }catch(e){} }
-function clearSession(){ try{ localStorage.removeItem(SESSION_KEY); }catch(e){} }
+// La session est persistée par Supabase Auth (storageKey xvy_auth_v2) : rien à stocker nous-mêmes.
+function saveSession(p){ /* no-op : Supabase Auth gère la persistance */ }
+async function clearSession(){ try{ if(sb) await sb.auth.signOut(); }catch(e){} accessToken=null; }
 async function restoreSession(){
-  let raw; try{ raw=localStorage.getItem(SESSION_KEY); }catch(e){ return null; }
-  if(!raw) return null;
-  let s; try{ s=JSON.parse(raw); }catch(e){ clearSession(); return null; }
-  if(!s||!s.uid){ clearSession(); return null; }
+  if(!sb) return null;
   try{
-    const p=await getProfile(s.uid);
-    // session invalide si le compte a disparu, est banni, supprimé, ou si le hash a changé
-    if(!p || p.banned || p.deletedAt || p.hash!==s.hash){ clearSession(); return null; }
+    const { data }=await sb.auth.getSession();
+    if(!data||!data.session) return null;
+    accessToken=data.session.access_token;
+    const p=await loadMyProfile();
+    if(!p || p.banned || p.deletedAt){ await clearSession(); return null; }
     return p;
-  }catch(e){ return null; } // souci réseau : on ne restaure pas mais on ne casse pas non plus
+  }catch(e){ return null; }
 }
-async function saveProfile(pf){ await pgFetch('/profiles?uid=eq.'+pf.uid,{method:'PATCH',body:JSON.stringify({tag:pf.tag,bio:pf.bio,accent:pf.accent,links:pf.links,wallpaper:pf.wallpaper,theme:pf.theme,avatar:pf.avatar,custom_text:pf.customText,opacity:pf.opacity,music:pf.music,effects:pf.effects,cursor_url:pf.cursorUrl,discord_id:pf.discordId,poll:pf.poll,secret:pf.secret,style:pf.style,games:pf.games,gaming:pf.gaming})}); }
+// Toutes les écritures de profil passent par la RPC sécurisée update_my_profile (whitelist serveur).
+async function saveProfile(pf){
+  await callRpc('update_my_profile',{ payload:{
+    tag:pf.tag, bio:pf.bio, accent:pf.accent, links:pf.links, wallpaper:pf.wallpaper, theme:pf.theme,
+    avatar:pf.avatar, banner:pf.banner||'', custom_text:pf.customText, display_name:pf.displayName||pf.username,
+    pronouns:pf.pronouns||'', location:pf.location||'', opacity:pf.opacity, music:pf.music, effects:pf.effects,
+    cursor_url:pf.cursorUrl, poll:pf.poll, secret:pf.secret, style:pf.style, games:pf.games, gaming:pf.gaming
+  }});
+}
 async function getProfile(uid){ const r=await pgFetch('/profiles?uid=eq.'+uid+'&select=*'); return r&&r.length?mapRow(r[0]):null; }
 async function listDirectory(){ const r=await pgFetch('/profiles?deleted_at=is.null&select=*&order=uid.asc'); return (r||[]).map(mapRow); }
-async function logAdmin(action, target, oldVal, newVal){
-  try{ await pgFetch('/admin_logs',{method:'POST',body:JSON.stringify({actor_uid:session?session.uid:null,actor_name:session?session.username:'?',action,target_uid:target?target.uid:null,target_name:target?target.username:null,old_value:oldVal==null?null:String(oldVal),new_value:newVal==null?null:String(newVal)})}); }catch(e){}
+// ===== social : follows / notifications =====
+async function myFollowingSet(){
+  if(!session) return new Set();
+  try{ const r=await pgFetch('/follows?follower_uid=eq.'+session.uid+'&select=following_uid'); return new Set((r||[]).map(x=>x.following_uid)); }
+  catch(e){ return new Set(); }
 }
-async function adminUpdate(uid,fields){ await pgFetch('/profiles?uid=eq.'+uid,{method:'PATCH',body:JSON.stringify(fields)}); }
-async function adminSoftDelete(uid){ await pgFetch('/profiles?uid=eq.'+uid,{method:'PATCH',body:JSON.stringify({deleted_at:new Date().toISOString()})}); }
-async function adminRestore(uid){ await pgFetch('/profiles?uid=eq.'+uid,{method:'PATCH',body:JSON.stringify({deleted_at:null})}); }
-async function adminHardDelete(uid){ await pgFetch('/profiles?uid=eq.'+uid,{method:'DELETE'}); }
+async function isFollowing(uid){
+  if(!session) return false;
+  try{ const r=await pgFetch('/follows?follower_uid=eq.'+session.uid+'&following_uid=eq.'+uid+'&select=follower_uid'); return !!(r&&r.length); }
+  catch(e){ return false; }
+}
+async function toggleFollow(uid){ const r=await callRpc('toggle_follow',{target:uid}); return !!(Array.isArray(r)?r[0]:r); }
+async function listFollowers(uid){ const r=await pgFetch('/follows?following_uid=eq.'+uid+'&select=follower_uid&order=created_at.desc&limit=200'); return (r||[]).map(x=>x.follower_uid); }
+async function listFollowingUids(uid){ const r=await pgFetch('/follows?follower_uid=eq.'+uid+'&select=following_uid&order=created_at.desc&limit=200'); return (r||[]).map(x=>x.following_uid); }
+async function resolveProfiles(uids){
+  if(!uids||!uids.length) return [];
+  const r=await callRpc('public_profiles',{p_uids:uids});
+  return Array.isArray(r)?(Array.isArray(r[0])?r[0]:r):(r||[]);
+}
+async function listNotifications(){
+  if(!session) return [];
+  const r=await pgFetch('/notifications?recipient_uid=eq.'+session.uid+'&select=*&order=created_at.desc&limit=30');
+  const list=r||[];
+  const actorUids=[...new Set(list.map(n=>n.actor_uid).filter(Boolean))];
+  const actors=await resolveProfiles(actorUids);
+  const amap={}; actors.forEach(a=>{ amap[a.uid]=a; });
+  return list.map(n=>({...n, actor:amap[n.actor_uid]||null}));
+}
+async function unreadNotifCount(){
+  if(!session) return 0;
+  try{ const r=await pgFetch('/notifications?recipient_uid=eq.'+session.uid+'&read=eq.false&select=id',{headers:{'Prefer':'count=exact','Range':'0-0'}}); return (r&&r.length)||0; }
+  catch(e){ return 0; }
+}
+function timeAgo(ts){
+  const s=Math.floor((Date.now()-new Date(ts).getTime())/1000);
+  if(s<60) return "à l'instant"; if(s<3600) return Math.floor(s/60)+' min'; if(s<86400) return Math.floor(s/3600)+' h';
+  if(s<604800) return Math.floor(s/86400)+' j'; return new Date(ts).toLocaleDateString();
+}
+async function logAdmin(action, target, oldVal, newVal){
+  try{ await callRpc('admin_log',{p_action:action, p_target:target?target.uid:null, p_old:oldVal==null?null:String(oldVal), p_new:newVal==null?null:String(newVal)}); }catch(e){}
+}
+// Dispatcher : chaque champ modifié par l'admin part vers sa RPC SECURITY DEFINER dédiée.
+async function adminUpdate(uid,fields){
+  if(fields.uid!=null && Number(fields.uid)!==Number(uid)){ await callRpc('admin_set_uid',{p_target:uid, p_new_uid:Number(fields.uid)}); uid=Number(fields.uid); }
+  if('role' in fields) await callRpc('admin_set_role',{p_target:uid, p_role:fields.role});
+  if('banned' in fields) await callRpc('admin_set_banned',{p_target:uid, p_banned:!!fields.banned});
+  if('badges' in fields) await callRpc('admin_set_badges',{p_target:uid, p_badges:fields.badges});
+  if('featured' in fields) await callRpc('admin_set_featured',{p_target:uid, p_featured:!!fields.featured});
+  if('views_bonus' in fields) await callRpc('admin_set_views_bonus',{p_target:uid, p_bonus:Number(fields.views_bonus)});
+  const editP={};
+  ['username','tag','bio','staff_note'].forEach(k=>{ if(k in fields) editP[k]=fields[k]; });
+  if(Object.keys(editP).length) await callRpc('admin_edit_profile',{p_target:uid, payload:editP});
+}
+async function adminSoftDelete(uid){ await callRpc('admin_soft_delete',{p_target:uid}); }
+async function adminRestore(uid){ await callRpc('admin_restore',{p_target:uid}); }
+async function adminHardDelete(uid){ await callRpc('admin_hard_delete',{p_target:uid}); }
 async function listDeleted(){ const r=await pgFetch('/profiles?deleted_at=not.is.null&select=*&order=uid.asc'); return (r||[]).map(mapRow); }
 async function getLogs(limit){ const r=await pgFetch('/admin_logs?select=*&order=created_at.desc&limit='+(limit||50)); return r||[]; }
 async function listBadgeDefs(){ const r=await pgFetch('/badge_defs?select=*&order=created_at.asc'); return r||[]; }
-async function upsertBadgeDef(b){ await pgFetch('/badge_defs',{method:'POST',headers:{'Prefer':'resolution=merge-duplicates'},body:JSON.stringify(b)}); }
-async function deleteBadgeDef(id){ await pgFetch('/badge_defs?id=eq.'+encodeURIComponent(id),{method:'DELETE'}); }
-async function setViewsBonus(uid,bonus){ await pgFetch('/profiles?uid=eq.'+uid,{method:'PATCH',body:JSON.stringify({views_bonus:bonus})}); }
+async function upsertBadgeDef(b){ await callRpc('admin_upsert_badge_def',{p_id:b.id,p_name:b.name,p_icon:b.icon,p_color:b.color,p_rarity:b.rarity,p_enabled:b.enabled!==false}); }
+async function deleteBadgeDef(id){ await callRpc('admin_delete_badge_def',{p_id:id}); }
+async function setViewsBonus(uid,bonus){ await callRpc('admin_set_views_bonus',{p_target:uid, p_bonus:Number(bonus)}); }
 // ===== fiche utilisateur complète (staff/admin) =====
 function openUserModal(p, list){
   const defs=badgeDefsCache||[];
@@ -1044,22 +1221,45 @@ function openBadgeDefModal(existing){
     };
   });
 }
-async function incrementViews(uid){ try{ await fetch(REST+'/rpc/increment_views',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({target_uid:uid})}); }catch(e){} }
-// ===== likes de compte (1 like par navigateur, mémorisé en localStorage, RPC atomique) =====
-function hasLiked(uid){ try{ return localStorage.getItem('xdez_liked_'+uid)==='1'; }catch(e){ return false; } }
-function setLiked(uid,on){ try{ on?localStorage.setItem('xdez_liked_'+uid,'1'):localStorage.removeItem('xdez_liked_'+uid); }catch(e){} }
-async function rpcLike(uid,dir){
-  const res=await fetch(REST+'/rpc/'+(dir>0?'increment_likes':'decrement_likes'),{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({target_uid:uid})});
-  const t=await res.text().catch(()=>''); const n=parseInt(t,10); return isNaN(n)?null:n;
+async function incrementViews(uid){ try{ await callRpc('track_event',{p_profile:uid,p_type:'view',p_meta:{},p_device:isMobileDevice()?'mobile':'desktop'}); }catch(e){} }
+// ===== likes de compte (par compte connecté, unicité serveur ; cache local pour l'affichage) =====
+function hasLiked(uid){ try{ return localStorage.getItem('xvy_liked_'+uid)==='1'; }catch(e){ return false; } }
+function setLiked(uid,on){ try{ on?localStorage.setItem('xvy_liked_'+uid,'1'):localStorage.removeItem('xvy_liked_'+uid); }catch(e){} }
+// toggle serveur : renvoie {liked} ; nécessite un compte connecté
+async function rpcToggleLike(uid){
+  const r=await callRpc('toggle_like',{target:uid});
+  const liked=Array.isArray(r)?r[0]:r;
+  return { liked: !!liked };
 }
 
 let session=null,view='profile',viewingUid=null,formError='';
+let discoverTab='popular', notifOpen=false, notifCache=null, statsRange=14; // état Stage 2
+// graphique d'aire SVG (série unique, couleur accent) pour l'analytics créateur
+function areaChartSVG(series, opts={}){
+  const W=640,H=150,pl=6,pr=6,pt=12,pb=18; const n=series.length; if(!n) return '';
+  const max=Math.max(1,...series.map(s=>s.v));
+  const xw=W-pl-pr, xh=H-pt-pb;
+  const X=i=> pl + (n===1?xw/2:(i/(n-1))*xw);
+  const Y=v=> pt + xh - (v/max)*xh;
+  let line='', area='';
+  series.forEach((s,i)=>{ const x=X(i).toFixed(1), y=Y(s.v).toFixed(1); line+=(i?'L':'M')+x+' '+y+' '; });
+  area='M'+X(0).toFixed(1)+' '+(pt+xh)+' '+series.map((s,i)=>'L'+X(i).toFixed(1)+' '+Y(s.v).toFixed(1)).join(' ')+' L'+X(n-1).toFixed(1)+' '+(pt+xh)+' Z';
+  const grid=[0,.5,1].map(f=>{ const y=(pt+xh-f*xh).toFixed(1); return `<line x1="${pl}" y1="${y}" x2="${W-pr}" y2="${y}" stroke="rgba(255,255,255,.06)" stroke-width="1"/>`; }).join('');
+  const labelIdx=[0,Math.floor((n-1)/2),n-1];
+  const labels=labelIdx.map(i=>`<text x="${X(i).toFixed(1)}" y="${H-4}" fill="var(--text-dim)" font-size="9" font-family="'JetBrains Mono',monospace" text-anchor="${i===0?'start':i===n-1?'end':'middle'}">${series[i].label}</text>`).join('');
+  const gid='gr'+Math.random().toString(36).slice(2,7);
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="none" style="display:block;height:150px;">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".38"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
+    ${grid}<path d="${area}" fill="url(#${gid})"/><path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+    <text x="${pl}" y="10" fill="var(--text-dim)" font-size="9" font-family="'JetBrains Mono',monospace">max ${max}</text>${labels}</svg>`;
+}
 let aiEnabled=false; // IA dispo (config admin) — mis à jour par checkAiStatus()
 // ===== dashboard d'édition (façon guns.lol) : état d'onglet + brouillon persistant =====
 let editTab='overview', editDraft=null;
 function freshDraft(p){
   return {
     uid:p.uid, avatar:p.avatar, tag:p.tag, bio:p.bio, customText:p.customText,
+    displayName:p.displayName||'', pronouns:p.pronouns||'', location:p.location||'', banner:p.banner||'',
     wallpaper:p.wallpaper, music:p.music, cursorUrl:p.cursorUrl, discordId:p.discordId,
     theme:p.theme, accent:p.accent, opacity:{...DEFAULT_OP,...p.opacity},
     effects:{...DEFAULT_EFFECTS,...p.effects},
@@ -1370,19 +1570,54 @@ function renderTopbar(){
   info.style.color=session?'var(--accent)':'var(--text-dim)';
   acts.innerHTML='';
   const mk=(label,fn,cls)=>{ const b=document.createElement('button'); b.textContent=label; b.onclick=fn; if(cls)b.className=cls; return b; };
+  acts.append(mk('découvrir',()=>{view='discover';render();}));
+  acts.append(mk('premium',()=>{view='premium';render();}));
   if(session){
-    acts.append(mk('profil',()=>{view='profile';viewingUid=session.uid;render();}),mk('éditer',()=>{view='edit';render();}),mk('membres',()=>{view='directory';render();}));
+    acts.append(mk('profil',()=>{view='profile';viewingUid=session.uid;render();}),mk('éditer',()=>{view='edit';render();}));
+    const bellWrap=document.createElement('div'); bellWrap.className='notif-wrap';
+    bellWrap.appendChild(mk('🔔',()=>toggleNotifPanel()));
+    const badge=document.createElement('span'); badge.className='notif-badge'; badge.id='notifBadge'; badge.style.display='none'; bellWrap.appendChild(badge);
+    acts.append(bellWrap);
     if(isStaffPlus(session)) acts.append(mk('⚡ panel',()=>{view='admin';render();},'admin'));
     acts.append(mk('quitter',()=>{session=null;clearSession();view='profile';viewingUid=null;resetVisual();render();}));
+    refreshNotifBadge();
   }else{
-    acts.append(mk('se connecter',()=>{view='auth';render();}),mk('membres',()=>{view='directory';render();}));
+    acts.append(mk('se connecter',()=>{view='auth';render();}));
   }
   acts.append(mk(LANG==='en'?'FR':'EN',toggleLang));
+}
+async function refreshNotifBadge(){
+  try{ const n=await unreadNotifCount(); const b=document.getElementById('notifBadge'); if(!b) return;
+    if(n>0){ b.textContent=n>99?'99+':String(n); b.style.display='flex'; } else b.style.display='none'; }catch(e){}
+}
+function notifRow(n){
+  const ic={follow:'➕',like:'❤️',comment:'💬',badge:'🏅',premium:'✨',system:'📢',mention:'@'}[n.type]||'🔔';
+  const who=n.actor?('@'+n.actor.username):'Quelqu\'un';
+  const txt={follow:who+' a commencé à te suivre',like:who+' a aimé ton profil',comment:who+' a signé ton livre d\'or',badge:'Tu as reçu un nouveau badge 🏅',premium:'Premium activé — bienvenue ✨',system:(n.data&&n.data.text)||'Notification'}[n.type]||'Notification';
+  return `<div class="notif-item ${n.read?'':'unread'}" data-uid="${n.actor?n.actor.uid:''}"><div class="ni-ic">${ic}</div><div><div>${esc(txt)}</div><div class="ni-t">${timeAgo(n.created_at)}</div></div></div>`;
+}
+async function toggleNotifPanel(){
+  const ex=document.getElementById('notifPanel'); if(ex){ ex.remove(); return; }
+  const bellWrap=document.querySelector('.notif-wrap'); if(!bellWrap) return;
+  const panel=document.createElement('div'); panel.id='notifPanel'; panel.className='notif-panel';
+  panel.innerHTML='<div class="nh"><span>Notifications</span></div><div class="loading" style="padding:20px;text-align:center;">…</div>';
+  bellWrap.appendChild(panel);
+  const list=await listNotifications();
+  const rows=list.length?list.map(notifRow).join(''):'<div class="empty-state" style="padding:34px 20px;"><div class="es-emo">🔕</div>Aucune notification</div>';
+  panel.innerHTML='<div class="nh"><span>Notifications</span>'+(list.length?'<button id="notifRead">tout marquer lu</button>':'')+'</div>'+rows;
+  panel.querySelectorAll('.notif-item').forEach(it=>{ it.onclick=()=>{ const u=it.dataset.uid; panel.remove(); if(u){ view='profile'; viewingUid=+u; render(); } }; });
+  const rd=document.getElementById('notifRead');
+  if(rd) rd.onclick=async()=>{ try{ await callRpc('mark_notifications_read',{}); }catch(e){} panel.querySelectorAll('.notif-item').forEach(i=>i.classList.remove('unread')); refreshNotifBadge(); };
+  // auto-marquer lu à l'ouverture
+  try{ await callRpc('mark_notifications_read',{}); refreshNotifBadge(); }catch(e){}
+  // fermeture au clic extérieur
+  setTimeout(()=>{ const close=(e)=>{ if(!bellWrap.contains(e.target)){ panel.remove(); document.removeEventListener('click',close); } }; document.addEventListener('click',close); },50);
 }
 
 // ===== dashboard d'édition : onglets Aperçu / Personnaliser / Liens / Effets =====
 function commitDraft(p,d){
   p.avatar=d.avatar; p.bio=d.bio; p.customText=d.customText; p.wallpaper=d.wallpaper;
+  p.displayName=d.displayName||''; p.pronouns=d.pronouns||''; p.location=d.location||''; p.banner=d.banner||'';
   p.music=d.music; p.cursorUrl=d.cursorUrl; p.discordId=d.discordId;
   p.theme=d.theme; p.accent=d.accent; p.opacity=d.opacity; p.effects=d.effects; p.style=d.style; p.games=d.games; p.gaming=d.gaming;
   p.links=d.links.filter(l=>(l.raw||'').trim()).map(l=>({platform:l.platform,label:(PLATFORMS[l.platform]||PLATFORMS.link).name,raw:l.raw,copy:!!l.copy,url:normalizeUrl(l.platform,l.raw)}));
@@ -1423,6 +1658,16 @@ function mountOverviewTab(el,p,d){
       <div class="dash-stat"><span class="lbl">Vues du profil</span><span class="val">${totalViews}</span></div>
     </div>
     <div class="dash-card">
+      <h3>🪪 Identité publique</h3>
+      <div class="dash-grid2">
+        <div class="field"><label>Nom affiché</label><input id="idDisplay" maxlength="40" value="${esc(p.displayName||'')}" placeholder="${esc(p.username)}"></div>
+        <div class="field"><label>Pronoms</label><input id="idPronouns" maxlength="24" value="${esc(p.pronouns||'')}" placeholder="il/lui, elle…"></div>
+        <div class="field"><label>Localisation</label><input id="idLocation" maxlength="40" value="${esc(p.location||'')}" placeholder="Paris, FR"></div>
+        <div class="field"><label>Bannière (URL image)${premiumTierOf(session)==='free'?'<span class="lockbadge">🔒 Premium</span>':''}</label><input id="idBanner" value="${esc(p.banner||'')}" placeholder="https://…"></div>
+      </div>
+      <div class="row" style="margin-top:8px;"><button class="btn small" id="idSave">Enregistrer l'identité</button></div>
+    </div>
+    <div class="dash-card">
       <h3>Complétion du profil</h3>
       <div style="height:8px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:12px;"><div style="height:100%;width:${pct}%;background:var(--accent);"></div></div>
       <div style="display:flex;flex-direction:column;gap:8px;">
@@ -1454,8 +1699,18 @@ function mountOverviewTab(el,p,d){
     const q=(document.getElementById('pollQ').value||'').trim();
     const opts=(document.getElementById('pollOpts').value||'').split('\n').map(s=>s.trim()).filter(Boolean).slice(0,6);
     const poll=(q&&opts.length>=2)?{id:newId||((p.poll&&p.poll.id)||'p1'),q,opts}:null;
-    try{ await pgFetch('/profiles?uid=eq.'+p.uid,{method:'PATCH',body:JSON.stringify({poll})}); p.poll=poll; if(session&&session.uid===p.uid) session.poll=poll; toast(poll?'Sondage enregistré ✓':'Sondage désactivé','ok'); }
+    try{ await callRpc('update_my_profile',{payload:{poll}}); p.poll=poll; if(session&&session.uid===p.uid) session.poll=poll; toast(poll?'Sondage enregistré ✓':'Sondage désactivé','ok'); }
     catch(e){ toast('Erreur de sauvegarde.','err'); }
+  };
+  document.getElementById('idSave').onclick=async()=>{
+    const payload={ display_name:document.getElementById('idDisplay').value.trim(), pronouns:document.getElementById('idPronouns').value.trim(), location:document.getElementById('idLocation').value.trim(), banner:document.getElementById('idBanner').value.trim() };
+    if(payload.banner && premiumTierOf(session)==='free'){ toast('La bannière est réservée aux membres Premium ✨','err'); payload.banner=''; document.getElementById('idBanner').value=''; }
+    try{ await callRpc('update_my_profile',{payload});
+      Object.assign(p,{displayName:payload.display_name,pronouns:payload.pronouns,location:payload.location,banner:payload.banner});
+      if(session&&session.uid===p.uid) Object.assign(session,{displayName:payload.display_name,pronouns:payload.pronouns,location:payload.location,banner:payload.banner});
+      if(d){ d.displayName=payload.display_name; d.pronouns=payload.pronouns; d.location=payload.location; d.banner=payload.banner; }
+      toast('Identité mise à jour ✓','ok'); }
+    catch(e){ toast('Erreur de sauvegarde','err'); }
   };
   document.getElementById('pollSave').onclick=()=>savePoll();
   document.getElementById('pollReset').onclick=()=>savePoll('p'+Date.now().toString(36));
@@ -1464,7 +1719,7 @@ function mountOverviewTab(el,p,d){
     const pw=(document.getElementById('secretPwEdit').value||'').trim();
     const hint=(document.getElementById('secretHint').value||'').trim();
     const secret=(text&&pw)?{text,pw,hint}:null;
-    try{ await pgFetch('/profiles?uid=eq.'+p.uid,{method:'PATCH',body:JSON.stringify({secret})}); p.secret=secret; if(session&&session.uid===p.uid) session.secret=secret; toast(secret?'Secret enregistré ✓':'Secret désactivé','ok'); }
+    try{ await callRpc('update_my_profile',{payload:{secret}}); p.secret=secret; if(session&&session.uid===p.uid) session.secret=secret; toast(secret?'Secret enregistré ✓':'Secret désactivé','ok'); }
     catch(e){ toast('Erreur de sauvegarde.','err'); }
   };
   document.getElementById('chUser').onclick=()=>{
@@ -1481,7 +1736,7 @@ function mountOverviewTab(el,p,d){
           const v=inp.value.trim();
           if(v.length<2){ hint.textContent='2 caractères minimum.'; hint.style.color='#e08a7e'; return; }
           if(v!==p.username && !(await isUsernameAvailable(v,p.uid))){ hint.textContent='✗ déjà pris.'; hint.style.color='#e08a7e'; return; }
-          try{ await pgFetch('/profiles?uid=eq.'+p.uid,{method:'PATCH',body:JSON.stringify({username:v})}); p.username=v; closeModal(); toast('Pseudo mis à jour','ok'); render(); }
+          try{ await callRpc('rename_me',{new_username:v}); p.username=v; closeModal(); toast('Pseudo mis à jour','ok'); render(); }
           catch(e){ hint.textContent='Erreur, réessaie.'; hint.style.color='#e08a7e'; }
         };
       });
@@ -1492,7 +1747,7 @@ function mountOverviewTab(el,p,d){
       (body)=>{
         body.querySelector('#mTagSave').onclick=async()=>{
           const v=body.querySelector('#mTag').value.trim()||p.tag;
-          try{ await pgFetch('/profiles?uid=eq.'+p.uid,{method:'PATCH',body:JSON.stringify({tag:v})}); p.tag=v; closeModal(); toast('Nom d’affichage mis à jour','ok'); render(); }
+          try{ await callRpc('update_my_profile',{payload:{tag:v}}); p.tag=v; closeModal(); toast('Nom d’affichage mis à jour','ok'); render(); }
           catch(e){ toast('Erreur','err'); }
         };
       });
@@ -2037,14 +2292,15 @@ function profileHTML(p,isOwner){
       <div class="avatar-ring"><div class="avatar">${av}</div></div>
     </div>
     <div class="identity">
-      <div class="name-row"><span class="name" id="nameEl">${esc(p.username)}</span>${isStaffPlus(session)&&isDemo(p)?`<span class="badge-demo">${p.accountType}</span>`:''}</div>
-      <div class="id-row"><span class="uid-chip" id="uidChip" title="copier l'UID">UID ${p.uid}</span><span class="tag">${esc(p.tag)}</span></div>
+      <div class="name-row"><span class="name" id="nameEl">${esc(p.displayName||p.username)}</span>${isPremium(p)?`<span class="premium-chip">${premiumTierOf(p)==='pro'?'💎 PRO':'⭐ PLUS'}</span>`:''}${isStaffPlus(session)&&isDemo(p)?`<span class="badge-demo">${p.accountType}</span>`:''}</div>
+      <div class="id-row"><span class="uid-chip" id="uidChip" title="copier l'UID">UID ${p.uid}</span><span class="tag">${esc(p.tag)}</span>${p.pronouns?`<span class="tag" style="color:var(--text-dim);background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);">${esc(p.pronouns)}</span>`:''}</div>
       ${badgesHtml?`<div class="badge-strip">${badgesHtml}</div>`:''}
       ${p.bio?`<p class="bio" id="bioEl" data-full="${esc(p.bio)}"></p>`:''}
-      <div class="stat-row">${p.effects.hideViews?'':`<span class="stat-pill">👁 <b id="viewCount">${totalViews}</b> vues</span>`}<span class="stat-pill presence-live" id="presencePill" style="display:none;"></span></div>
+      ${p.location?`<div class="hint" style="font-family:'JetBrains Mono',monospace;">📍 ${esc(p.location)}</div>`:''}
+      <div class="stat-row">${p.effects.hideViews?'':`<span class="stat-pill">👁 <b id="viewCount">${totalViews}</b> vues</span>`}<span class="stat-pill social-stat" id="followersPill" title="abonnés">👥 <b>${fmtN(p.followerCount)}</b> abonnés</span><span class="stat-pill social-stat" id="followingPill" title="abonnements"><b>${fmtN(p.followingCount)}</b> abonnements</span><span class="stat-pill presence-live" id="presencePill" style="display:none;"></span></div>
       ${achievementsStripHTML(p)}
     </div>
-    ${renderBlocks(p,{music:p.music?'<div id="vinylMount"></div>':'',socials:socialHtml?`<div class="social-inline">${socialHtml}</div>`:'',discord:discordCard,gamehub:'<div id="gameHubBlock"></div>',customtext:p.customText?`<div class="customtext">${esc(p.customText)}</div>`:'',links:buttonHtml?`<div class="links">${buttonHtml}</div>`:'',likes:`<div style="display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:2px;">${likeBtnHTML(p)}</div>`,poll:'<div id="pollBlock"></div>',secret:'<div id="secretBlock"></div>',games:'<div id="gameBlock"></div>',guestbook:'<div id="guestbookBlock"></div>'})}
+    ${renderBlocks(p,{music:p.music?'<div id="vinylMount"></div>':'',socials:socialHtml?`<div class="social-inline">${socialHtml}</div>`:'',discord:discordCard,gamehub:'<div id="gameHubBlock"></div>',customtext:p.customText?`<div class="customtext">${esc(p.customText)}</div>`:'',links:buttonHtml?`<div class="links">${buttonHtml}</div>`:'',likes:`<div style="display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:2px;">${session&&session.uid!==p.uid?followBtnHTML(p):''}${likeBtnHTML(p)}${session&&session.uid!==p.uid?`<button class="likebtn" id="reportBtn" title="signaler">⚑</button>`:''}</div>`,poll:'<div id="pollBlock"></div>',secret:'<div id="secretBlock"></div>',games:'<div id="gameBlock"></div>',guestbook:'<div id="guestbookBlock"></div>'})}
     ${isOwner?'<button class="btn ghost small" id="editBtn">✎ éditer mon profil</button>':''}
     <button class="sharebtn" id="shareBtn">🔗 copier le lien de ce profil</button>
     <footer>uid ${p.uid} · xvy</footer>
@@ -2052,6 +2308,9 @@ function profileHTML(p,isOwner){
 }
 
 // bouton like (cœur)
+function followBtnHTML(p){
+  return `<button class="followbtn" id="followBtn"><span class="fb-txt">＋ Suivre</span><span class="fb-txt-hover">Ne plus suivre</span></button>`;
+}
 function likeBtnHTML(p){
   const liked=hasLiked(p.uid);
   return `<button class="likebtn${liked?' liked':''}" id="likeBtn" title="${liked?'Retirer le like':'Aimer ce profil'}">
@@ -2059,6 +2318,107 @@ function likeBtnHTML(p){
     <b id="likeCount">${p.likes||0}</b></button>`;
 }
 
+function fmtN(n){ n=+n||0; return n>=1000?(n/1000).toFixed(n>=10000?0:1).replace('.0','')+'k':String(n); }
+function pcard(p){
+  const el=document.createElement('div'); el.className='pcard';
+  const av=p.avatar?`<img src="${esc(p.avatar)}" alt="">`:esc((p.username||'?')[0].toUpperCase());
+  const verified=(p.badges||[]).includes('verified')?`<span class="pc-verified">${ICONS.verified}</span>`:'';
+  const crown=isPremium(p)?`<span class="pc-crown">${premiumTierOf(p)==='pro'?'💎':'⭐'}</span>`:'';
+  const banner = p.banner?`style="background-image:url('${esc(p.banner)}')"`
+    :(p.wallpaper?`style="background-image:url('${esc(p.wallpaper)}')"`
+    :`style="background:linear-gradient(135deg, color-mix(in srgb,${esc(p.accent)} 55%,#1a1d22), #0f1113)"`);
+  el.innerHTML=`<div class="pc-banner" ${banner}></div>${crown}
+    <div class="pc-av">${av}</div>
+    <div class="pc-body">
+      <div class="pc-name">${esc(p.displayName||p.username)} ${verified}</div>
+      <div class="pc-tag">@${esc(p.username)}</div>
+      <div class="pc-bio">${esc(p.bio||'')}</div>
+      <div class="pc-stats"><span><b>${fmtN(p.followerCount)}</b> abonnés</span><span><b>${fmtN(p.likes)}</b> ❤</span><span><b>${fmtN((p.views||0)+(p.viewsBonus||0))}</b> vues</span></div>
+    </div>`;
+  el.onclick=()=>{ view='profile'; viewingUid=p.uid; window.scrollTo(0,0); render(); };
+  return el;
+}
+async function renderDiscover(app){
+  const list=await listDirectory();
+  const showDemo=isStaffPlus(session);
+  const all=list.filter(p=>!p.banned && p.deletedAt==null && (showDemo || !isDemo(p)));
+  const following = session ? await myFollowingSet() : new Set();
+  if(discoverTab==='following' && !session) discoverTab='popular';
+  app.innerHTML=`<div class="page">
+    <div class="page-head">
+      <div><h1>Découvrir</h1><div class="sub">${all.length} profil${all.length>1?'s':''} dans la communauté xvy</div></div>
+      <div class="seg2" id="discSeg"><button data-t="popular">🔥 Populaires</button><button data-t="new">✨ Nouveaux</button><button data-t="featured">⭐ À la une</button>${session?'<button data-t="following">👥 Abonnements</button>':''}</div>
+    </div>
+    <div class="searchbar"><span class="si">🔍</span><input id="discSearch" placeholder="Chercher un pseudo, un nom, une bio…"></div>
+    <div class="pgrid" id="discGrid"></div>
+  </div>`;
+  const grid=document.getElementById('discGrid');
+  const draw=()=>{
+    const q=(document.getElementById('discSearch').value||'').trim().toLowerCase();
+    let items=all.slice();
+    if(discoverTab==='popular') items.sort((a,b)=>((b.likes+b.followerCount*3+b.views*0.1)-(a.likes+a.followerCount*3+a.views*0.1)));
+    else if(discoverTab==='new') items.sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
+    else if(discoverTab==='following') items=items.filter(p=>following.has(p.uid));
+    else items=items.filter(p=>p.featured);
+    if(q) items=items.filter(p=>p.username.toLowerCase().includes(q)||(p.displayName||'').toLowerCase().includes(q)||(p.bio||'').toLowerCase().includes(q)||(p.tag||'').toLowerCase().includes(q));
+    if(!items.length){ const em={featured:['⭐','Aucun profil à la une pour le moment.'],following:['👥','Tu ne suis personne encore — explore les autres onglets !']}[discoverTab]||['🫥','Aucun profil trouvé.']; grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="es-emo">${em[0]}</div>${em[1]}</div>`; return; }
+    grid.innerHTML=''; items.slice(0,60).forEach(p=>grid.appendChild(pcard(p)));
+  };
+  document.querySelectorAll('#discSeg button').forEach(b=>{ if(b.dataset.t===discoverTab) b.classList.add('on');
+    b.onclick=()=>{ discoverTab=b.dataset.t; document.querySelectorAll('#discSeg button').forEach(x=>x.classList.toggle('on',x.dataset.t===discoverTab)); draw(); }; });
+  document.getElementById('discSearch').oninput=draw;
+  draw();
+}
+async function renderPremium(app){
+  const me=session; const tier=me?premiumTierOf(me):'free';
+  const until=me&&me.premiumUntil?new Date(me.premiumUntil).toLocaleDateString():null;
+  const F=(t,on)=>`<li class="${on?'':'off'}"><span class="ck">${on?'✓':'✕'}</span>${t}</li>`;
+  const cards=[
+    {id:'free',name:'Free',price:'0€',per:'pour toujours',feats:[['Profil 100% personnalisable',1],['Liens & réseaux illimités',1],['6 thèmes + presets',1],['Mini-jeux & Game Hub',1],['Effets premium',0],['Analytics avancées',0],['UID vanity',0]]},
+    {id:'plus',name:'Plus',price:'3€',per:'/ mois',feat:true,feats:[['Tout le plan Free',1],['Effets premium (grain, glow, vignette)',1],['Bibliothèque de polices complète',1],['Badge ⭐ Plus sur ton profil',1],['Analytics 90 jours',1],['UID vanity',0]]},
+    {id:'pro',name:'Pro',price:'7€',per:'/ mois',feats:[['Tout le plan Plus',1],['Badge 💎 Pro animé',1],['Analytics illimitées + export CSV',1],['UID vanity personnalisé',1],['Bannière animée',1],['Accès anticipé aux features',1]]}
+  ];
+  app.innerHTML=`<div class="page">
+    <div class="page-head"><div><h1>Premium xvy</h1><div class="sub">Débloque tout le potentiel de ton profil.${me?` Ton plan actuel : <b style="color:var(--text)">${tier.toUpperCase()}</b>${until?` (jusqu'au ${until})`:''}`:''}</div></div></div>
+    <div class="price-grid">${cards.map(c=>`
+      <div class="price-card ${c.feat?'feat':''}">${c.feat?'<div class="pt-tag">Populaire</div>':''}
+        <div class="pt-name">${c.name}</div>
+        <div class="pt-price">${c.price}<small> ${c.per}</small></div>
+        <ul>${c.feats.map(f=>F(f[0],f[1])).join('')}</ul>
+        <button class="btn ${c.id==='free'?'ghost':''}" data-buy="${c.id}" ${tier===c.id?'disabled':''}>${tier===c.id?'Ton plan actuel':(c.id==='free'?'Gratuit':'Passer '+c.name)}</button>
+      </div>`).join('')}</div>
+    <div class="dash-card" style="max-width:520px;margin:0 auto;">
+      <h3>🎟️ J'ai un code premium</h3>
+      <div class="redeem-box"><input id="redeemCode" placeholder="XVY-XXXXXX" maxlength="32"><button class="btn" id="redeemBtn">Activer</button></div>
+      <p class="hint" style="margin-top:8px;">Les codes sont distribués lors d'events, giveaways et par le staff.</p>
+    </div>
+    ${can(session,'grant_premium')?`<div class="dash-card" style="max-width:520px;margin:14px auto 0;"><h3>🛠️ Staff — générer un code</h3>
+      <div class="row"><input id="gcCode" placeholder="code (vide = auto)"><select id="gcTier" style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:var(--text);padding:0 10px;"><option value="plus">Plus</option><option value="pro">Pro</option></select></div>
+      <div class="row" style="margin-top:8px;"><input id="gcDays" type="number" placeholder="jours (30)" value="30"><input id="gcMax" type="number" placeholder="usages (1)" value="1"><button class="btn small" id="gcBtn">Créer</button></div>
+      <div id="gcOut" class="hint" style="margin-top:8px;"></div></div>`:''}
+  </div>`;
+  app.querySelectorAll('[data-buy]').forEach(b=>{ b.onclick=()=>{
+    if(b.dataset.buy==='free'){ toast('Tu es déjà sur le plan gratuit 😉','ok'); return; }
+    if(!session){ view='auth'; return render(); }
+    toast('Paiement en ligne bientôt disponible — utilise un code premium en attendant 🎟️','ok');
+  }; });
+  const rb=document.getElementById('redeemBtn');
+  rb.onclick=async()=>{
+    if(!session){ view='auth'; return render(); }
+    const code=document.getElementById('redeemCode').value.trim(); if(!code){ toast('Entre un code','err'); return; }
+    rb.textContent='...'; rb.disabled=true;
+    try{ const r=await callRpc('redeem_premium_code',{p_code:code}); const np=mapRow(Array.isArray(r)?r[0]:r); session.premiumTier=np.premiumTier; session.premiumUntil=np.premiumUntil;
+      toast('Premium activé ✨ Bienvenue en '+np.premiumTier.toUpperCase(),'ok'); render(); }
+    catch(e){ toast(String(e.message||e).replace(/^\d+:\s*/,'').replace(/.*message":"([^"]+)".*/,'$1')||'Code invalide','err'); rb.textContent='Activer'; rb.disabled=false; }
+  };
+  const gc=document.getElementById('gcBtn');
+  if(gc) gc.onclick=async()=>{
+    const code=document.getElementById('gcCode').value.trim()||('XVY-'+Math.random().toString(36).slice(2,8).toUpperCase());
+    try{ await callRpc('admin_create_premium_code',{p_code:code,p_tier:document.getElementById('gcTier').value,p_days:+document.getElementById('gcDays').value||30,p_max:+document.getElementById('gcMax').value||1});
+      document.getElementById('gcOut').innerHTML='Code créé : <b style="color:var(--accent)">'+esc(code.toUpperCase())+'</b>'; }
+    catch(e){ toast('Erreur création code','err'); }
+  };
+}
 async function render(){
   document.querySelectorAll('.previewtag').forEach(e=>e.remove());
   if(!badgeDefsCache){ try{ badgeDefsCache=await listBadgeDefs(); }catch(e){ badgeDefsCache=[]; } }
@@ -2068,21 +2428,32 @@ async function render(){
 
   if(view==='auth'){
     resetVisual(); app.className='card';
-    app.innerHTML=`<div class="panel"><div class="tabs"><button id="tL" class="active">Connexion</button><button id="tS">Créer un compte</button></div><div id="af"></div>${formError?`<div class="error">${formError}</div>`:''}</div>`;
+    app.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;max-width:400px;">
+      <div style="text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:44px;line-height:1;background:linear-gradient(120deg,var(--accent) 20%,#f0abfc 90%);-webkit-background-clip:text;background-clip:text;color:transparent;">xvy</div>
+        <div class="hint" style="margin-top:6px;font-family:'JetBrains Mono',monospace;">ton profil. ton style. ton lien.</div>
+      </div>
+      <div class="panel" style="margin:0;"><div class="tabs"><button id="tL" class="active">Connexion</button><button id="tS">Créer un compte</button></div><div id="af"></div>${formError?`<div class="error">${formError}</div>`:''}</div>
+    </div>`;
     let mode='login';
     const form=()=>{ document.getElementById('af').innerHTML=`
-      <div class="field"><label>pseudo</label><input id="au" autocomplete="username"></div>
+      <div class="field"><label>${mode==='login'?'pseudo ou e-mail':'pseudo'}</label><input id="au" autocomplete="username"></div>
+      ${mode==='signup'?'<div class="field"><label>e-mail <span style="opacity:.6">(optionnel — pour récupérer ton compte)</span></label><input id="ae" type="email" autocomplete="email" placeholder="laisse vide si tu veux"></div>':''}
       <div class="field"><label>mot de passe</label><input id="ap" type="password" autocomplete="${mode==='login'?'current-password':'new-password'}"></div>
-      ${mode==='signup'?'<p class="hint">Le 1er compte créé devient uid 1 et admin. Sécurité basique (entre potes).</p>':''}
-      <button class="btn" id="as">${mode==='login'?'Se connecter':'Créer mon compte'}</button>`;
+      ${mode==='signup'?'<p class="hint">6 caractères minimum. Ton compte est protégé par une vraie authentification.</p>':''}
+      <button class="btn" id="as">${mode==='login'?'Se connecter':'Créer mon compte'}</button>
+      <div style="display:flex;align-items:center;gap:10px;margin:4px 0;color:var(--text-dim);font-size:11px;font-family:'JetBrains Mono',monospace;"><span style="flex:1;height:1px;background:rgba(255,255,255,.1)"></span>ou<span style="flex:1;height:1px;background:rgba(255,255,255,.1)"></span></div>
+      <button class="btn-discord" id="asDiscord">${ICONS.discord} Continuer avec Discord</button>`;
       document.getElementById('as').onclick=async()=>{
         const u=document.getElementById('au').value.trim(),p=document.getElementById('ap').value;
-        if(!u||!p){ formError='Remplis les deux champs.'; return render(); }
-        formError=''; document.getElementById('as').textContent='...';
-        const res=mode==='login'?await login(u,p):await createAccount(u,p);
-        if(res.ok){ session=res.profile; saveSession(session); view='profile'; viewingUid=session.uid; render(); }
+        const em=mode==='signup'?(document.getElementById('ae')?.value||'').trim():'';
+        if(!u||!p){ formError='Remplis les champs.'; return render(); }
+        formError=''; const btn=document.getElementById('as'); btn.textContent='...'; btn.disabled=true;
+        const res=mode==='login'?await login(u,p):await createAccount(u,p,em);
+        if(res.ok){ session=res.profile; view='profile'; viewingUid=session.uid; render(); }
         else{ formError=res.error; render(); }
       };
+      document.getElementById('asDiscord').onclick=()=>startDiscordLogin();
     };
     document.getElementById('tL').onclick=()=>{mode='login';formError='';document.getElementById('tL').classList.add('active');document.getElementById('tS').classList.remove('active');form();};
     document.getElementById('tS').onclick=()=>{mode='signup';formError='';document.getElementById('tS').classList.add('active');document.getElementById('tL').classList.remove('active');form();};
@@ -2314,6 +2685,9 @@ async function render(){
     return;
   }
 
+  if(view==='discover'){ resetVisual(); app.className='viewfull'; await renderDiscover(app); return; }
+  if(view==='premium'){ resetVisual(); app.className='viewfull'; await renderPremium(app); return; }
+
   if(view==='directory'){
     resetVisual(); const list=await listDirectory(); app.className='directory';
     const showDemo=isStaffPlus(session) ? true : !!(await getSetting('show_demo_in_directory'));
@@ -2351,7 +2725,9 @@ async function render(){
   if(likeBtn){
     let busy=false;
     likeBtn.onclick=async()=>{
-      if(busy) return; busy=true;
+      if(busy) return;
+      if(!session){ toast('Connecte-toi pour aimer un profil','err'); view='auth'; return render(); }
+      busy=true;
       const cnt=document.getElementById('likeCount');
       const willLike=!hasLiked(p.uid);
       // optimiste
@@ -2359,12 +2735,47 @@ async function render(){
       likeBtn.querySelector('svg').setAttribute('fill',willLike?'currentColor':'none');
       if(willLike) likeBtn.classList.add('pop'); setTimeout(()=>likeBtn.classList.remove('pop'),380);
       let cur=parseInt(cnt.textContent,10)||0; cnt.textContent=Math.max(0,cur+(willLike?1:-1));
-      setLiked(p.uid,willLike);
-      try{ const n=await rpcLike(p.uid,willLike?1:-1); if(n!=null){ cnt.textContent=n; p.likes=n; } }
-      catch(e){ /* on garde l'affichage optimiste */ }
+      try{ const r=await rpcToggleLike(p.uid); setLiked(p.uid,r.liked);
+           likeBtn.classList.toggle('liked',r.liked); likeBtn.querySelector('svg').setAttribute('fill',r.liked?'currentColor':'none'); }
+      catch(e){ /* garde l'optimiste */ setLiked(p.uid,willLike); }
       busy=false;
     };
   }
+  // bouton suivre
+  const followBtn=document.getElementById('followBtn');
+  if(followBtn){
+    isFollowing(p.uid).then(f=>followBtn.classList.toggle('following',f));
+    let fbusy=false;
+    followBtn.onclick=async()=>{
+      if(fbusy) return; if(!session){ toast('Connecte-toi pour suivre','err'); view='auth'; return render(); }
+      fbusy=true; const wasFollowing=followBtn.classList.contains('following');
+      followBtn.classList.toggle('following',!wasFollowing);
+      try{ const nowF=await toggleFollow(p.uid); followBtn.classList.toggle('following',nowF);
+        const fp=document.getElementById('followersPill'); if(fp){ const b=fp.querySelector('b'); const base=p.followerCount+(nowF?1:0)-(wasFollowing?1:0); b.textContent=fmtN(Math.max(0,base)); } }
+      catch(e){ followBtn.classList.toggle('following',wasFollowing); toast('Erreur','err'); }
+      fbusy=false;
+    };
+  }
+  // signaler
+  const reportBtn=document.getElementById('reportBtn');
+  if(reportBtn) reportBtn.onclick=async()=>{
+    if(!session){ view='auth'; return render(); }
+    const reason=prompt('Raison du signalement (spam, contenu inapproprié, usurpation…) :'); if(!reason) return;
+    try{ await callRpc('report_profile',{p_target:p.uid,p_reason:reason,p_detail:''}); toast('Signalement envoyé, merci','ok'); }catch(e){ toast('Erreur','err'); }
+  };
+  // listes abonnés / abonnements
+  const openFollowList=async(title,uidsPromise)=>{
+    openModal(title, '<p class="loading">…</p>', async(body)=>{
+      const uids=await uidsPromise; const profs=await resolveProfiles(uids);
+      if(!profs.length){ body.innerHTML='<p class="hint">Personne pour l\'instant.</p>'; return; }
+      body.innerHTML=''; profs.forEach(pr=>{ const e=document.createElement('div'); e.className='direntry'; e.style.marginBottom='6px';
+        const av=pr.avatar?`<img src="${esc(pr.avatar)}" alt="">`:esc((pr.username||'?')[0].toUpperCase());
+        e.innerHTML=`<div class="av">${av}</div><div><div>${esc(pr.display_name||pr.username)}</div><div class="hint">@${esc(pr.username)}</div></div><span class="uidbadge">${fmtN(pr.follower_count||0)} 👥</span>`;
+        e.onclick=()=>{ closeModal(); view='profile'; viewingUid=pr.uid; render(); }; body.appendChild(e); });
+    });
+  };
+  const fpe=document.getElementById('followersPill'); if(fpe) fpe.onclick=()=>openFollowList('Abonnés de '+p.username, listFollowers(p.uid));
+  const fpg=document.getElementById('followingPill'); if(fpg) fpg.onclick=()=>openFollowList(p.username+' suit', listFollowingUids(p.uid));
   const uidChip=document.getElementById('uidChip');
   if(uidChip) uidChip.onclick=()=>{ navigator.clipboard.writeText(String(p.uid)).then(()=>toast('UID copié','ok')).catch(()=>{}); };
   document.getElementById('shareBtn').onclick=()=>{
@@ -2419,7 +2830,7 @@ function markViewed(uid){ try{ localStorage.setItem('xvy_seen_'+uid,String(Date.
 const isMobileDevice=()=>/Android|iPhone|iPad|Mobi/i.test(navigator.userAgent);
 // événement analytics (best-effort, jamais bloquant)
 function trackEvent(profileUid,type,meta){
-  pgFetch('/profile_events',{method:'POST',body:JSON.stringify({profile_uid:profileUid,event_type:type,meta:meta||{},device:isMobileDevice()?'mobile':'desktop'})}).catch(()=>{});
+  callRpc('track_event',{p_profile:profileUid,p_type:type,p_meta:meta||{},p_device:isMobileDevice()?'mobile':'desktop'}).catch(()=>{});
 }
 // clics sur les liens du profil → analytics
 function trackLinkClicks(p,isOwner){
@@ -2462,7 +2873,7 @@ async function checkAchievements(p){
   if(!fresh.length) return;
   const next=[...have,...fresh.map(a=>a.id)];
   try{
-    await pgFetch('/profiles?uid=eq.'+p.uid,{method:'PATCH',body:JSON.stringify({achievements:next})});
+    await callRpc('update_my_profile',{payload:{achievements:next}});
     p.achievements=next; if(session&&session.uid===p.uid) session.achievements=next;
     fresh.forEach((a,i)=>setTimeout(()=>toast(a.emo+' Succès débloqué : '+a.name,'ok'),400+i*900));
   }catch(e){}
@@ -2507,7 +2918,7 @@ async function mountPoll(p){
       b.onclick=async()=>{
         const i=parseInt(b.dataset.i,10);
         try{
-          await pgFetch('/poll_votes',{method:'POST',body:JSON.stringify({profile_uid:p.uid,poll_id:pollId,choice:i})});
+          await callRpc('vote_poll',{p_profile:p.uid,p_poll:pollId,p_choice:i});
           try{ localStorage.setItem('xvy_voted_'+p.uid+'_'+pollId,'1'); }catch(e){}
           toast('Vote enregistré ✓','ok'); mountPoll(p);
         }catch(e){ toast('Erreur, réessaie.','err'); }
@@ -2672,12 +3083,12 @@ function openGameConfig(p){
       body.querySelectorAll('[data-g]').forEach(t=>{ if(t.classList.contains('disabled')) return; t.onclick=()=>{ const g=t.dataset.g; enabled[g]=!enabled[g]; t.classList.toggle('on',enabled[g]); }; });
       body.querySelector('#gameCfgSave').onclick=async()=>{
         const games={title:(body.querySelector('#gameTitle').value||'').trim(),enabled};
-        try{ await pgFetch('/profiles?uid=eq.'+p.uid,{method:'PATCH',body:JSON.stringify({games})}); p.games=games; if(session&&session.uid===p.uid) session.games=games; closeModal(); toast('Défis mis à jour','ok'); mountGameBlock(p,true); }
+        try{ await callRpc('update_my_profile',{payload:{games}}); p.games=games; if(session&&session.uid===p.uid) session.games=games; closeModal(); toast('Défis mis à jour','ok'); mountGameBlock(p,true); }
         catch(e){ toast('Erreur de sauvegarde.','err'); }
       };
       body.querySelector('#gameCfgReset').onclick=async()=>{
         if(!confirm('Effacer tous les scores de tes défis ? (irréversible)')) return;
-        try{ await pgFetch('/game_scores?profile_uid=eq.'+p.uid,{method:'DELETE'}); toast('Scores réinitialisés','ok'); closeModal(); mountGameBlock(p,true); }
+        try{ await callRpc('reset_my_scores',{}); toast('Scores réinitialisés','ok'); closeModal(); mountGameBlock(p,true); }
         catch(e){ toast('Erreur, réessaie.','err'); }
       };
     });
@@ -2688,7 +3099,7 @@ async function saveScore(p,game,score){
   if(!session){ toast('Connecte-toi et joue sur ton profil pour enregistrer tes records','err'); return false; }
   if(session.uid!==p.uid){ toast('Records personnels — joue sur TON profil pour les enregistrer'); return false; }
   try{
-    await pgFetch('/game_scores',{method:'POST',body:JSON.stringify({profile_uid:session.uid,player_uid:session.uid,player_name:session.username,game,score})});
+    await callRpc('submit_score',{p_profile:session.uid,p_game:game,p_score:score});
     const rows=await fetchLeaderboard(p.uid,game);
     const el=document.getElementById('lb-'+game); if(el) el.innerHTML=lbHTML(rows,game);
     if(!(p.achievements||[]).includes('gamer')) checkAchievements(p);
@@ -2749,7 +3160,7 @@ async function mountGuestbook(p,isOwner){
       const inp=document.getElementById('gbInput'); const msg=(inp.value||'').trim();
       if(!msg) return;
       try{
-        await pgFetch('/guestbook',{method:'POST',body:JSON.stringify({profile_uid:p.uid,author_uid:session.uid,author_name:session.username,message:msg})});
+        await callRpc('post_guestbook',{p_profile:p.uid,p_message:msg});
         inp.value=''; toast('Message publié ✓','ok'); mountGuestbook(p,isOwner);
       }catch(e){ toast('Erreur, réessaie.','err'); }
     };
@@ -2760,7 +3171,7 @@ async function mountGuestbook(p,isOwner){
     box.querySelectorAll('.gb-del').forEach(x=>{
       x.onclick=async()=>{
         const id=x.closest('.gb-item').dataset.id;
-        try{ await pgFetch('/guestbook?id=eq.'+id,{method:'DELETE'}); mountGuestbook(p,isOwner); }catch(e){}
+        try{ await callRpc('delete_guestbook',{p_id:id}); mountGuestbook(p,isOwner); }catch(e){}
       };
     });
   }
@@ -2769,40 +3180,39 @@ async function mountGuestbook(p,isOwner){
 // ----- onglet Statistiques du dashboard -----
 async function mountStatsTab(el,p){
   el.innerHTML='<div class="dash-card"><h3>Statistiques</h3><p class="hint">Chargement…</p></div>';
-  const since=new Date(Date.now()-14*86400000).toISOString();
-  let events=[]; try{ events=await pgFetch('/profile_events?profile_uid=eq.'+p.uid+'&created_at=gte.'+encodeURIComponent(since)+'&select=event_type,meta,device,created_at&order=created_at.desc&limit=2000')||[]; }catch(e){}
-  const views=events.filter(e=>e.event_type==='view');
-  const clicks=events.filter(e=>e.event_type==='link_click');
-  // vues par jour (14 jours)
-  const days=[]; for(let i=13;i>=0;i--){ const d=new Date(Date.now()-i*86400000); days.push({key:d.toISOString().slice(0,10),label:d.getDate()+'/'+(d.getMonth()+1),n:0}); }
-  views.forEach(v=>{ const k=v.created_at.slice(0,10); const d=days.find(x=>x.key===k); if(d) d.n++; });
-  const max=Math.max(1,...days.map(d=>d.n));
-  // clics par lien
-  const byLink={}; clicks.forEach(c=>{ const l=(c.meta&&c.meta.label)||'lien'; byLink[l]=(byLink[l]||0)+1; });
-  const linkRows=Object.entries(byLink).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  // appareils
-  const mob=views.filter(v=>v.device==='mobile').length, desk=views.length-mob;
-  // top fans (visiteurs connectés)
-  const fans={}; views.forEach(v=>{ const m=v.meta||{}; if(m.viewer_uid&&m.viewer_uid!==p.uid) fans[m.viewer_name||('uid '+m.viewer_uid)]=(fans[m.viewer_name||m.viewer_uid]||0)+1; });
-  const fanRows=Object.entries(fans).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  // top scores
+  // gating premium : free=14j, plus=90j, pro=365j
+  const tier=premiumTierOf(session||p);
+  const maxDays=tier==='pro'?365:tier==='plus'?90:14;
+  if(statsRange>maxDays) statsRange=maxDays;
+  let a={}; try{ const r=await callRpc('my_analytics',{p_days:statsRange}); a=Array.isArray(r)?r[0]:r; }catch(e){ a={}; }
+  a=a||{};
+  const byDay=(a.by_day||[]).map(d=>({label:(new Date(d.day).getDate())+'/'+((new Date(d.day)).getMonth()+1), v:d.views||0, c:d.clicks||0}));
+  const dev=a.by_device||{}; const mob=dev.mobile||0, desk=dev.desktop||0, devTot=mob+desk;
+  const topLinks=a.top_links||[];
+  const ranges=[[7,'7 j'],[14,'14 j'],[30,'30 j'],[90,'90 j'],[365,'1 an']];
   const [lbR,lbC]=await Promise.all([fetchLeaderboard(p.uid,'reaction'),fetchLeaderboard(p.uid,'cps')]);
   el.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+      <div class="seg2">${ranges.map(([d,l])=>`<button data-r="${d}" class="${statsRange===d?'on':''}" ${d>maxDays?'disabled title="Premium requis" style="opacity:.4;cursor:not-allowed;"':''}>${l}${d>maxDays?' 🔒':''}</button>`).join('')}</div>
+      ${tier==='free'?`<span class="hint">Débloque 90 j / 1 an avec <b style="color:var(--accent);cursor:pointer" id="statsUpsell">Premium</b></span>`:`<span class="premium-chip">${tier==='pro'?'💎 PRO':'⭐ PLUS'}</span>`}
+    </div>
     <div class="dash-grid4">
-      <div class="dash-stat"><span class="lbl">Vues (14 j)</span><span class="val">${views.length}</span></div>
-      <div class="dash-stat"><span class="lbl">Clics de liens (14 j)</span><span class="val">${clicks.length}</span></div>
-      <div class="dash-stat"><span class="lbl">Mobile</span><span class="val">${views.length?Math.round(mob/views.length*100):0}%</span></div>
-      <div class="dash-stat"><span class="lbl">Desktop</span><span class="val">${views.length?Math.round(desk/views.length*100):0}%</span></div>
+      <div class="dash-stat"><span class="lbl">Vues (${statsRange} j)</span><span class="val">${fmtN(a.views_period||0)}</span></div>
+      <div class="dash-stat"><span class="lbl">Clics liens (${statsRange} j)</span><span class="val">${fmtN(a.clicks_period||0)}</span></div>
+      <div class="dash-stat"><span class="lbl">Abonnés</span><span class="val">${fmtN(a.followers||0)}</span></div>
+      <div class="dash-stat"><span class="lbl">Likes</span><span class="val">${fmtN(a.likes||0)}</span></div>
     </div>
     <div class="dash-card"><h3>Vues par jour</h3>
-      <div class="statbar-wrap">${days.map(d=>`<div class="statbar" style="height:${Math.round(d.n/max*100)}%;"><span class="tip">${d.n}</span></div>`).join('')}</div>
-      <div class="statbar-labels">${days.map(d=>`<span>${d.label}</span>`).join('')}</div>
+      ${byDay.length?areaChartSVG(byDay.map(d=>({label:d.label,v:d.v}))):'<p class="hint">Pas encore de données.</p>'}
     </div>
-    <div class="dash-card"><h3>Clics par lien</h3>
-      ${linkRows.length?linkRows.map(([l,n])=>`<div class="lb-row"><span>${esc(l)}</span><b>${n}</b></div>`).join(''):'<p class="hint">Aucun clic enregistré pour l\'instant.</p>'}
-    </div>
-    <div class="dash-card"><h3>Top fans (visiteurs connectés)</h3>
-      ${fanRows.length?fanRows.map(([n,c],i)=>`<div class="lb-row"><span>${['🥇','🥈','🥉','4.','5.'][i]} ${esc(n)}</span><b>${c} visites</b></div>`).join(''):'<p class="hint">Pas encore de visiteurs connectés.</p>'}
+    <div class="dash-grid2">
+      <div class="dash-card"><h3>Appareils</h3>
+        ${devTot?`<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;"><div style="flex:1;height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.08);display:flex;"><div style="width:${Math.round(desk/devTot*100)}%;background:var(--accent);"></div><div style="width:${Math.round(mob/devTot*100)}%;background:#f0abfc;"></div></div></div>
+        <div class="lb-row"><span>🖥️ Desktop</span><b>${Math.round(desk/devTot*100)}%</b></div><div class="lb-row"><span>📱 Mobile</span><b>${Math.round(mob/devTot*100)}%</b></div>`:'<p class="hint">Pas encore de vues.</p>'}
+      </div>
+      <div class="dash-card"><h3>Liens les plus cliqués</h3>
+        ${topLinks.length?topLinks.map(l=>`<div class="lb-row"><span>${esc(l.label)}</span><b>${fmtN(l.clicks)}</b></div>`).join(''):'<p class="hint">Aucun clic enregistré.</p>'}
+      </div>
     </div>
     <div class="dash-card"><h3>Mini-jeux — meilleurs scores</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -2815,6 +3225,8 @@ async function mountStatsTab(el,p){
         ${ACH_DEFS.map(a=>{ const on=(p.achievements||[]).includes(a.id); return `<div class="dash-check${on?'':' off'}">${on?'✓':'○'} ${a.emo} ${a.name} — <span style="opacity:.7">${a.desc}</span></div>`; }).join('')}
       </div>
     </div>`;
+  el.querySelectorAll('.seg2 button[data-r]').forEach(b=>{ if(!b.disabled) b.onclick=()=>{ statsRange=+b.dataset.r; mountStatsTab(el,p); }; });
+  const up=document.getElementById('statsUpsell'); if(up) up.onclick=()=>{ view='premium'; render(); };
   applyLang(el);
 }
 
@@ -2832,74 +3244,87 @@ function applyCursor(url){
   if(url){ document.body.style.cursor='url("'+url+'"), auto'; }
   else { document.body.style.cursor=''; }
 }
-// ===== Discord OAuth2 (librairie officielle Supabase, flux PKCE, sans bot ni serveur) =====
-// L'échange du code se fait côté Supabase (le client secret n'est JAMAIS exposé au navigateur).
-// Ce client Supabase Auth sert UNIQUEMENT au login Discord ; l'auth de l'app reste maison.
-let sbAuth=null;
-function getSbAuth(){
-  if(sbAuth) return sbAuth;
-  if(!window.supabase || !window.supabase.createClient) return null;
-  sbAuth=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
-    auth:{ detectSessionInUrl:true, persistSession:true, autoRefreshToken:true, flowType:'pkce', storageKey:'xdez_sb_oauth' }
-  });
-  return sbAuth;
-}
-// Vérifie côté Supabase si le provider Discord est activé (évite d'envoyer l'utilisateur
-// sur une page d'erreur 400 quand le provider n'est pas configuré).
+// ===== Discord OAuth2 (Supabase Auth, flux PKCE) =====
+// Deux usages : (1) LOGIN Discord depuis l'écran d'auth ; (2) LIAISON à un compte existant
+// (pour la présence live) via linkIdentity. Même client unifié `sb`.
+function getSbAuth(){ return sb; }
 async function isDiscordEnabled(){
   try{ const r=await fetch(SUPABASE_URL+'/auth/v1/settings',{headers:{'apikey':SUPABASE_KEY}}); const j=await r.json(); return !!(j&&j.external&&j.external.discord); }
-  catch(e){ return true; } // en cas d'échec réseau, on tente quand même
+  catch(e){ return true; }
 }
+function extractDiscordIdentity(u){
+  const m=(u&&u.user_metadata)||{};
+  const ident=((u&&u.identities)||[]).find(i=>i.provider==='discord');
+  return {
+    discordId: m.provider_id||m.sub||(ident&&ident.id)||'',
+    globalName: (m.custom_claims&&m.custom_claims.global_name)||m.full_name||m.name||'',
+    username: m.user_name||m.preferred_username||m.name||m.full_name||'',
+    avatar: m.avatar_url||m.picture||''
+  };
+}
+// LOGIN via Discord (écran d'auth) : remplace la session courante.
+async function startDiscordLogin(){
+  if(!sb){ toast('Librairie Supabase non chargée (réseau ?)','err'); return; }
+  if(!(await isDiscordEnabled())){ toast("Discord n'est pas activé dans Supabase (voir la config)",'err'); return; }
+  try{ localStorage.setItem('xvy_discord_intent','login'); }catch(e){}
+  const { error }=await sb.auth.signInWithOAuth({ provider:'discord', options:{ redirectTo: location.origin+location.pathname } });
+  if(error){ localStorage.removeItem('xvy_discord_intent'); toast('Erreur Discord : '+(error.message||'inconnue'),'err'); }
+}
+// LIER Discord au compte courant (réglages) : ajoute une identité sans changer de compte.
 async function startDiscordLink(){
   if(!session){ toast("Connecte-toi d'abord",'err'); return; }
-  const client=getSbAuth();
-  if(!client){ toast('Librairie Supabase non chargée (réseau ?)','err'); return; }
-  if(!(await isDiscordEnabled())){ toast("Discord n'est pas encore activé dans Supabase — voir la configuration à faire",'err'); return; }
-  try{ localStorage.setItem('xdez_discord_return',JSON.stringify({uid:session.uid})); }catch(e){}
-  const { error }=await client.auth.signInWithOAuth({
-    provider:'discord',
-    options:{ redirectTo: location.origin+location.pathname }
-  });
-  if(error){
-    localStorage.removeItem('xdez_discord_return');
-    if(/provider is not enabled|not enabled|unsupported/i.test(error.message||''))
-      toast("Discord n'est pas activé dans Supabase (voir la config)",'err');
-    else toast('Erreur Discord : '+(error.message||'inconnue'),'err');
-  }
+  if(!sb){ toast('Librairie Supabase non chargée','err'); return; }
+  if(!(await isDiscordEnabled())){ toast("Discord n'est pas activé dans Supabase (voir la config)",'err'); return; }
+  try{ localStorage.setItem('xvy_discord_intent','link'); }catch(e){}
+  const fn = sb.auth.linkIdentity ? sb.auth.linkIdentity.bind(sb.auth) : null;
+  if(!fn){ toast('Liaison indisponible (active "Manual Linking" dans Supabase)','err'); return; }
+  const { error }=await fn({ provider:'discord', options:{ redirectTo: location.origin+location.pathname } });
+  if(error){ localStorage.removeItem('xvy_discord_intent');
+    toast(/manual linking|not enabled/i.test(error.message||'')?'Active "Manual Linking" (Supabase > Auth)':'Erreur : '+(error.message||''),'err'); }
 }
-// Au retour d'OAuth, la lib échange le code (PKCE) automatiquement ; on lit la session,
-// on extrait l'identité Discord et on la lie au profil. On ne conserve pas la session Auth.
+async function uniqueUsernameFrom(base){
+  let b=(base||'user').toLowerCase().replace(/[^a-z0-9_.]/g,'').slice(0,16)||'user';
+  if(b.length<2) b='user';
+  let cand=b, n=0;
+  while(!(await isUsernameAvailable(cand,null))){ n++; cand=b.slice(0,14)+n; if(n>999){ cand=b.slice(0,10)+Date.now().toString(36).slice(-4); break; } }
+  return cand;
+}
+// Retour d'OAuth : gère login (crée le profil si besoin) ou liaison.
 async function handleDiscordCallback(){
   const isReturn = location.search.indexOf('code=')>=0 || location.hash.indexOf('access_token')>=0 || location.hash.indexOf('error')>=0;
-  let ret=null; try{ ret=JSON.parse(localStorage.getItem('xdez_discord_return')||'null'); }catch(e){}
-  if(!isReturn && !ret) return false;
-  const client=getSbAuth();
-  if(!client){ return false; }
+  let intent=null; try{ intent=localStorage.getItem('xvy_discord_intent'); }catch(e){}
+  if(!isReturn && !intent) return false;
+  if(!sb) return false;
   if(location.hash.indexOf('error')>=0){
-    localStorage.removeItem('xdez_discord_return');
-    history.replaceState(null,'',location.pathname);
-    toast('Discord : connexion annulée ou refusée','err');
-    return false;
+    localStorage.removeItem('xvy_discord_intent'); history.replaceState(null,'',location.pathname);
+    toast('Discord : connexion annulée ou refusée','err'); return false;
   }
   let sess=null;
-  try{ const { data }=await client.auth.getSession(); sess=data && data.session; }catch(e){}
-  if(!sess || !ret || !ret.uid){ return false; }
+  try{ const { data }=await sb.auth.getSession(); sess=data && data.session; }catch(e){}
+  if(!sess){ localStorage.removeItem('xvy_discord_intent'); return false; }
+  accessToken=sess.access_token;
+  const d=extractDiscordIdentity(sess.user);
   try{
-    const u=sess.user||{};
-    const m=u.user_metadata||{};
-    const ident=(u.identities||[]).find(i=>i.provider==='discord');
-    const discordId=m.provider_id||m.sub||(ident&&ident.id)||'';
-    const globalName=(m.custom_claims&&m.custom_claims.global_name)||'';
-    const username=m.full_name||m.name||m.user_name||m.preferred_username||'';
-    const avatar=m.avatar_url||m.picture||'';
-    if(discordId){
-      await pgFetch('/profiles?uid=eq.'+ret.uid,{method:'PATCH',body:JSON.stringify({discord_id:discordId,discord_username:username,discord_global_name:globalName||username,discord_avatar:avatar})});
+    if(intent==='link'){
+      // liaison à un compte existant : le profil est déjà celui de la session (même auth user)
+      if(d.discordId) await callRpc('set_my_discord',{ p_id:d.discordId, p_username:d.username, p_global:d.globalName||d.username, p_avatar:d.avatar });
+      const p=await loadMyProfile(); if(p) session=p;
       toast('Compte Discord lié ✓','ok');
-    } else { toast('Liaison Discord incomplète (identité manquante)','err'); }
-  }catch(e){ toast('Liaison Discord échouée','err'); }
-  try{ await client.auth.signOut(); }catch(e){}       // on ne garde pas la session Supabase Auth
-  localStorage.removeItem('xdez_discord_return');
-  history.replaceState(null,'',location.pathname);
+    } else {
+      // login Discord : charge le profil, ou le crée
+      let p=await loadMyProfile();
+      if(!p){
+        const uname=await uniqueUsernameFrom(d.username||d.globalName||'user');
+        const created=await callRpc('signup_profile',{ p_username:uname, p_display:d.globalName||d.username||'' });
+        p=mapRow(Array.isArray(created)?created[0]:created);
+        toast('Bienvenue sur xvy 👋','ok');
+      }
+      if(d.discordId){ try{ await callRpc('set_my_discord',{ p_id:d.discordId, p_username:d.username, p_global:d.globalName||d.username, p_avatar:d.avatar }); }catch(e){} p.discordId=d.discordId; p.discordUsername=d.username; p.discordGlobalName=d.globalName||d.username; p.discordAvatar=d.avatar; }
+      if(p.banned){ await clearSession(); toast('Ce compte est banni','err'); }
+      else { session=p; viewingUid=p.uid; view='profile'; }
+    }
+  }catch(e){ toast('Discord : '+(e.message||'échec'),'err'); }
+  localStorage.removeItem('xvy_discord_intent'); history.replaceState(null,'',location.pathname);
   return true;
 }
 function renderDiscordLinkBox(p){
@@ -2912,13 +3337,13 @@ function renderDiscordLinkBox(p){
     <div class="row"><button class="btn-discord" id="dcResync">${ICONS.discord} Resynchroniser</button><button class="btn ghost" id="dcUnlink">Délier</button></div>`;
     box.querySelector('#dcResync').onclick=()=>startDiscordLink();
     box.querySelector('#dcUnlink').onclick=async()=>{
-      try{ await pgFetch('/profiles?uid=eq.'+p.uid,{method:'PATCH',body:JSON.stringify({discord_id:'',discord_username:'',discord_global_name:'',discord_avatar:''})}); }catch(e){}
+      try{ await callRpc('unlink_my_discord',{}); }catch(e){}
       p.discordId='';p.discordUsername='';p.discordGlobalName='';p.discordAvatar='';
       const dEl=document.getElementById('eDiscord'); if(dEl) dEl.value='';
       toast('Discord délié','ok'); renderDiscordLinkBox(p);
     };
   } else {
-    box.innerHTML=`<button class="btn-discord" id="dcLink">${ICONS.discord} Se connecter avec Discord</button>`;
+    box.innerHTML=`<button class="btn-discord" id="dcLink">${ICONS.discord} Lier mon Discord</button>`;
     box.querySelector('#dcLink').onclick=()=>startDiscordLink();
   }
 }
@@ -3245,16 +3670,21 @@ function showSplash(username, cb){
 }
 
 (async function(){
-  // 1) retour d'un login OAuth Discord (tokens dans le hash) → lier au profil
-  await handleDiscordCallback();
-  // 2) restaurer la session persistée (corrige la déconnexion au refresh)
-  const restored=await restoreSession();
-  if(restored) session=restored;
-  // 3) déterminer la vue initiale
-  viewingUid=getUrlUid(); view='profile';
-  if(!viewingUid && session) viewingUid=session.uid;
-  // splash uniquement si on arrive directement sur un profil partagé
-  if(viewingUid){
+  // 1) retour d'un login/liaison OAuth Discord (peut déjà établir session + vue)
+  const cameFromDiscord=await handleDiscordCallback();
+  // 2) restaurer la session Supabase Auth persistée (si pas déjà fait par Discord)
+  if(!session){ const restored=await restoreSession(); if(restored) session=restored; }
+  // 3) déterminer la vue initiale (sauf si Discord login vient de la fixer)
+  const _params=new URLSearchParams(location.search);
+  const _forceScreen=_params.get('screen'); // dev: ?screen=auth|directory|discover
+  const urlUid=getUrlUid();
+  if(!(cameFromDiscord && session && view==='profile' && viewingUid)){
+    viewingUid=urlUid; view='profile';
+    if(!viewingUid && session) viewingUid=session.uid;
+    if(_forceScreen && ['auth','directory','discover','premium'].includes(_forceScreen)) view=_forceScreen;
+  }
+  // splash uniquement si on arrive directement sur un profil partagé (désactivable avec ?nosplash)
+  if(viewingUid && view==='profile' && !_params.has('nosplash')){
     try{ const pre=await getProfile(viewingUid); if(pre && !pre.banned && pre.effects && pre.effects.splash){ showSplash(pre.username); } }catch(e){}
   }
   await render();
