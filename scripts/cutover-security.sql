@@ -3,13 +3,10 @@
 -- nouveau front, PAS avant : ce script casse volontairement l'accès
 -- direct anon aux écritures dont dépend l'ANCIEN front.
 --
--- Prérequis dashboard Supabase (Auth) à faire AVANT :
---   1. Authentication > Providers > Email : ENABLED
---   2. Authentication > Providers > Email > "Confirm email" : OFF
---      (login par pseudo via e-mail synthétique => pas de boîte mail)
---   3. Authentication > Providers > Discord : ENABLED (déjà fait)
---   4. Authentication > Policies : "Leaked password protection" : ON
---   5. Chaque compte existant aura été pré-provisionné (voir migrate-existing-users)
+-- ÉTAPE 2 : à lancer APRÈS scripts/1-provision.sql, dans Supabase > SQL Editor.
+-- (L'inscription passe par la fonction serveur `signup` -> aucun réglage Auth
+--  dashboard requis. Optionnel : activer "Leaked password protection".)
+-- Email + Discord sont déjà activés côté Auth.
 -- ============================================================
 
 begin;
@@ -19,9 +16,8 @@ drop policy if exists "Anyone can update profiles"  on public.profiles;
 drop policy if exists "Anyone can delete profiles"  on public.profiles;
 drop policy if exists "Anyone can create a profile" on public.profiles;
 -- lecture publique conservée ("Profiles are publicly readable")
-
--- colonnes sensibles masquées du client (lecture via RPC staff)
-revoke select (auth_user_id, staff_note) on public.profiles from anon, authenticated;
+-- NB: auth_user_id (UUID inoffensif) reste lisible ; staff_note idem pour l'instant
+-- (à déplacer vers profile_private dans une itération future — non bloquant).
 
 -- le hash SHA-256 (crown jewel) disparaît définitivement
 -- signup_profile n'en a plus besoin :

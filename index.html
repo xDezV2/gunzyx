@@ -1019,22 +1019,19 @@ async function createAccount(u,p,email){
   if((p||'').length<6) return {ok:false,error:'Mot de passe : 6 caractères minimum.'};
   if(!sb) return {ok:false,error:'Librairie Supabase non chargée (réseau ?).'};
   if(!(await isUsernameAvailable(uname,null))) return {ok:false,error:'Ce pseudo est déjà pris.'};
-  const useEmail=(email&&email.includes('@'))?email.trim():synthEmail(uname);
   try{
-    const { data, error }=await sb.auth.signUp({ email:useEmail, password:p, options:{ data:{ username:uname } } });
-    if(error) throw error;
-    if(!data.session){ // confirmation e-mail activée : on tente une connexion directe
-      const r2=await sb.auth.signInWithPassword({ email:useEmail, password:p });
-      if(r2.error) return {ok:false,error:"Vérifie ta boîte mail pour confirmer le compte."};
-    }
+    // création via la fonction serveur (compte déjà confirmé, indépendant du réglage dashboard)
+    const res=await fetch(SUPABASE_URL+'/functions/v1/signup',{method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({username:uname,password:p,email:email||''})});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) return {ok:false,error:data.error||'Inscription impossible.'};
+    const { error }=await sb.auth.signInWithPassword({ email:data.email, password:p });
+    if(error) return {ok:false,error:'Compte créé ✓ — connecte-toi avec ton pseudo.'};
     accessToken=(await sb.auth.getSession()).data.session?.access_token||null;
-    const prof=await callRpc('signup_profile',{ p_username:uname, p_display:'' });
-    return {ok:true, profile:mapRow(Array.isArray(prof)?prof[0]:prof)};
-  }catch(e){
-    const m=String(e.message||e);
-    if(/already registered|already exists|duplicate/i.test(m)) return {ok:false,error:'Ce pseudo/e-mail est déjà pris.'};
-    return {ok:false,error:m};
-  }
+    const prof=await loadMyProfile();
+    return prof?{ok:true, profile:prof}:{ok:false,error:'Compte créé — reconnecte-toi.'};
+  }catch(e){ return {ok:false,error:String(e.message||e)}; }
 }
 async function login(u,p){
   const id=(u||'').trim();
