@@ -103,6 +103,48 @@
   .ls-cta .btn{ width:auto; padding:13px 28px; }
   @media (prefers-reduced-motion:reduce){ .ls-card,.ls-head{ transform:none !important; } }
 
+  /* ================= Assistant IA flottant ================= */
+  #aiFab{ position:fixed; bottom:22px; right:22px; z-index:60; width:60px; height:60px; border-radius:50%; border:2px solid rgba(255,255,255,.2); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; color:#fff; transition:transform .4s ease, box-shadow .4s ease;
+    background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 85%,#6366f1) 0%, #a855f7 100%);
+    box-shadow:0 0 20px color-mix(in srgb,var(--accent) 60%,#8b5cf6), 0 0 44px rgba(124,58,237,.45); }
+  #aiFab:hover{ transform:scale(1.08) rotate(4deg); box-shadow:0 0 32px color-mix(in srgb,var(--accent) 80%,#8b5cf6), 0 0 60px rgba(124,58,237,.6); }
+  #aiFab.open{ transform:rotate(90deg); }
+  #aiFab svg{ width:28px; height:28px; }
+  #aiFab .ping{ position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.18; animation:aiPing 2.4s cubic-bezier(0,0,.2,1) infinite; }
+  @keyframes aiPing{ 75%,100%{ transform:scale(1.5); opacity:0; } }
+  #aiPanel{ position:fixed; bottom:92px; right:22px; z-index:60; width:min(400px,calc(100vw - 44px)); display:flex; flex-direction:column;
+    background:linear-gradient(160deg, rgba(30,30,38,.92), rgba(16,16,22,.95)); border:1px solid rgba(255,255,255,.16); border-radius:22px;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,.8); backdrop-filter:blur(20px); overflow:hidden; transform-origin:bottom right; animation:aiPop .28s cubic-bezier(.175,.885,.32,1.275); }
+  @keyframes aiPop{ 0%{ opacity:0; transform:scale(.85) translateY(16px); } 100%{ opacity:1; transform:none; } }
+  .ai-head{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px 8px; }
+  .ai-head .t{ display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text-dim); }
+  .ai-head .t .dot{ width:8px; height:8px; border-radius:50%; background:#28c840; animation:aiPulse 2s infinite; }
+  @keyframes aiPulse{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
+  .ai-head .x{ background:none; border:none; color:var(--text-dim); cursor:pointer; padding:6px; border-radius:8px; }
+  .ai-head .x:hover{ background:rgba(255,255,255,.08); color:var(--text); }
+  .ai-modes{ display:flex; gap:6px; padding:2px 16px 10px; }
+  .ai-mode{ flex:1; font-size:12px; padding:7px 8px; border-radius:10px; cursor:pointer; font-family:'Inter',sans-serif;
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--text-dim); transition:all .15s ease; }
+  .ai-mode.active{ background:color-mix(in srgb,var(--accent) 22%,transparent); border-color:color-mix(in srgb,var(--accent) 55%,transparent); color:var(--text); font-weight:600; }
+  .ai-log{ padding:4px 16px; max-height:290px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+  .ai-msg{ font-size:13px; line-height:1.5; padding:10px 12px; border-radius:14px; max-width:90%; white-space:pre-wrap; word-break:break-word; }
+  .ai-msg.me{ align-self:flex-end; background:color-mix(in srgb,var(--accent) 26%,transparent); border:1px solid color-mix(in srgb,var(--accent) 40%,transparent); }
+  .ai-msg.bot{ align-self:flex-start; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--text); }
+  .ai-msg.err{ align-self:flex-start; background:rgba(224,104,94,.12); border:1px solid rgba(224,104,94,.35); color:#f0a89e; }
+  .ai-msg .copybtn{ display:inline-block; margin-top:8px; font-size:11px; padding:4px 10px; border-radius:8px; cursor:pointer; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:var(--text-dim); }
+  .ai-msg .copybtn:hover{ color:var(--text); }
+  .ai-hint{ align-self:flex-start; font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono',monospace; }
+  .ai-input{ display:flex; align-items:flex-end; gap:8px; padding:10px 12px 12px; border-top:1px solid rgba(255,255,255,.07); }
+  .ai-input textarea{ flex:1; resize:none; min-height:42px; max-height:120px; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:10px 12px; color:var(--text); font-family:'Inter',sans-serif; font-size:13px; outline:none; }
+  .ai-input textarea:focus{ border-color:color-mix(in srgb,var(--accent) 55%,transparent); }
+  .ai-send{ flex-shrink:0; width:42px; height:42px; border-radius:12px; border:none; cursor:pointer; color:#0a0d0a; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, var(--accent), #a855f7); box-shadow:0 8px 20px -8px color-mix(in srgb,var(--accent) 80%,#8b5cf6); transition:transform .15s ease; }
+  .ai-send:hover{ transform:scale(1.08) rotate(-4deg); } .ai-send:disabled{ opacity:.5; cursor:default; transform:none; }
+  .ai-send svg{ width:18px; height:18px; }
+  .ai-spin{ width:16px; height:16px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:aiSpin .7s linear infinite; }
+  @keyframes aiSpin{ to{ transform:rotate(360deg); } }
+
   /* ================= Dashboard d'édition (façon guns.lol) ================= */
   .dash{ width:100%; max-width:1100px; margin:0 auto; animation:rise .4s ease; }
   .dash-layout{ display:flex; align-items:flex-start; min-height:70vh; }
@@ -831,6 +873,20 @@ async function pgFetch(path,options={}){
   if(!res.ok){ const t=await res.text().catch(()=>''); throw new Error(res.status+': '+t); }
   const t=await res.text(); return t?JSON.parse(t):null;
 }
+// ===== IA (Edge Function 'ai' — la clé reste côté serveur) =====
+const AI_FN=SUPABASE_URL+'/functions/v1/ai';
+function aiAuth(){ return session?{uid:session.uid,hash:session.hash}:null; }
+async function aiCall(action,payload={}){
+  const res=await fetch(AI_FN,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({action,...payload})});
+  let data=null; try{ data=await res.json(); }catch(e){}
+  if(!res.ok) throw new Error((data&&data.error)||('Erreur '+res.status));
+  return data;
+}
+async function checkAiStatus(){
+  try{ const s=await aiCall('status'); aiEnabled=!!s.enabled; }catch(e){ aiEnabled=false; }
+  syncAiAssistant();
+}
+
 const BG_VIDEO_MAX_BYTES=52428800;
 async function uploadBgVideo(file,uid){
   if(file.type!=='video/mp4') throw new Error('Seuls les fichiers .mp4 sont acceptés.');
@@ -998,6 +1054,7 @@ async function rpcLike(uid,dir){
 }
 
 let session=null,view='profile',viewingUid=null,formError='';
+let aiEnabled=false; // IA dispo (config admin) — mis à jour par checkAiStatus()
 // ===== dashboard d'édition (façon guns.lol) : état d'onglet + brouillon persistant =====
 let editTab='overview', editDraft=null;
 function freshDraft(p){
@@ -2006,6 +2063,7 @@ async function render(){
   document.querySelectorAll('.previewtag').forEach(e=>e.remove());
   if(!badgeDefsCache){ try{ badgeDefsCache=await listBadgeDefs(); }catch(e){ badgeDefsCache=[]; } }
   renderTopbar();
+  syncAiAssistant();
   const app=document.getElementById('app');
 
   if(view==='auth'){
@@ -2067,6 +2125,7 @@ async function render(){
     if(can(session,'manage_badge_defs')) tabs.push(['badges','Badges']);
     if(can(session,'delete_profiles')) tabs.push(['trash','Corbeille']);
     if(can(session,'create_demo')) tabs.push(['demo','Démo']);
+    if(can(session,'manage_staff')) tabs.push(['ai','🤖 IA']);
     tabs.forEach(([id,label])=>{ const b=document.createElement('button'); b.textContent=label; if(id===adminSubtab) b.className='active'; b.onclick=()=>{ adminSubtab=id; render(); }; st.appendChild(b); });
     const content=document.getElementById('adminContent');
 
@@ -2200,6 +2259,36 @@ async function render(){
         act.appendChild(del);
         bl.appendChild(row);
       });
+      return;
+    }
+
+    if(adminSubtab==='ai'){
+      if(!can(session,'manage_staff')){ content.innerHTML='<p class="hint">Accès refusé (super-admin uniquement).</p>'; return; }
+      content.innerHTML='<p class="hint">Chargement de la config IA…</p>';
+      let cfg;
+      try{ cfg=await aiCall('get-config',{auth:aiAuth()}); }
+      catch(e){ content.innerHTML='<p class="hint">Impossible de charger la config IA : '+esc(e.message)+'</p>'; return; }
+      content.innerHTML=`
+        <p class="hint">Branche une IA <b>compatible OpenAI</b> (NVIDIA gratuit, OpenAI, Groq, Together…). La clé est stockée côté serveur (Edge Function) et <b>n'est jamais lisible depuis le navigateur</b>. Elle sert à générer des designs et rédiger des textes pour les membres.</p>
+        <div class="field"><label>Fournisseur (libellé libre)</label><input id="aiProvider" value="${esc(cfg.provider||'')}" placeholder="ex : nvidia"></div>
+        <div class="field"><label>URL de base (compatible OpenAI, sans /chat/completions)</label><input id="aiBase" value="${esc(cfg.base_url||'')}" placeholder="https://integrate.api.nvidia.com/v1"></div>
+        <div class="field"><label>Modèle</label><input id="aiModel" value="${esc(cfg.model||'')}" placeholder="ex : meta/llama-3.1-70b-instruct"></div>
+        <div class="field"><label>Clé d'API ${cfg.hasKey?'<span style="color:var(--accent)">— déjà enregistrée (laisse vide pour garder)</span>':''}</label><input id="aiKey" type="password" placeholder="${cfg.hasKey?'•••••••• (inchangée)':'colle ta clé ici'}" autocomplete="off"></div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin:12px 0;"><input type="checkbox" id="aiOn" ${cfg.enabled?'checked':''}> Activer l'assistant IA sur le site</label>
+        <div class="row"><button class="btn" id="aiSave">Enregistrer</button><button class="btn ghost" id="aiTest">Tester (texte)</button></div>
+        <div id="aiTestOut" class="hint" style="margin-top:12px;"></div>`;
+      document.getElementById('aiSave').onclick=async()=>{
+        const btn=document.getElementById('aiSave'); btn.textContent='...';
+        const payload={ provider:document.getElementById('aiProvider').value, base_url:document.getElementById('aiBase').value, model:document.getElementById('aiModel').value, enabled:document.getElementById('aiOn').checked };
+        const k=document.getElementById('aiKey').value; if(k.trim()) payload.api_key=k;
+        try{ await aiCall('save-config',{auth:aiAuth(),config:payload}); await logAdmin('set_ai_config',null,null,'provider='+payload.provider+' model='+payload.model+' enabled='+payload.enabled); toast('Config IA enregistrée','ok'); await checkAiStatus(); adminSubtab='ai'; render(); }
+        catch(e){ toast('Erreur : '+e.message,'err'); btn.textContent='Enregistrer'; }
+      };
+      document.getElementById('aiTest').onclick=async()=>{
+        const out=document.getElementById('aiTestOut'); out.textContent='Test en cours… (enregistre d\'abord si tu as changé la clé)';
+        try{ const r=await aiCall('generate',{mode:'text',prompt:'Dis "bonjour" et présente-toi en une phrase.',auth:aiAuth()}); out.innerHTML='✅ Réponse : '+esc(r.text||'(vide)'); }
+        catch(e){ out.innerHTML='❌ '+esc(e.message); }
+      };
       return;
     }
     return;
@@ -3052,6 +3141,100 @@ function mountLanding(app){
   onScroll();
 }
 
+/* ===== Assistant IA flottant (bulle en bas à droite, style glowing chat) ===== */
+let aiOpen=false, aiMode='design', aiBusy=false;
+const AI_ICON_BOT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>';
+const AI_ICON_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+const AI_ICON_SEND='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+
+function syncAiAssistant(){
+  const show=!!session && aiEnabled;
+  const fab=document.getElementById('aiFab');
+  if(!show){ if(fab) fab.remove(); const p=document.getElementById('aiPanel'); if(p) p.remove(); aiOpen=false; return; }
+  if(!fab) buildAiFab();
+}
+function buildAiFab(){
+  const fab=document.createElement('button'); fab.id='aiFab'; fab.title='Assistant IA';
+  fab.innerHTML='<span class="ping"></span>'+AI_ICON_BOT;
+  fab.onclick=()=>{ aiOpen?closeAiPanel():openAiPanel(); };
+  document.body.appendChild(fab);
+}
+function closeAiPanel(){ aiOpen=false; const p=document.getElementById('aiPanel'); if(p) p.remove(); const f=document.getElementById('aiFab'); if(f){ f.classList.remove('open'); f.innerHTML='<span class="ping"></span>'+AI_ICON_BOT; } }
+function openAiPanel(){
+  const old=document.getElementById('aiPanel'); if(old) old.remove();
+  aiOpen=true; const f=document.getElementById('aiFab'); if(f){ f.classList.add('open'); f.innerHTML=AI_ICON_X; }
+  const panel=document.createElement('div'); panel.id='aiPanel';
+  panel.innerHTML=`
+    <div class="ai-head">
+      <div class="t"><span class="dot"></span>Assistant xvy</div>
+      <button class="x" id="aiClose">${AI_ICON_X}</button>
+    </div>
+    <div class="ai-modes">
+      <button class="ai-mode${aiMode==='design'?' active':''}" data-m="design">🎨 Design</button>
+      <button class="ai-mode${aiMode==='text'?' active':''}" data-m="text">✍️ Texte</button>
+    </div>
+    <div class="ai-log" id="aiLog"></div>
+    <div class="ai-input">
+      <textarea id="aiText" rows="1" placeholder="${aiMode==='design'?'Décris une ambiance… ex : cyberpunk violet néon':'Ex : écris-moi une bio de gamer chill'}"></textarea>
+      <button class="ai-send" id="aiSend">${AI_ICON_SEND}</button>
+    </div>`;
+  document.body.appendChild(panel);
+  document.getElementById('aiClose').onclick=closeAiPanel;
+  const ta=document.getElementById('aiText');
+  ta.oninput=()=>{ ta.style.height='auto'; ta.style.height=Math.min(120,ta.scrollHeight)+'px'; };
+  ta.onkeydown=e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); aiSend(); } };
+  document.getElementById('aiSend').onclick=aiSend;
+  panel.querySelectorAll('.ai-mode').forEach(b=>b.onclick=()=>{ aiMode=b.dataset.m; openAiPanel(); });
+  aiHint(aiMode==='design'
+    ? 'Je génère un thème, une couleur et un style — appliqués direct dans l\'éditeur.'
+    : 'Je rédige ta bio ou tes textes. Tu n\'as plus qu\'à copier.');
+  setTimeout(()=>ta.focus(),50);
+}
+function aiLogEl(){ return document.getElementById('aiLog'); }
+function aiPush(cls,html){ const l=aiLogEl(); if(!l) return null; const d=document.createElement('div'); d.className='ai-msg '+cls; d.innerHTML=html; l.appendChild(d); l.scrollTop=l.scrollHeight; return d; }
+function aiHint(txt){ const l=aiLogEl(); if(!l) return; const d=document.createElement('div'); d.className='ai-hint'; d.textContent=txt; l.appendChild(d); l.scrollTop=l.scrollHeight; }
+async function aiSend(){
+  if(aiBusy) return;
+  const ta=document.getElementById('aiText'); if(!ta) return;
+  const prompt=ta.value.trim(); if(!prompt) return;
+  aiPush('me',esc(prompt)); ta.value=''; ta.style.height='auto';
+  const btn=document.getElementById('aiSend'); aiBusy=true; if(btn){ btn.disabled=true; btn.innerHTML='<span class="ai-spin"></span>'; }
+  const pending=aiPush('bot','…');
+  try{
+    const r=await aiCall('generate',{mode:aiMode,prompt,auth:aiAuth()});
+    if(pending) pending.remove();
+    if(r.mode==='text'){
+      const txt=r.text||'(vide)';
+      const box=aiPush('bot',esc(txt)+'<br><span class="copybtn">📋 copier</span>');
+      if(box){ const cp=box.querySelector('.copybtn'); cp.onclick=()=>{ navigator.clipboard.writeText(txt).then(()=>toast('Texte copié','ok')).catch(()=>{}); }; }
+    } else {
+      const d=r.design||{};
+      if(!Object.keys(d).length){ aiPush('err',esc(r.note||'Rien d\'exploitable, reformule ton ambiance.')); }
+      else{
+        const parts=[]; if(d.theme) parts.push('thème '+d.theme); if(d.accent) parts.push('accent '+d.accent);
+        if(d.style) parts.push(Object.keys(d.style).length+' réglages de style');
+        aiPush('bot','✨ Design appliqué dans l\'éditeur : '+esc(parts.join(' · '))+'.<br>Ajuste puis <b>Enregistre</b> pour valider.');
+        applyAiDesign(d);
+      }
+    }
+  }catch(e){
+    if(pending) pending.remove();
+    aiPush('err','⚠️ '+esc(e.message||'Erreur IA'));
+  }finally{
+    aiBusy=false; const b=document.getElementById('aiSend'); if(b){ b.disabled=false; b.innerHTML=AI_ICON_SEND; }
+  }
+}
+function applyAiDesign(design){
+  if(!session) return;
+  if(!editDraft || editDraft.uid!==session.uid) editDraft=freshDraft(session);
+  const d=editDraft;
+  if(design.theme) d.theme=design.theme;
+  if(design.accent) d.accent=design.accent;
+  if(design.style) d.style={...d.style,...design.style};
+  view='edit'; editTab='design'; viewingUid=session.uid;
+  render(); // ré-affiche l'onglet Design + applique le visuel en direct ; le panneau IA reste ouvert
+}
+
 function showSplash(username, cb){
   const existing=document.getElementById('splash'); if(existing) existing.remove();
   const s=document.createElement('div'); s.id='splash';
@@ -3075,6 +3258,7 @@ function showSplash(username, cb){
     try{ const pre=await getProfile(viewingUid); if(pre && !pre.banned && pre.effects && pre.effects.splash){ showSplash(pre.username); } }catch(e){}
   }
   await render();
+  checkAiStatus(); // en arrière-plan : montre la bulle IA si un admin a configuré une clé
 })();
 
 </script>
