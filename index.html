@@ -758,8 +758,8 @@ const ROLE_LABELS={user:'Membre',staff:'Staff',admin:'Admin',superadmin:'Super-a
 const PERMISSIONS={
   user:[],
   staff:['manage_badges','edit_profiles','manage_views','view_admin_logs'],
-  admin:['manage_badges','edit_profiles','edit_uid','manage_views','delete_profiles','ban_users','view_admin_logs'],
-  superadmin:['manage_badges','edit_profiles','edit_uid','manage_views','delete_profiles','ban_users','view_admin_logs','manage_staff','manage_badge_defs','create_demo']
+  admin:['manage_badges','edit_profiles','edit_uid','manage_views','delete_profiles','ban_users','view_admin_logs','grant_premium'],
+  superadmin:['manage_badges','edit_profiles','edit_uid','manage_views','delete_profiles','ban_users','view_admin_logs','manage_staff','manage_badge_defs','create_demo','grant_premium','app_settings']
 };
 function can(profile, perm){ if(!profile) return false; return (PERMISSIONS[profile.role]||[]).includes(perm); }
 function isStaffPlus(profile){ return profile && profile.role!=='user'; }
