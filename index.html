@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --accent:#8fb39d; --bg:#0d0f13; --text:#edece8; --text-dim:#9a9ea6;
+    --accent:#8b7cf6; --bg:#0c0d12; --text:#edece8; --text-dim:#9a9ea6;
     --op-card:1; --op-links:1; --op-avatar:1; --op-text:1; --op-wall:1; --op-overlay:1;
     --profile-blur:20px;
   }
@@ -63,6 +63,16 @@
   @keyframes auroraA{ 0%,100%{ transform:translate(-8%,-6%) scale(1); } 50%{ transform:translate(6%,8%) scale(1.15); } }
   @keyframes auroraB{ 0%,100%{ transform:translate(6%,4%) scale(1.1); } 50%{ transform:translate(-6%,-8%) scale(1); } }
   @media (prefers-reduced-motion:reduce){ .theme-aurora .avatar-ring{ animation:none; } #aurora-bg *{ animation:none !important; } }
+  /* thèmes additionnels */
+  .theme-cyber .profilebox{ background:linear-gradient(160deg, rgba(10,26,52,.6), rgba(10,8,24,.7)); border:1px solid color-mix(in srgb,var(--accent) 50%,transparent); border-radius:14px; padding:32px 24px; box-shadow:0 0 34px -6px color-mix(in srgb,var(--accent) 45%,transparent), inset 0 0 0 1px rgba(255,255,255,.03); }
+  .theme-cyber .name{ text-shadow:0 0 14px color-mix(in srgb,var(--accent) 60%,transparent); letter-spacing:.5px; }
+  .theme-cyber .link{ background:rgba(10,20,40,.6); border:1px solid color-mix(in srgb,var(--accent) 40%,transparent); }
+  .theme-cyber .link:hover{ box-shadow:0 0 16px color-mix(in srgb,var(--accent) 45%,transparent); }
+  .theme-crimson .profilebox{ background:linear-gradient(160deg, rgba(58,10,20,.55), rgba(16,4,8,.72)); border:1px solid color-mix(in srgb,var(--accent) 34%,rgba(255,255,255,.08)); backdrop-filter:blur(var(--profile-blur,18px)); border-radius:22px; padding:32px 24px; box-shadow:0 24px 60px -22px rgba(0,0,0,.85), 0 0 60px -30px color-mix(in srgb,var(--accent) 70%,transparent); }
+  .theme-crimson .link{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); }
+  .theme-sakura .profilebox{ background:linear-gradient(165deg, rgba(58,24,38,.55), rgba(16,10,18,.66)); border:1px solid color-mix(in srgb,#fb7185 30%,rgba(255,255,255,.08)); backdrop-filter:blur(var(--profile-blur,20px)); border-radius:28px; padding:34px 26px; box-shadow:0 24px 60px -22px rgba(0,0,0,.8), 0 0 70px -28px color-mix(in srgb,#fb7185 55%,transparent); }
+  .theme-sakura .name{ text-shadow:0 0 18px color-mix(in srgb,#fb7185 40%,transparent); }
+  .theme-sakura .link{ background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.1); }
   .copy-link{ cursor:copy; }
 
   /* ================= Landing — interface d'entrée (scroll 3D) ================= */
@@ -695,14 +705,17 @@ if(sb){ sb.auth.onAuthStateChange((_e, s)=>{ accessToken = s ? s.access_token : 
 const SYNTH_DOMAIN='id.xvy.lol';
 function synthEmail(username){ return 'u'+String(username||'').toLowerCase().replace(/[^a-z0-9]/g,'')+Math.random().toString(36).slice(2,6)+'@'+SYNTH_DOMAIN; }
 
-const ACCENTS=['#8fb39d','#c98f5e','#7a8fc9','#c96a8a','#b57edc','#5ec9b8','#c9b25e','#e0685e','#a78bfa'];
+const ACCENTS=['#8b7cf6','#f0abfc','#7a8fc9','#ff6ec7','#b57edc','#5ec9b8','#22d3ee','#e0685e','#8fb39d'];
 const THEMES=[
   {id:'glass',name:'Verre',bg:'linear-gradient(135deg,#3a4a5a,#1a2a3a)'},
   {id:'neon',name:'Néon',bg:'linear-gradient(135deg,#2a0a3a,#0a0a2a)'},
   {id:'minimal',name:'Épuré',bg:'#16181d'},
   {id:'mono',name:'Terminal',bg:'#0a120a'},
   {id:'sunset',name:'Sunset',bg:'linear-gradient(135deg,#5a1a3a,#1a1540)'},
-  {id:'aurora',name:'Aurora',bg:'linear-gradient(135deg,#3a2a5a,#0a0810)'}
+  {id:'aurora',name:'Aurora',bg:'linear-gradient(135deg,#3a2a5a,#0a0810)'},
+  {id:'cyber',name:'Cyber',bg:'linear-gradient(135deg,#0a1e3a,#1a0a2e)'},
+  {id:'crimson',name:'Crimson',bg:'linear-gradient(135deg,#3a0a14,#160308)'},
+  {id:'sakura',name:'Sakura',bg:'linear-gradient(135deg,#3a1826,#160a12)'}
 ];
 const PLATFORMS={
   discord:{name:'Discord',color:'#5865F2',ph:"lien d'invitation ou pseudo"},
@@ -997,7 +1010,7 @@ async function sha256(s){ const b=await crypto.subtle.digest('SHA-256',new TextE
 function mapRow(r){ return {uid:r.uid,username:r.username,hash:r.password_hash,tag:r.tag,bio:r.bio,accent:r.accent,links:r.links||[],wallpaper:r.wallpaper||'',theme:r.theme||'glass',avatar:r.avatar||'',customText:r.custom_text||'',opacity:{...DEFAULT_OP,...(r.opacity||{})},isAdmin:!!r.is_admin,banned:!!r.banned,music:r.music||'',views:r.views||0,viewsBonus:r.views_bonus||0,effects:{...DEFAULT_EFFECTS,...(r.effects||{})},badges:r.badges||[],cursorUrl:r.cursor_url||'',discordId:r.discord_id||'',discordUsername:r.discord_username||'',discordGlobalName:r.discord_global_name||'',discordAvatar:r.discord_avatar||'',role:r.role||'user',staffNote:r.staff_note||'',deletedAt:r.deleted_at||null,accountType:r.account_type||'real',excludeFromStats:!!r.exclude_from_stats,seedBatch:r.seed_batch||null,createdByUid:r.created_by_uid||null,likes:r.likes||0,achievements:r.achievements||[],poll:r.poll||null,secret:r.secret||null,style:{...DEFAULT_STYLE,...(r.style||{})},games:{...DEFAULT_GAMES,...(r.games||{}),enabled:{...DEFAULT_GAMES.enabled,...((r.games||{}).enabled||{})}},gaming:mergeGaming(r.gaming),
   authUserId:r.auth_user_id||null, displayName:r.display_name||'', pronouns:r.pronouns||'', location:r.location||'', banner:r.banner||'',
   premiumTier:r.premium_tier||'free', premiumUntil:r.premium_until||null, featured:!!r.featured,
-  followerCount:r.follower_count||0, followingCount:r.following_count||0, email:r.email||null, createdAt:r.created_at||null}; }
+  followerCount:r.follower_count||0, followingCount:r.following_count||0, email:r.email||null, createdAt:r.created_at||null, customBadge:r.custom_badge||{}}; }
 function isPremium(p){ return p && p.premiumTier && p.premiumTier!=='free' && (!p.premiumUntil || new Date(p.premiumUntil) > new Date()); }
 function premiumTierOf(p){ return isPremium(p)? p.premiumTier : 'free'; }
 // fusion défensive de la config gaming (objets imbriqués + tableaux)
@@ -1183,6 +1196,9 @@ function openUserModal(p, list){
     ${canRole?`<div class="field"><label>rôle</label><select id="mRole" style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:var(--text);padding:12px;">${roleOpts}</select></div>`:''}
     ${canViews?`<div class="field"><label>vues bonus (ajustement manuel)</label><input id="mViews" type="number" value="${p.viewsBonus||0}"><p class="hint">Réel: ${p.views||0} · Total affiché: ${(p.views||0)+(p.viewsBonus||0)}</p></div>`:''}
     ${canBadge?`<div class="field"><label>badges</label><div style="display:flex;flex-direction:column;gap:6px;">${badgeChecks||'<span class="hint">Aucun badge défini.</span>'}</div></div>`:''}
+    ${can(session,'grant_premium')?`<div class="field"><label>premium — actuel : ${premiumTierOf(p).toUpperCase()}${p.premiumUntil?' (→ '+new Date(p.premiumUntil).toLocaleDateString()+')':''}</label>
+      <div class="row"><select id="mPremTier" style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:var(--text);padding:0 10px;"><option value="free">Free</option><option value="plus">Plus</option><option value="pro">Pro</option></select><input id="mPremDays" type="number" value="30" placeholder="jours"><button class="btn small" id="mPremGrant">Accorder</button></div></div>`:''}
+    ${canBan?`<div class="field"><label>changer le mot de passe de ${esc(p.username)}</label><div class="row"><input id="mPw" type="password" placeholder="nouveau (6 min)"><button class="btn small" id="mPwSet">Définir</button></div></div>`:''}
     <div class="field"><label>note staff (privée)</label><textarea id="mNote" placeholder="note interne...">${esc(p.staffNote)}</textarea></div>
     <div class="row" style="margin-top:6px;"><button class="btn" id="mSave">Enregistrer</button>${canBan?`<button class="btn ghost" id="mBan">${p.banned?'Débannir':'Bannir'}</button>`:''}</div>
     ${canDel&&p.uid!==session.uid?`<button class="btn danger" id="mDel" style="margin-top:8px;width:100%;">Supprimer (corbeille)</button>`:''}
@@ -1198,6 +1214,18 @@ function openUserModal(p, list){
       fields.staff_note=body.querySelector('#mNote').value;
       try{ await adminUpdate(p.uid,fields); badgeDefsCache=null; toast('Enregistré','ok'); closeModal(); render(); }
       catch(e){ toast('Erreur: uid ou pseudo déjà pris ?','err'); }
+    };
+    const pg=body.querySelector('#mPremGrant'); if(pg) pg.onclick=async()=>{
+      const tier=body.querySelector('#mPremTier').value; const days=parseInt(body.querySelector('#mPremDays').value,10)||30;
+      try{ await callRpc('admin_grant_premium',{p_target:p.uid,p_tier:tier,p_days:days}); toast('Premium accordé ✓','ok'); closeModal(); render(); }catch(e){ toast('Erreur','err'); }
+    };
+    const pwSet=body.querySelector('#mPwSet'); if(pwSet) pwSet.onclick=async()=>{
+      const np=body.querySelector('#mPw').value; if(np.length<6){ toast('6 caractères minimum','err'); return; }
+      pwSet.textContent='...';
+      try{ const res=await fetch(SUPABASE_URL+'/functions/v1/admin-user',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(accessToken||SUPABASE_KEY),'Content-Type':'application/json'},body:JSON.stringify({action:'set-password',target_uid:p.uid,password:np})});
+        const d=await res.json(); if(!res.ok) throw new Error(d.error||'échec'); body.querySelector('#mPw').value=''; toast('Mot de passe changé ✓','ok'); }
+      catch(e){ toast('Erreur : '+(e.message||''),'err'); }
+      pwSet.textContent='Définir';
     };
     if(canBan){ body.querySelector('#mBan').onclick=async()=>{ await adminUpdate(p.uid,{banned:!p.banned}); await logAdmin(p.banned?'unban':'ban',p); toast(p.banned?'Débanni':'Banni','ok'); closeModal(); render(); }; }
     if(canDel&&p.uid!==session.uid){ body.querySelector('#mDel').onclick=()=>confirmModal('Envoyer '+p.username+' à la corbeille ? (restaurable)',async()=>{ await adminSoftDelete(p.uid); await logAdmin('soft_delete',p); toast('Envoyé à la corbeille','ok'); closeModal(); render(); }); }
@@ -1228,7 +1256,8 @@ function openBadgeDefModal(existing){
     };
   });
 }
-async function incrementViews(uid){ try{ await callRpc('track_event',{p_profile:uid,p_type:'view',p_meta:{},p_device:isMobileDevice()?'mobile':'desktop'}); }catch(e){} }
+// Vue comptée UNIQUEMENT pour un visiteur connecté, une seule fois par compte (anti-abus multi-navigateurs).
+async function incrementViews(uid){ if(!session) return; try{ await callRpc('record_view',{p_profile:uid,p_device:isMobileDevice()?'mobile':'desktop'}); }catch(e){} }
 // ===== likes de compte (par compte connecté, unicité serveur ; cache local pour l'affichage) =====
 function hasLiked(uid){ try{ return localStorage.getItem('xvy_liked_'+uid)==='1'; }catch(e){ return false; } }
 function setLiked(uid,on){ try{ on?localStorage.setItem('xvy_liked_'+uid,'1'):localStorage.removeItem('xvy_liked_'+uid); }catch(e){} }
@@ -1301,6 +1330,33 @@ function closeModal(){ const m=document.getElementById('modalBg'); if(m) m.remov
 // Une chaîne absente du dictionnaire reste simplement en français (dégradation propre).
 let LANG=(function(){ try{ return localStorage.getItem('xvy_lang')||'fr'; }catch(e){ return 'fr'; } })();
 const I18N={
+  // ===== Stage 2 : nav / discover / premium / profil / éditeur / notifs =====
+  'découvrir':'discover','premium':'premium','Découvrir':'Discover',
+  '🔥 Populaires':'🔥 Popular','✨ Nouveaux':'✨ New','⭐ À la une':'⭐ Featured','👥 Abonnements':'👥 Following',
+  'Chercher un pseudo, un nom, une bio…':'Search a username, name, bio…',
+  'abonnés':'followers','abonnements':'following','vues':'views',
+  'Aucun profil trouvé.':'No profile found.','Aucun profil à la une pour le moment.':'No featured profile yet.',
+  'Tu ne suis personne encore — explore les autres onglets !':"You're not following anyone yet — check the other tabs!",
+  'Premium xvy':'Premium xvy','Débloque tout le potentiel de ton profil.':"Unlock your profile's full potential.",
+  'Passer Plus':'Get Plus','Passer Pro':'Get Pro','Ton plan actuel':'Your current plan','pour toujours':'forever','/ mois':'/ month',
+  "🎟️ J'ai un code premium":'🎟️ I have a premium code','Activer':'Activate',
+  "Les codes sont distribués lors d'events, giveaways et par le staff.":'Codes are given during events, giveaways and by staff.',
+  'Profil 100% personnalisable':'Fully customizable profile','Liens & réseaux illimités':'Unlimited links & socials',
+  '6 thèmes + presets':'6 themes + presets','Mini-jeux & Game Hub':'Mini-games & Game Hub','Effets premium':'Premium effects',
+  'Analytics avancées':'Advanced analytics','UID vanity':'Vanity UID','Tout le plan Free':'Everything in Free',
+  'Effets premium (grain, glow, vignette)':'Premium effects (grain, glow, vignette)','Bibliothèque de polices complète':'Full font library',
+  'Badge ⭐ Plus sur ton profil':'⭐ Plus badge on your profile','Analytics 90 jours':'90-day analytics','Tout le plan Plus':'Everything in Plus',
+  'Badge 💎 Pro animé':'Animated 💎 Pro badge','Analytics illimitées + export CSV':'Unlimited analytics + CSV export',
+  'UID vanity personnalisé':'Custom vanity UID','Bannière animée':'Animated banner','Accès anticipé aux features':'Early access to features',
+  '＋ Suivre':'＋ Follow','Ne plus suivre':'Unfollow','🔗 copier le lien de ce profil':'🔗 copy this profile link',
+  '✎ éditer mon profil':'✎ edit my profile','Mini-jeux':'Mini-games','signaler':'report',
+  'Notifications':'Notifications','tout marquer lu':'mark all read','Aucune notification':'No notification',
+  '🪪 Identité publique':'🪪 Public identity','Nom affiché':'Display name','Pronoms':'Pronouns','Localisation':'Location',
+  'Bannière (URL image)':'Banner (image URL)',"Enregistrer l'identité":'Save identity','✨ Premium & compte':'✨ Premium & account',
+  '🔑 Changer mon mot de passe':'🔑 Change my password','🏷️ Badge personnalisé':'🏷️ Custom badge','Enregistrer le badge':'Save badge',
+  'Complétion du profil':'Profile completion','Statistiques':'Statistics','Vues par jour':'Views per day','Appareils':'Devices',
+  'Liens les plus cliqués':'Most clicked links','Likes':'Likes','Abonnés':'Followers',
+  'Membres':'Members','Gérer':'Manage','Accorder':'Grant','Définir':'Set','Créer le code':'Create code',
   // topbar / navigation
   'profil':'profile','éditer':'edit','membres':'members','quitter':'log out',
   'se connecter':'sign in','⚡ panel':'⚡ panel','○ non connecté':'○ not signed in',
@@ -1675,6 +1731,18 @@ function mountOverviewTab(el,p,d){
       <div class="row" style="margin-top:8px;"><button class="btn small" id="idSave">Enregistrer l'identité</button></div>
     </div>
     <div class="dash-card">
+      <h3>✨ Premium & compte</h3>
+      <div class="mytheme-row"><span>Ton plan actuel</span><span class="premium-chip">${premiumTierOf(session).toUpperCase()}</span></div>
+      ${isPremium(session)?`
+      <div style="margin-top:10px;"><label style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text-dim);">🏷️ Badge personnalisé</label>
+        <div class="row" style="gap:6px;margin-top:5px;"><input id="cbIcon" maxlength="4" placeholder="⭐" style="max-width:56px;text-align:center;" value="${esc((session.customBadge||{}).icon||'')}"><input id="cbText" maxlength="20" placeholder="ton texte" value="${esc((session.customBadge||{}).text||'')}"><input id="cbColor" type="color" value="${esc((session.customBadge||{}).color||'#8b7cf6')}" style="width:46px;padding:2px;flex:0 0 auto;"></div>
+        <button class="btn small" id="cbSave" style="margin-top:8px;">Enregistrer le badge</button></div>`
+      :`<p class="hint" style="margin-top:10px;">🏷️ Badge personnalisé, bannière et plus : réservés aux membres <b style="color:var(--accent);cursor:pointer" id="cbUpsell">Premium</b>.</p>`}
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:14px 0;">
+      <label style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text-dim);">🔑 Changer mon mot de passe</label>
+      <div class="row" style="margin-top:5px;"><input id="pwNew" type="password" placeholder="nouveau (6 caractères min)"><button class="btn small" id="pwSave">Changer</button></div>
+    </div>
+    <div class="dash-card">
       <h3>Complétion du profil</h3>
       <div style="height:8px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:12px;"><div style="height:100%;width:${pct}%;background:var(--accent);"></div></div>
       <div style="display:flex;flex-direction:column;gap:8px;">
@@ -1718,6 +1786,20 @@ function mountOverviewTab(el,p,d){
       if(d){ d.displayName=payload.display_name; d.pronouns=payload.pronouns; d.location=payload.location; d.banner=payload.banner; }
       toast('Identité mise à jour ✓','ok'); }
     catch(e){ toast('Erreur de sauvegarde','err'); }
+  };
+  const cbSave=document.getElementById('cbSave');
+  if(cbSave) cbSave.onclick=async()=>{
+    try{ const r=await callRpc('set_custom_badge',{payload:{icon:document.getElementById('cbIcon').value.trim(),text:document.getElementById('cbText').value.trim(),color:document.getElementById('cbColor').value}});
+      const np=mapRow(Array.isArray(r)?r[0]:r); session.customBadge=np.customBadge; p.customBadge=np.customBadge; toast('Badge enregistré ✓','ok'); }
+    catch(e){ toast('Erreur (premium requis ?)','err'); }
+  };
+  const cbUpsell=document.getElementById('cbUpsell'); if(cbUpsell) cbUpsell.onclick=()=>{ view='premium'; render(); };
+  document.getElementById('pwSave').onclick=async()=>{
+    const np=document.getElementById('pwNew').value; if(np.length<6){ toast('6 caractères minimum','err'); return; }
+    document.getElementById('pwSave').textContent='...';
+    try{ const {error}=await sb.auth.updateUser({password:np}); if(error) throw error; document.getElementById('pwNew').value=''; toast('Mot de passe changé ✓','ok'); }
+    catch(e){ toast('Erreur : '+(e.message||''),'err'); }
+    const b=document.getElementById('pwSave'); if(b) b.textContent='Changer';
   };
   document.getElementById('pollSave').onclick=()=>savePoll();
   document.getElementById('pollReset').onclick=()=>savePoll('p'+Date.now().toString(36));
@@ -2280,9 +2362,14 @@ function profileHTML(p,isOwner){
   }).join('');
   const defs=badgeDefsCache||[];
   const RARITY_LABEL={common:'Commun',rare:'Rare',epic:'Épique',legendary:'Légendaire'};
-  const badgesHtml=(p.badges||[]).map(bid=>{ const def=defs.find(d=>d.id===bid); if(!def||!def.enabled) return '';
+  let badgesHtml=(p.badges||[]).map(bid=>{ const def=defs.find(d=>d.id===bid); if(!def||!def.enabled) return '';
     return `<span class="badge-pill rarity-${def.rarity}" style="color:${def.color}" title="${esc(def.name)} · ${RARITY_LABEL[def.rarity]||def.rarity}"><span class="bico">${badgeIconSvg(def.icon)}</span><span class="bname">${esc(def.name)}</span></span>`;
   }).filter(Boolean).join('');
+  // badge personnalisé (premium) — n'apparaît que si l'utilisateur est premium et a défini un texte
+  if(isPremium(p) && p.customBadge && p.customBadge.text){
+    const cb=p.customBadge;
+    badgesHtml += `<span class="badge-pill" style="color:${esc(cb.color||'#8b7cf6')}" title="Badge personnalisé"><span class="bname">${cb.icon?esc(cb.icon)+' ':''}${esc(cb.text)}</span></span>`;
+  }
   const av=p.avatar?`<img src="${esc(p.avatar)}" alt="">`:(p.username||'?')[0].toUpperCase();
   const totalViews=(p.views||0)+(p.viewsBonus||0);
   const linkedAvatar=p.discordAvatar||'';
@@ -2379,6 +2466,7 @@ async function renderDiscover(app){
 async function renderPremium(app){
   const me=session; const tier=me?premiumTierOf(me):'free';
   const until=me&&me.premiumUntil?new Date(me.premiumUntil).toLocaleDateString():null;
+  let stripe={}; try{ stripe=(await getSetting('stripe_links'))||{}; }catch(e){}
   const F=(t,on)=>`<li class="${on?'':'off'}"><span class="ck">${on?'✓':'✕'}</span>${t}</li>`;
   const cards=[
     {id:'free',name:'Free',price:'0€',per:'pour toujours',feats:[['Profil 100% personnalisable',1],['Liens & réseaux illimités',1],['6 thèmes + presets',1],['Mini-jeux & Game Hub',1],['Effets premium',0],['Analytics avancées',0],['UID vanity',0]]},
@@ -2399,15 +2487,26 @@ async function renderPremium(app){
       <div class="redeem-box"><input id="redeemCode" placeholder="XVY-XXXXXX" maxlength="32"><button class="btn" id="redeemBtn">Activer</button></div>
       <p class="hint" style="margin-top:8px;">Les codes sont distribués lors d'events, giveaways et par le staff.</p>
     </div>
-    ${can(session,'grant_premium')?`<div class="dash-card" style="max-width:520px;margin:14px auto 0;"><h3>🛠️ Staff — générer un code</h3>
+    ${can(session,'grant_premium')?`<div class="dash-card" style="max-width:560px;margin:14px auto 0;"><h3>🛠️ Staff — générer un code</h3>
       <div class="row"><input id="gcCode" placeholder="code (vide = auto)"><select id="gcTier" style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:var(--text);padding:0 10px;"><option value="plus">Plus</option><option value="pro">Pro</option></select></div>
-      <div class="row" style="margin-top:8px;"><input id="gcDays" type="number" placeholder="jours (30)" value="30"><input id="gcMax" type="number" placeholder="usages (1)" value="1"><button class="btn small" id="gcBtn">Créer</button></div>
-      <div id="gcOut" class="hint" style="margin-top:8px;"></div></div>`:''}
+      <div class="row" style="margin-top:8px;"><input id="gcDays" type="number" placeholder="jours (30)" value="30"><input id="gcMax" type="number" placeholder="usages (1)" value="1"><input id="gcPct" type="number" min="1" max="100" placeholder="% réduc (100)" value="100"></div>
+      <button class="btn small" id="gcBtn" style="margin-top:8px;">Créer le code</button>
+      <div id="gcOut" class="hint" style="margin-top:8px;"></div>
+      <div id="gcList" style="margin-top:10px;"></div>
+    </div>
+    <div class="dash-card" style="max-width:560px;margin:14px auto 0;"><h3>💳 Staff — liens de paiement (Stripe)</h3>
+      <p class="hint" style="margin-bottom:8px;">Colle tes <b>Stripe Payment Links</b>. Les boutons « Passer Plus/Pro » les ouvriront.</p>
+      <div class="field"><label>Lien Plus</label><input id="stPlus" placeholder="https://buy.stripe.com/..." value="${esc(stripe.plus||'')}"></div>
+      <div class="field"><label>Lien Pro</label><input id="stPro" placeholder="https://buy.stripe.com/..." value="${esc(stripe.pro||'')}"></div>
+      <button class="btn small" id="stSave" style="margin-top:8px;">Enregistrer les liens</button>
+    </div>`:''}
   </div>`;
   app.querySelectorAll('[data-buy]').forEach(b=>{ b.onclick=()=>{
     if(b.dataset.buy==='free'){ toast('Tu es déjà sur le plan gratuit 😉','ok'); return; }
     if(!session){ view='auth'; return render(); }
-    toast('Paiement en ligne bientôt disponible — utilise un code premium en attendant 🎟️','ok');
+    const url=stripe[b.dataset.buy];
+    if(url){ window.open(url,'_blank','noopener'); toast('Après paiement, ton accès est activé sous peu (ou via un code) ✨','ok'); }
+    else toast('Paiement en ligne bientôt — utilise un code premium en attendant 🎟️','ok');
   }; });
   const rb=document.getElementById('redeemBtn');
   rb.onclick=async()=>{
@@ -2419,14 +2518,27 @@ async function renderPremium(app){
     catch(e){ toast(String(e.message||e).replace(/^\d+:\s*/,'').replace(/.*message":"([^"]+)".*/,'$1')||'Code invalide','err'); rb.textContent='Activer'; rb.disabled=false; }
   };
   const gc=document.getElementById('gcBtn');
-  if(gc) gc.onclick=async()=>{
+  const loadCodes=async()=>{
+    const el=document.getElementById('gcList'); if(!el) return;
+    try{ const r=await callRpc('admin_list_codes',{}); const codes=Array.isArray(r)?(Array.isArray(r[0])?r[0]:r):(r||[]);
+      el.innerHTML=codes.length?('<div class="hint" style="margin-bottom:4px;">Codes existants :</div>'+codes.slice(0,20).map(c=>`<div class="lb-row"><span style="cursor:copy" title="copier" data-copycode="${esc(c.code)}"><b>${esc(c.code)}</b> · ${c.tier} · ${c.duration_days}j · ${c.discount_pct||100}%</span><b>${c.uses}/${c.max_uses}</b></div>`).join('')):'<span class="hint">Aucun code.</span>';
+      el.querySelectorAll('[data-copycode]').forEach(s=>s.onclick=()=>{ navigator.clipboard.writeText(s.dataset.copycode).then(()=>toast('Code copié','ok')).catch(()=>{}); });
+    }catch(e){}
+  };
+  if(gc){ gc.onclick=async()=>{
     const code=document.getElementById('gcCode').value.trim()||('XVY-'+Math.random().toString(36).slice(2,8).toUpperCase());
-    try{ await callRpc('admin_create_premium_code',{p_code:code,p_tier:document.getElementById('gcTier').value,p_days:+document.getElementById('gcDays').value||30,p_max:+document.getElementById('gcMax').value||1});
-      document.getElementById('gcOut').innerHTML='Code créé : <b style="color:var(--accent)">'+esc(code.toUpperCase())+'</b>'; }
+    try{ await callRpc('admin_create_premium_code',{p_code:code,p_tier:document.getElementById('gcTier').value,p_days:+document.getElementById('gcDays').value||30,p_max:+document.getElementById('gcMax').value||1,p_discount:+document.getElementById('gcPct').value||100});
+      document.getElementById('gcOut').innerHTML='Code créé : <b style="color:var(--accent)">'+esc(code.toUpperCase())+'</b>'; document.getElementById('gcCode').value=''; loadCodes(); }
     catch(e){ toast('Erreur création code','err'); }
+  }; loadCodes(); }
+  const st=document.getElementById('stSave');
+  if(st) st.onclick=async()=>{
+    try{ await setSetting('stripe_links',{plus:document.getElementById('stPlus').value.trim(),pro:document.getElementById('stPro').value.trim()}); toast('Liens de paiement enregistrés ✓','ok'); }
+    catch(e){ toast('Erreur','err'); }
   };
 }
-async function render(){
+async function render(){ await _render(); try{ if(LANG==='en') applyLang(document.body); }catch(e){} }
+async function _render(){
   document.querySelectorAll('.previewtag').forEach(e=>e.remove());
   if(!badgeDefsCache){ try{ badgeDefsCache=await listBadgeDefs(); }catch(e){ badgeDefsCache=[]; } }
   renderTopbar();
@@ -3061,16 +3173,29 @@ async function mountGameBlock(p,isOwner){
   const box=document.getElementById('gameBlock'); if(!box) return;
   const cfg={...DEFAULT_GAMES,...(p.games||{}),enabled:{...DEFAULT_GAMES.enabled,...((p.games||{}).enabled||{})}};
   const activeGames=LIVE_GAMES.filter(g=>cfg.enabled[g]);
-  if(!activeGames.length && !isOwner){ box.innerHTML=''; return; } // rien à montrer aux visiteurs
-  const title=cfg.title||(isOwner?'🎮 Mes records':'🎮 Records de '+p.username);
-  const sub=isOwner?'Tes meilleurs scores perso — joue pour les battre.':'Records personnels de '+esc(p.username)+' — joue pour t\'amuser (non enregistré ici).';
+  if(!activeGames.length && !isOwner){ box.innerHTML=''; return; }
+  const label=cfg.title||'Mini-jeux';
+  box.innerHTML=`<button id="gameOpenBtn" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:12px;padding:11px;font-size:13.5px;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s ease;">🎮 ${esc(label)}${activeGames.length?` <span style="opacity:.6;font-family:'JetBrains Mono',monospace;font-size:11px;">${activeGames.length} défi${activeGames.length>1?'s':''}</span>`:''}</button>`;
+  const btn=document.getElementById('gameOpenBtn');
+  btn.onmouseenter=()=>{ btn.style.borderColor='var(--accent)'; btn.style.transform='translateY(-1px)'; };
+  btn.onmouseleave=()=>{ btn.style.borderColor='rgba(255,255,255,.12)'; btn.style.transform=''; };
+  btn.onclick=()=>openGamesModal(p,isOwner);
+  applyLang(box);
+}
+async function openGamesModal(p,isOwner){
+  const cfg={...DEFAULT_GAMES,...(p.games||{}),enabled:{...DEFAULT_GAMES.enabled,...((p.games||{}).enabled||{})}};
+  const activeGames=LIVE_GAMES.filter(g=>cfg.enabled[g]);
+  const sub=isOwner?'Tes meilleurs scores perso — joue pour les battre.':'Joue pour t\'amuser (scores personnels).';
   const boards=await Promise.all(activeGames.map(g=>fetchLeaderboard(p.uid,g)));
   const btns=activeGames.map((g,i)=>`<button class="game-btn" data-game="${g}">${GAME_REGISTRY[g].name}<div id="lb-${g}" style="margin-top:6px;">${lbHTML(boards[i],g)}</div></button>`).join('');
-  box.innerHTML=`<div class="xvy-block"><h4>${esc(title)}${isOwner?' <span class="game-cfg-btn" id="gameCfgBtn" style="float:right;cursor:pointer;opacity:.7;" title="configurer mes défis">⚙️</span>':''}</h4>
-    ${activeGames.length?`<p class="hint" style="font-size:11px;margin:-4px 0 8px;">${sub}</p><div class="game-btns">${btns}</div>`:'<p class="hint" style="font-size:12px;">Aucun défi activé. Clique ⚙️ pour en activer.</p>'}</div>`;
-  box.querySelectorAll('.game-btn').forEach(b=>{ b.onclick=()=>openGame(p,b.dataset.game); });
-  if(isOwner){ const g=document.getElementById('gameCfgBtn'); if(g) g.onclick=()=>openGameConfig(p); }
-  applyLang(box);
+  openModal('🎮 '+esc(cfg.title||'Mini-jeux'),
+    `${activeGames.length?`<p class="hint" style="font-size:11px;margin:-4px 0 10px;">${sub}</p><div class="game-btns">${btns}</div>`:'<p class="hint">Aucun défi activé.</p>'}
+     ${isOwner?'<div class="row" style="margin-top:12px;"><button class="btn ghost small" id="gameCfgBtn2">⚙️ Configurer mes défis</button></div>':''}`,
+    (body)=>{
+      body.querySelectorAll('.game-btn').forEach(b=>{ b.onclick=()=>openGame(p,b.dataset.game); });
+      const g=body.querySelector('#gameCfgBtn2'); if(g) g.onclick=()=>{ closeModal(); openGameConfig(p); };
+      applyLang(body);
+    });
 }
 // panneau de config des défis (propriétaire uniquement)
 function openGameConfig(p){

@@ -99,7 +99,9 @@ begin
     select p.oid::regprocedure as sig
     from pg_proc p join pg_namespace n on n.oid = p.pronamespace
     where n.nspname='public' and p.prosecdef
-      and p.proname not in ('increment_views','increment_likes','decrement_likes','set_first_admin')
+      -- garder exécutables : compteurs hérités (site) + helpers utilisés DANS les policies RLS
+      and p.proname not in ('increment_views','increment_likes','decrement_likes','set_first_admin',
+                            'my_uid','my_role','is_staff','track_event','auth_email_for_login','public_profiles')
   loop
     execute format('revoke execute on function %s from public', f.sig);
     execute format('revoke execute on function %s from anon', f.sig);
